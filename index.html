@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<!-- 
+   HTML LANG="PT-BR"
+   
+   Define o idioma principal da página como Português do Brasil.
+   Isso é importante para:
+   - Leitores de tela (acessibilidade)
+   - Tradutores automáticos do navegador
+   - SEO (motores de busca)
+-->
+<html lang="pt-BR">
+    <head>
+        <!-- 
+           META CHARSET="UTF-8"
+           
+           Define a codificação de caracteres como UTF-8.
+           UTF-8 suporta praticamente todos os caracteres do mundo,
+           incluindo acentos (á, é, í, ó, ú, ç, etc.).
+        -->
+        <meta charset="utf-8">
+        
+        <!-- 
+           META VIEWPORT
+           
+           Essencial para sites responsivos (mobile).
+           - width=device-width = largura igual à tela do dispositivo
+           - initial-scale=1 = zoom inicial de 100%
+           
+           Sem isso, o site aparece "miniaturizado" no celular.
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="main.css" rel="stylesheet">
+
+        <title>Centro Acadêmico de Física</title>
+
+    </head>
+    <body>
+
+        <!-- 
+           ========================================
+           NAVBAR FIXO NO TOPO
+           ========================================
+           
+           O navbar está DIRETAMENTE no <body>, fora de qualquer
+           section. Isso é importante porque ele será "fixed"
+           (fixo) e precisa estar no fluxo principal da página.
+           
+           A classe "navbar" identifica este elemento para o CSS.
+           A classe "sticky" será adicionada/removida pelo JS
+           quando houver scroll (para adicionar sombra).
+        -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                
+                <!-- 
+                   LOGO DO NAVBAR (mini)
+                   
+                   Adicionei um logo pequeno à esquerda do menu.
+                   Isso é uma sugestão de usabilidade: o usuário
+                   sempre sabe onde clicar para voltar à home.
+                   
+                   Quando você tiver a imagem real, substitua o texto.
+                -->
+                <a href="index.html" class="nav-logo">CAFIS</a>
+
+                <!-- 
+                   LISTA PRINCIPAL DE NAVEGAÇÃO
+                   
+                   UL.NAV-LIST = container dos itens do menu
+                -->
+                <ul class="nav-list">
+                    
+                    <!-- 
+                       ITEM SIMPLES (sem dropdown)
+                       
+                       A classe "active" indica a página atual.
+                       Por enquanto deixei no "Início".
+                    -->
+                    <li class="nav-item active">
+                        <a href="index.html" class="nav-link">Início</a>
+                    </li>
+                    
+                    <!-- 
+                       ITEM COM DROPDOWN
+                       
+                       A classe "dropdown" no <li> indica que este
+                       item tem um submenu.
+                       
+                       Dentro do <a>, adicionamos um <span> com a
+                       seta ▼ para indicar visualmente que há submenu.
+                    -->
+                    <li class="nav-item dropdown">
+                        <a href="eventos.html" class="nav-link">
+                            Eventos
+                            <!-- 
+                               SETA PARA BAIXO
+                               
+                               Usamos um SVG inline para a seta.
+                               Isso garante que ela apareça igual
+                               em todos os navegadores.
+                            -->
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        
+                        <!-- 
+                           SUBMENU (DROPDOWN)
+                           
+                           UL.DROPDOWN-MENU = container dos subitens
+                           Inicialmente invisível (controlado pelo CSS)
+                        -->
+                        <ul class="dropdown-menu">
+                            <li><a href="eventos-fortaleza.html" class="dropdown-link">Projeto Fortaleza</a></li>
+                            <li><a href="eventos-eureka.html" class="dropdown-link">Eureka</a></li>
+                            <li><a href="eventos-seafis.html" class="dropdown-link">Semana Acadêmica de Física</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Outro item com dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Utilidades
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link">Biblioteca</a></li>
+                            <li><a href="#" class="dropdown-link">Lojinha</a></li>
+                            <li><a href="#" class="dropdown-link">Ouvidoria</a></li>
+                            <li><a href="#" class="dropdown-link">Banco de Carreiras - Fala Egresso!</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Outro item com dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Conhecendo a UFV
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link">Papel das instituições</a></li>
+                            <li><a href="#" class="dropdown-link">Coletivos e grupos</a></li>
+                            <li><a href="#" class="dropdown-link">Bolsas e assistência estudantil</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Itens simples -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Representantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Transparência</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 
+           ========================================
+           HERO SECTION
+           ========================================
+           
+           A <section> é um elemento semântico que agrupa
+           conteúdo relacionado. A classe "hero" identifica
+           esta seção específica para o CSS.
+        -->
+        <section class="hero">
+
+            <!-- 
+               =====================================
+               CARROSSEL DE IMAGENS
+               =====================================
+            -->
+            <div class="carousel">
+                
+                <!-- 
+                   SLIDE 1 (ativo por padrão)
+                   
+                   CLASS="CAROUSEL-SLIDE ACTIVE"
+                   - carousel-slide: estilos comuns a todos os slides
+                   - active: indica que este slide está visível agora
+                   
+                   O JavaScript remove/adiciona a classe "active"
+                   para trocar os slides.
+                -->
+                <div class="carousel-slide active">
+                    <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200" alt="Laboratório de Física">
+                </div>
+                
+                <!-- Slide 2 -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200" alt="Estudantes em aula">
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200" alt="Equipamentos científicos">
+                </div>
+            </div>
+
+            <!-- 
+               =====================================
+               OVERLAY COM GRADIENTE
+               =====================================
+               
+               Esta div fica POR CIMA das imagens do carrossel.
+               Contém o gradiente azul, o logo e as legendas.
+            -->
+            <div class="hero-overlay">
+                
+                <!-- 
+                   LOGO DO CAFÍS
+
+                   Quando tiver a imagem do logo substituir o h1 por img
+                -->
+                <div class="logo-container">
+                    <h1 class="logo-text">CAFIS</h1>
+                    <p class="logo-subtitle">Centro Acadêmico de Física</p>
+                </div>
+
+                <!-- 
+                   =====================================
+                   LEGENDAS DOS SLIDES
+                   =====================================
+                -->
+                <div class="captions-container">
+                    
+                    <!-- Legenda do Slide 1 (ativa por padrão) -->
+                    <div class="slide-caption active" data-slide="0">
+                        <h2 class="caption-title">Semana Acadêmica 2026</h2>
+                        <p class="caption-subtitle">Participe das palestras, workshops e muito mais. De 15 a 19 de junho! fvhreiwbiwbhvreveirhvuehrvuierhvuirheiuveriueh</p>
+                    </div>
+                    
+                    <!-- Legenda do Slide 2 -->
+                    <div class="slide-caption" data-slide="1">
+                        <h2 class="caption-title">Grupos de Estudo</h2>
+                        <p class="caption-subtitle">Junte-se aos nossos grupos de estudo e aprenda com a comunidade.</p>
+                    </div>
+                    
+                    <!-- Legenda do Slide 3 -->
+                    <div class="slide-caption" data-slide="2">
+                        <h2 class="caption-title">Laboratórios Modernos</h2>
+                        <p class="caption-subtitle">Conheça nossa infraestrutura de ponta para pesquisa e experimentação.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+               =====================================
+               SETAS DE NAVEGAÇÃO
+               =====================================
+            -->
+            
+            <!-- Seta "anterior" (←) -->
+            <button class="carousel-arrow carousel-arrow-prev" aria-label="Slide anterior">
+                <!-- 
+                   SVG = Scalable Vector Graphics
+                   Imagem vetorial que não perde qualidade ao redimensionar.
+                   
+                   VIEWBOX = define a área de coordenadas do desenho
+                   FILL="NONE" = não preenche o interior
+                   STROKE = cor e espessura da linha
+                   POLYLINE = desenha linhas conectando pontos
+                -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Desenha uma seta para a esquerda -->
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            
+            <!-- Seta "próximo" (→) -->
+            <button class="carousel-arrow carousel-arrow-next" aria-label="Próximo slide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Desenha uma seta para a direita -->
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+
+            <!-- 
+               =====================================
+               INDICADORES DE SLIDE (bolinhas)
+               =====================================
+               
+               Botões circulares na parte inferior.
+               
+               DATA-SLIDE = atributo personalizado usado pelo
+               JavaScript para saber qual slide cada bolinha
+               representa.
+            -->
+            <div class="carousel-indicators">
+                <button class="indicator active" data-slide="0" aria-label="Ir para slide 1"></button>
+                <button class="indicator" data-slide="1" aria-label="Ir para slide 2"></button>
+                <button class="indicator" data-slide="2" aria-label="Ir para slide 3"></button>
+            </div>
+
+        </section>
+        
+        <!-- 
+           ========================================
+           MAIN (conteúdo principal)
+           ========================================
+        -->
+        <main>
+            <h1>Quem somos?</h1>
+
+            <h2>O que é o CAFís?</h2>
+
+            <p>O Centro Acadêmico do Curso de Física da UFV é uma associação formada por alunos, que
+tem por objetivo representar os estudantes de Bacharelado em Física, Licenciatura em Física e Engenharia Física e defender os
+interesses destes. Foi reativado em 2015 objetivando uma maior participação nas atividades desenvolvidas pelo
+Departamento de Física (DPF). O <b>CAFís</b> é composto por alunos da graduação em Bacharelado em Física, Licenciatura em Física e Engenharia Física. Anualmente
+há um processo de eleição, em que grupos de alunos concorrem para compor o <b>CAFís</b>.</p>
+
+            <h2>O que o CAFís já fez?</h2>
+
+            <p>O <b>CAFís</b> já realizou inúmeras atividades, sejam acadêmicas ou de integração. Entre estas
+atividades, podemos citar a <a href="eventos-seafis.html">Semana Acadêmica de Física</a>, que reúne professores e alunos em
+um ciclo de palestras, debates e minicursos. Além disso, realizamos diversos eventos
+objetivando uma integração entre alunos e professores. Também promovemos Assembleias
+para discutir assuntos relevantes à comunidade acadêmica.</p>
+
+            <h2>Como posso contribuir?</h2>
+
+            <p>Você pode demonstrar interesse em participar da gestão atual contatando os seus
+membros e a sua entrada será votada em Assembleia Geral. Ou, durante o processo eleitoral,
+você pode se juntar com pessoas interessadas e formar uma chapa. Além disso, estudantes podem 
+contribuir com sugestões e ideias para melhorar a experiência dos alunos no curso e participando do eventos 
+promovidos.</p>
+
+            <h1>História</h1>
+
+            <div class="container">
+                <img src="https://placehold.co/400" alt="Primeira chapa" class="wrapped-image-right">
+                <p>Veniam excepteur incididunt quis eiusmod minim mollit. Ipsum veniam quis fugiat ex exercitation est voluptate. Eiusmod est tempor aliquip culpa nisi minim do dolor ad eiusmod nostrud.
+
+Sint labore ut pariatur dolore proident. Magna dolore irure duis exercitation non labore veniam aliquip ipsum consequat ea proident nisi ea. Qui exercitation esse incididunt laborum sit do id labore Lorem velit deserunt.
+
+Duis cillum esse minim sunt irure ex officia excepteur ea. Do in exercitation nulla laborum non anim. Eu nulla proident nulla deserunt fugiat ea adipisicing. Laborum non velit occaecat tempor nulla dolor ea adipisicing laboris labore voluptate do. Eu eiusmod id sunt tempor irure sit anim officia exercitation nostrud. Deserunt non sint aute aliqua. Adipisicing nostrud consectetur proident tempor ullamco exercitation exercitation Lorem do.
+
+Sunt id excepteur occaecat consectetur et aliquip veniam adipisicing culpa. Nisi cupidatat eu quis culpa velit anim dolore commodo magna voluptate do. Qui tempor mollit anim velit nisi ut sint ullamco ut consectetur id exercitation. Veniam veniam amet quis velit. Lorem labore est non non voluptate non.
+
+Quis ex officia elit minim cillum in reprehenderit cupidatat excepteur enim ex excepteur. Cupidatat sint amet minim deserunt pariatur tempor magna. Ut mollit sunt ullamco est ut dolor.</p>
+            </div>
+
+            <blockquote class="left">
+                <div class="container">
+                    <img src="https://placehold.co/200" alt="Milena" class="wrapped-image-left">
+                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
+
+Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
+                </div>
+                
+                <cite>— Milena Lima Bispo</cite>
+            </blockquote>
+
+            <blockquote class="right">
+                <div class="container">
+                    <img src="https://placehold.co/200" alt="Henrique" class="wrapped-image-right">
+                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
+
+Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
+                </div>
+                <cite>— Henrique</cite>
+            </blockquote>
+
+            <blockquote class="left">
+                <div class="container">
+                    <img src="https://placehold.co/200" alt="Orlando" class="wrapped-image-left">
+                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
+
+Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
+                </div>
+                <cite>— Orlando</cite>
+            </blockquote>
+        </main>
+
+        <!-- 
+           ========================================
+           FOOTER (RODAPÉ)
+           ========================================
+           
+           O <footer> contém informações de rodapé:
+           contato, links úteis, apoiadores, etc.
+           
+           Fundo preto com duas seções lado a lado.
+        -->
+        <footer class="site-footer">
+            
+            <!-- 
+               CONTAINER DO FOOTER
+               
+               Centraliza o conteúdo e limita a largura máxima,
+               similar ao navbar.
+            -->
+            <div class="footer-container">
+                
+                <!-- 
+                   =====================================
+                   SEÇÃO ESQUERDA: CONTATO
+                   =====================================
+                   
+                   Contém email e Instagram do CAFIS.
+                   Alinhada à esquerda do footer.
+                -->
+                <div class="footer-section footer-contact">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Contato:</h3>
+                    
+                    <!-- 
+                       LISTA DE CONTATOS
+                       
+                       UL sem bullets, com ícones + texto.
+                    -->
+                    <ul class="contact-list">
+                        
+                        <!-- 
+                           ITEM DE EMAIL
+                           
+                           Ícone de carta (SVG) + endereço de email.
+                           O link usa "mailto:" para abrir o cliente de email.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DE EMAIL (SVG)
+                               
+                               Desenho de um envelope/carta.
+                               stroke-linecap="round" deixa as pontas arredondadas.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Retângulo do envelope -->
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <!-- Linha do "V" da aba -->
+                                <polyline points="22,4 12,14 2,4"></polyline>
+                            </svg>
+                            
+                            <!-- 
+                               LINK MAILTO
+                               
+                               HREF="MAILTO:EMAIL@EXEMPLO.COM"
+                               
+                               Quando clicado, abre o aplicativo de email
+                               padrão do usuário com um novo email
+                               pré-endereçado.
+                            -->
+                            <a href="mailto:cafis@ufv.br" class="contact-link">cafis@ufv.br</a>
+                        </li>
+                        
+                        <!-- 
+                           ITEM DO INSTAGRAM
+                           
+                           Ícone do Instagram (SVG) + @ do perfil.
+                           Link externo que abre em nova aba.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DO INSTAGRAM (SVG)
+                               
+                               Desenho da câmera do Instagram.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Corpo da câmera (retângulo com cantos arredondados) -->
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <!-- Lente (círculo central) -->
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <!-- Flash (ponto superior direito) -->
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            
+                            <!-- 
+                               LINK EXTERNO
+                               
+                               TARGET="_BLANK" = abre em nova aba do navegador
+                               REL="NOOPENER NOREFERRER" = segurança para links externos
+                               
+                               Sem target="_blank", o link abre na mesma aba,
+                               fazendo o usuário sair do seu site.
+                            -->
+                            <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 
+                   =====================================
+                   SEÇÃO DIREITA: APOIO
+                   =====================================
+                   
+                   Contém logos dos apoiadores.
+                   Alinhada à direita do footer.
+                -->
+                <div class="footer-section footer-support">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Apoio:</h3>
+                    
+                    <!-- 
+                       CONTAINER DOS LOGOS
+                       
+                       Flexbox para alinhar os logos lado a lado.
+                    -->
+                    <div class="support-logos">
+                        
+                        <!-- 
+                           LOGO DA UFV
+                           
+                           Link clicável que leva ao site da UFV.
+                           A imagem será estilizada pelo CSS.
+                        -->
+                        <a href="https://www.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site da UFV">
+                            <img src="imagens/logo_UFV.png" alt="Logo da Universidade Federal de Viçosa" class="support-logo logo-ufv">
+                        </a>
+                        
+                        <!-- Logo do Departamento de Física -->
+                        <a href="https://www.dpf.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site do Departamento de Física">
+                            <img src="imagens/logo_DPF.png" alt="Logo do Departamento de Física" class="support-logo logo-dpf">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 
+               LINHA DE COPYRIGHT
+               
+               Barra inferior com informação de copyright.
+            -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 Centro Acadêmico de Física - UFV. Todos os direitos reservados.</p>
+            </div>
+
+        </footer>
+
+        <!-- 
+           SCRIPT SRC="MAIN.JS"
+           
+           Conecta o arquivo JavaScript à página.
+           É colocado no FINAL do <body> para garantir que
+           todo o HTML já foi carregado antes do JS executar.
+        -->
+        <script src="main.js"></script>
+    </body>
+</html>

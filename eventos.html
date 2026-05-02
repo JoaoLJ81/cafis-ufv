@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+<!-- 
+   HTML LANG="PT-BR"
+   
+   Define o idioma principal da página como Português do Brasil.
+   Isso é importante para:
+   - Leitores de tela (acessibilidade)
+   - Tradutores automáticos do navegador
+   - SEO (motores de busca)
+-->
+<html lang="pt-BR">
+    <head>
+        <!-- 
+           META CHARSET="UTF-8"
+           
+           Define a codificação de caracteres como UTF-8.
+           UTF-8 suporta praticamente todos os caracteres do mundo,
+           incluindo acentos (á, é, í, ó, ú, ç, etc.).
+        -->
+        <meta charset="utf-8">
+        
+        <!-- 
+           META VIEWPORT
+           
+           Essencial para sites responsivos (mobile).
+           - width=device-width = largura igual à tela do dispositivo
+           - initial-scale=1 = zoom inicial de 100%
+           
+           Sem isso, o site aparece "miniaturizado" no celular.
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="main.css" rel="stylesheet">
+
+        <title>Centro Acadêmico de Física</title>
+
+    </head>
+    <body class="page-interna">
+
+        <!-- 
+           ========================================
+           NAVBAR FIXO NO TOPO
+           ========================================
+           
+           O navbar está DIRETAMENTE no <body>, fora de qualquer
+           section. Isso é importante porque ele será "fixed"
+           (fixo) e precisa estar no fluxo principal da página.
+           
+           A classe "navbar" identifica este elemento para o CSS.
+           A classe "sticky" será adicionada/removida pelo JS
+           quando houver scroll (para adicionar sombra).
+        -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                
+                <!-- 
+                   LOGO DO NAVBAR (mini)
+                   
+                   Adicionei um logo pequeno à esquerda do menu.
+                   Isso é uma sugestão de usabilidade: o usuário
+                   sempre sabe onde clicar para voltar à home.
+                   
+                   Quando você tiver a imagem real, substitua o texto.
+                -->
+                <a href="index.html" class="nav-logo">CAFIS</a>
+
+                <!-- 
+                   LISTA PRINCIPAL DE NAVEGAÇÃO
+                   
+                   UL.NAV-LIST = container dos itens do menu
+                -->
+                <ul class="nav-list">
+                    
+                    <!-- 
+                       ITEM SIMPLES (sem dropdown)
+                       
+                       A classe "active" indica a página atual.
+                       Por enquanto deixei no "Início".
+                    -->
+                    <li class="nav-item active">
+                        <a href="index.html" class="nav-link">Início</a>
+                    </li>
+                    
+                    <!-- 
+                       ITEM COM DROPDOWN
+                       
+                       A classe "dropdown" no <li> indica que este
+                       item tem um submenu.
+                       
+                       Dentro do <a>, adicionamos um <span> com a
+                       seta ▼ para indicar visualmente que há submenu.
+                    -->
+                    <li class="nav-item dropdown">
+                        <a href="eventos.html" class="nav-link">
+                            Eventos
+                            <!-- 
+                               SETA PARA BAIXO
+                               
+                               Usamos um SVG inline para a seta.
+                               Isso garante que ela apareça igual
+                               em todos os navegadores.
+                            -->
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        
+                        <!-- 
+                           SUBMENU (DROPDOWN)
+                           
+                           UL.DROPDOWN-MENU = container dos subitens
+                           Inicialmente invisível (controlado pelo CSS)
+                        -->
+                        <ul class="dropdown-menu">
+                            <li><a href="eventos-fortaleza.html" class="dropdown-link">Projeto Fortaleza</a></li>
+                            <li><a href="eventos-eureka.html" class="dropdown-link">Eureka</a></li>
+                            <li><a href="eventos-seafis.html" class="dropdown-link">Semana Acadêmica de Física</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Outro item com dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Utilidades
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link">Biblioteca</a></li>
+                            <li><a href="#" class="dropdown-link">Lojinha</a></li>
+                            <li><a href="#" class="dropdown-link">Ouvidoria</a></li>
+                            <li><a href="#" class="dropdown-link">Banco de Carreiras - Fala Egresso!</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- Outro item com dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Conhecendo a UFV
+                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="dropdown-link">Papel das instituições</a></li>
+                            <li><a href="#" class="dropdown-link">Coletivos e grupos</a></li>
+                            <li><a href="#" class="dropdown-link">Bolsas e assistência estudantil</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Itens simples -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Representantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Transparência</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        
+        <!-- 
+           ========================================
+           MAIN (conteúdo principal)
+           ========================================
+        -->
+        <main>
+
+            <h1>Eventos</h1>
+
+            <p>O CAFIS organiza diversos eventos ao longo do ano, visando promover a integração entre os alunos e a vida universitária. 
+Além disso, busca estimular o desenvolvimento acadêmico e cultural dos estudantes através de palestras, workshops e atividades extracurriculares. 
+Conheça um pouco mais sobre nossos eventos abaixo:</p>
+
+            <ul>
+                <li><b><a href="eventos-fortaleza.html">Projeto Fortaleza</a></b></li>
+                <li><b><a href="eventos-eureka.html">Eureka</a></b></li>
+                <li><b><a href="eventos-seafis.html">Semana Acadêmica de Física</a></b></li>
+            </ul>
+
+        </main>
+
+        <!-- 
+           ========================================
+           FOOTER (RODAPÉ)
+           ========================================
+           
+           O <footer> contém informações de rodapé:
+           contato, links úteis, apoiadores, etc.
+           
+           Fundo preto com duas seções lado a lado.
+        -->
+        <footer class="site-footer">
+            
+            <!-- 
+               CONTAINER DO FOOTER
+               
+               Centraliza o conteúdo e limita a largura máxima,
+               similar ao navbar.
+            -->
+            <div class="footer-container">
+                
+                <!-- 
+                   =====================================
+                   SEÇÃO ESQUERDA: CONTATO
+                   =====================================
+                   
+                   Contém email e Instagram do CAFIS.
+                   Alinhada à esquerda do footer.
+                -->
+                <div class="footer-section footer-contact">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Contato:</h3>
+                    
+                    <!-- 
+                       LISTA DE CONTATOS
+                       
+                       UL sem bullets, com ícones + texto.
+                    -->
+                    <ul class="contact-list">
+                        
+                        <!-- 
+                           ITEM DE EMAIL
+                           
+                           Ícone de carta (SVG) + endereço de email.
+                           O link usa "mailto:" para abrir o cliente de email.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DE EMAIL (SVG)
+                               
+                               Desenho de um envelope/carta.
+                               stroke-linecap="round" deixa as pontas arredondadas.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Retângulo do envelope -->
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <!-- Linha do "V" da aba -->
+                                <polyline points="22,4 12,14 2,4"></polyline>
+                            </svg>
+                            
+                            <!-- 
+                               LINK MAILTO
+                               
+                               HREF="MAILTO:EMAIL@EXEMPLO.COM"
+                               
+                               Quando clicado, abre o aplicativo de email
+                               padrão do usuário com um novo email
+                               pré-endereçado.
+                            -->
+                            <a href="mailto:cafis@ufv.br" class="contact-link">cafis@ufv.br</a>
+                        </li>
+                        
+                        <!-- 
+                           ITEM DO INSTAGRAM
+                           
+                           Ícone do Instagram (SVG) + @ do perfil.
+                           Link externo que abre em nova aba.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DO INSTAGRAM (SVG)
+                               
+                               Desenho da câmera do Instagram.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Corpo da câmera (retângulo com cantos arredondados) -->
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <!-- Lente (círculo central) -->
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <!-- Flash (ponto superior direito) -->
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            
+                            <!-- 
+                               LINK EXTERNO
+                               
+                               TARGET="_BLANK" = abre em nova aba do navegador
+                               REL="NOOPENER NOREFERRER" = segurança para links externos
+                               
+                               Sem target="_blank", o link abre na mesma aba,
+                               fazendo o usuário sair do seu site.
+                            -->
+                            <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 
+                   =====================================
+                   SEÇÃO DIREITA: APOIO
+                   =====================================
+                   
+                   Contém logos dos apoiadores.
+                   Alinhada à direita do footer.
+                -->
+                <div class="footer-section footer-support">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Apoio:</h3>
+                    
+                    <!-- 
+                       CONTAINER DOS LOGOS
+                       
+                       Flexbox para alinhar os logos lado a lado.
+                    -->
+                    <div class="support-logos">
+                        
+                        <!-- 
+                           LOGO DA UFV
+                           
+                           Link clicável que leva ao site da UFV.
+                           A imagem será estilizada pelo CSS.
+                        -->
+                        <a href="https://www.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site da UFV">
+                            <img src="imagens/logo_UFV.png" alt="Logo da Universidade Federal de Viçosa" class="support-logo logo-ufv">
+                        </a>
+                        
+                        <!-- Logo do Departamento de Física -->
+                        <a href="https://www.dpf.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site do Departamento de Física">
+                            <img src="imagens/logo_DPF.png" alt="Logo do Departamento de Física" class="support-logo logo-dpf">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 
+               LINHA DE COPYRIGHT
+               
+               Barra inferior com informação de copyright.
+            -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 Centro Acadêmico de Física - UFV. Todos os direitos reservados.</p>
+            </div>
+
+        </footer>
+
+        <!-- 
+           SCRIPT SRC="MAIN.JS"
+           
+           Conecta o arquivo JavaScript à página.
+           É colocado no FINAL do <body> para garantir que
+           todo o HTML já foi carregado antes do JS executar.
+        -->
+        <script src="main.js"></script>
+    </body>
+</html>

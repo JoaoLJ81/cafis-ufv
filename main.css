@@ -1,0 +1,3030 @@
+/* ============================================
+   RESET BÁSICO
+   ============================================
+   
+   Cada navegador (Chrome, Firefox, Safari) aplica estilos
+   padrão diferentes aos elementos. Um reset remove essas
+   diferenças para partirmos de uma base limpa e consistente.
+
+   ============================================ */
+
+* {
+    /* Remove margens padrão que o navegador coloca em tudo */
+    margin: 0;
+    
+    /* Remove paddings padrão do navegador */
+    padding: 0;
+    
+    /* 
+       BOX-SIZING: BORDER-BOX
+       
+       Por padrão, quando definimos width: 100px e depois
+       adicionamos padding: 10px, o elemento fica com 120px
+       de largura total (100 + 10 + 10).
+       
+       Com border-box, o padding é "absorvido" dentro da
+       largura definida. Então width: 100px com padding: 10px
+       continua 100px no total (o conteúdo interno fica 80px).
+       
+       Isso facilita MUITO o controle de layouts.
+    */
+    box-sizing: border-box;
+}
+
+/* 
+   :ROOT
+   Define variáveis CSS globais.
+   Qualquer elemento pode usar var(--nome).
+*/
+:root {
+    /*
+       --NAVBAR-HEIGHT: 70PX
+       
+       Variável com a altura do navbar.
+       Se mudar a altura do navbar, muda aqui
+       e TODOS os lugares que usam atualizam.
+    */
+    --navbar-height: 70px;
+
+     /*
+       --HERO-OVERLAP: 10PX
+       
+       Quanto o carrossel "sobe" por baixo do navbar.
+       Como o navbar tem cantos arredondos inferiores,
+       deixamos o carrossel entrar 10px por baixo
+       para preencher o espaço branco dos arredondamentos.
+       
+       Cálculo: margin-top do hero = 70px - 10px = 60px
+    */
+    --hero-overlap: 10px;
+    
+    /*
+       --HERO-MARGIN-TOP
+       
+       Altura do navbar menos a sobreposição.
+       O carrossel começa 60px abaixo do topo,
+       mas suas imagens sobem 10px por baixo do navbar.
+    */
+    --hero-margin-top: calc(var(--navbar-height) - var(--hero-overlap));
+    
+    /*
+       --NAVBAR-SAFE-AREA
+       
+       Altura do navbar + respiro extra para
+       não ficar colado no conteúdo.
+    */
+    --navbar-safe-area: 80px;
+}
+
+
+/* ============================================
+   ESTILOS GLOBAIS
+   ============================================
+   
+   Aqui definimos estilos que afetam toda a página.
+   O seletor "body" pega o elemento <body> do HTML.
+   ============================================ */
+
+body {
+    /* 
+       FONT-FAMILY: lista de fontes em ordem de prioridade.
+       O navegador tenta usar a primeira; se não estiver
+       instalada no computador do usuário, tenta a segunda,
+       e assim por diante.
+       
+       'Segoe UI' = fonte moderna do Windows
+       Tahoma = fonte mais antiga, fallback seguro
+       Geneva = fonte do Mac
+       Verdana = outra fonte segura
+       sans-serif = "qualquer fonte sem serifa" (último recurso)
+    */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /* 
+       LINE-HEIGHT: altura da linha de texto.
+       1.6 significa 1.6x o tamanho da fonte.
+       Isso deixa o texto mais legível, com mais espaço
+       entre as linhas.
+    */
+    line-height: 1.6;
+    
+    /* Cor padrão do texto em toda a página */
+    color: #333;
+
+    /*
+       DISPLAY: FLEX + FLEX-DIRECTION: COLUMN
+       MIN-HEIGHT: 100VH
+       
+       Isso cria um layout de "coluna flexível" que
+       garante que o footer fique SEMPRE no final da
+       página, mesmo que o conteúdo do <main> seja curto.
+       
+       O footer tem margin-top: auto, o que o empurra
+       para o final do container flex.
+    */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.page-interna main {
+    /*
+       MARGIN-TOP: VAR(--NAVBAR-SAFE-AREA)
+       
+       Páginas sem carrossel precisam de espaço
+       completo abaixo do navbar, já que não há
+       imagem subindo por baixo dos cantos arredondos.
+    */
+    margin-top: var(--navbar-safe-area);
+}
+
+/* ============================================
+   NAVBAR FIXO
+   ============================================
+   
+   O navbar fica "colado" no topo da página.
+   Usamos position: fixed para isso.
+   ============================================ */
+
+.navbar {
+    /*
+       POSITION: FIXED
+       
+       Tira o navbar do fluxo normal da página e o
+       fixa na posição definida (top: 0).
+       
+       Ele fica "flutuando" sobre o conteúdo e não
+       se move ao rolar a página.
+
+       IMPORTANTE: elementos fixed precisam de uma
+       largura definida. Usamos width: 100%.
+    */
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    /* Ocupa toda a largura da tela */
+    width: 100%;
+
+    /* Arredondamento das bordas */
+    border-radius: 0 0 10px 10px;
+    
+    /* 
+       Z-INDEX: 1000
+       
+       Valor bem alto para garantir que o navbar fique
+       por cima de TUDO (carrossel, overlays, etc.).
+
+    */
+    z-index: 1000;
+    
+    /*
+       BACKGROUND: LINEAR-GRADIENT(...)
+       
+       Gradiente da esquerda para a direita:
+       #24426c (azul escuro) → #36a49f (verde-água)
+       
+       O gradiente do navbar é diferente do hero:
+       - Vai de esquerda para direita (to right)
+       - Cores diferentes (mais vibrante)
+    */
+    background: linear-gradient(
+        to right,
+        #24426c 0%,
+        #23576A 65%,
+        #36a49f 100%
+    );
+
+    /* 
+       BOX-SHADOW
+       
+       Sombra sutil abaixo do navbar.
+       Cria separação visual entre o menu e o conteúdo.
+       
+       0 2px = deslocamento X e Y
+       10px = blur (desfoque)
+       rgba(0,0,0,0.1) = preto com 10% opacidade
+    */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    
+    /* Transição suave para mudanças (ex: sombra no scroll) */
+    transition: all 0.3s ease;
+}
+
+/*
+   NAVBAR.SCROLLED
+   Classe adicionada pelo JavaScript quando o usuário
+   rola a página. Adiciona uma sombra mais forte.
+*/
+.navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ============================================
+   CONTAINER DO NAVBAR
+   ============================================
+   
+   Centraliza o conteúdo e limita a largura máxima.
+   Isso evita que o menu fique muito largo em telas grandes.
+   ============================================ */
+
+.nav-container {
+    /*
+       MAX-WIDTH: 1400PX
+       
+       Limita a largura do conteúdo do navbar.
+       Em telas muito grandes, o menu não fica esticado.
+    */
+    max-width: 1400px;
+    
+    /* Centraliza o container horizontalmente */
+    margin: 0 auto;
+    
+    /* Espaçamento interno nas laterais */
+    padding: 0 40px;
+    
+    /* Flexbox para alinhar logo e menu */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* Altura do navbar */
+    height: 70px;
+}
+
+/* ============================================
+   LOGO DO NAVBAR
+   ============================================ */
+
+.nav-logo {
+    /*
+       TEXT-DECORATION: NONE
+
+       Remove o sublinhado padrão dos links <a>.
+    */
+    text-decoration: none;
+    
+    /* Cor branca para contrastar com o gradiente */
+    color: #ffffff;
+    
+    /* Tamanho e peso da fonte */
+    font-size: 1.5rem;
+    font-weight: 700;
+    
+    /* Espaçamento entre letras */
+    letter-spacing: 1px;
+    
+    /* Transição suave para hover */
+    transition: all 0.3s ease;
+}
+
+/* Efeito hover no logo */
+.nav-logo:hover {
+    /* Aumenta levemente o tamanho */
+    transform: scale(1.05);
+    
+    /* Adiciona brilho sutil */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================
+   LISTA DE NAVEGAÇÃO
+   ============================================ */
+
+.nav-list {
+    /* Remove os bullets (marcadores) da lista */
+    list-style: none;
+    
+    /* Flexbox para alinhar os itens horizontalmente */
+    display: flex;
+    
+    /* Espaçamento entre os itens */
+    gap: 15px;
+    
+    /* Remove o padding padrão da ul */
+    padding: 0;
+    margin: 0;
+}
+
+/* ============================================
+   CADA ITEM DO MENU
+   ============================================ */
+
+.nav-item {
+    /* Posição relativa para o dropdown absolute funcionar */
+    position: relative;
+}
+
+/* ============================================
+   LINKS DO MENU PRINCIPAL
+   ============================================ */
+
+.nav-link {
+    /* Remove sublinhado */
+    text-decoration: none;
+    
+    /* Cor branca */
+    color: #ffffff;
+    
+    /* Negrito */
+    font-weight: 700;
+    
+    /* Tamanho da fonte */
+    font-size: 0.95rem;
+
+
+    /* Espaçamento interno (área clicável maior) */
+    padding: 10px 16px;
+    
+    /* Display flex para alinhar texto e seta */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    
+    /* Bordas arredondadas sutis */
+    border-radius: 6px;
+    
+    /* Transição suave para TODAS as propriedades */
+    transition: all 0.3s ease;
+    
+    /* Garante que o texto não quebre */
+    white-space: nowrap;
+}
+
+/*
+   HOVER NOS LINKS DO MENU
+   
+   Quando o mouse passa sobre o link:
+   - Aumenta de tamanho (scale)
+   - Muda o fundo para branco semi-transparente
+*/
+
+.nav-link:hover {
+    /*
+       TRANSFORM: SCALE(1.1)
+       
+       Aumenta o link para 110% do tamanho original.
+       Cria o efeito de "crescer" que você pediu.
+    */
+    transform: scale(1.1);
+    
+    /* Fundo branco com 15% de opacidade */
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/*
+   ITEM ATIVO (página atual)
+   
+   O item que corresponde à página atual tem um
+   destaque visual diferente.
+*/
+.nav-item.active .nav-link {
+    /* Fundo branco com 20% de opacidade */
+    background: rgba(255, 255, 255, 0.2);
+    
+    /* Borda sutil embaixo */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================
+   SETA DO DROPDOWN
+   ============================================
+   
+   Ícone SVG que indica que há submenu.
+   ============================================ */
+
+.dropdown-arrow {
+    /* Tamanho da seta */
+    width: 14px;
+    height: 14px;
+
+    /* Cor herda do pai (branco) */
+    color: #ffffff;
+    
+    /* Transição suave para rotação */
+    transition: transform 0.3s ease;
+}
+
+/*
+   Quando o mouse está sobre o item com dropdown,
+   a seta gira 180 graus (aponta para cima).
+   
+   .dropdown:hover .dropdown-arrow = "quando o .dropdown
+   está com hover, aplique estilo no .dropdown-arrow dentro dele"
+*/
+.dropdown:hover .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* ============================================
+   DROPDOWN MENU (SUBMENU)
+   ============================================
+   
+   Menu que aparece ao passar o mouse sobre um item
+   com dropdown. Inicialmente invisível.
+   ============================================ */
+
+.dropdown-menu {
+    /*
+       POSITION: ABSOLUTE
+       
+       Posiciona o submenu em relação ao .nav-item (pai).
+       Fica logo abaixo do item do menu.
+    */
+
+     position: absolute;
+    top: 100%; /* Começa na base do item pai */
+    left: 0;
+    
+    /* Largura mínima para não ficar apertado */
+    min-width: 220px;
+    
+    /*
+       OPACITY: 0 e VISIBILITY: HIDDEN
+       
+       Esconde o submenu inicialmente.
+       Usamos visibility junto com opacity porque
+       visibility: hidden impede cliques acidentais.
+    */
+    opacity: 0;
+    visibility: hidden;
+
+     /*
+       TRANSFORM: TRANSLATEY(-10PX)
+       
+       Começa 10px acima da posição final.
+       Quando aparece, "desliza" para baixo.
+    */
+    transform: translateY(-10px);
+    
+    /* Transição suave para aparecer/desaparecer */
+    transition: all 0.3s ease;
+    
+    /* Remove bullets da lista */
+    list-style: none;
+
+     /* Espaçamento interno */
+    padding: 8px 0;
+    margin: 0;
+    
+    /* Fundo do submenu (gradiente mais escuro) */
+    background: linear-gradient(
+        to bottom,
+        #24426c 0%,
+        #1a3355 100%
+    );
+    
+    /* Bordas arredondadas */
+    border-radius: 8px;
+
+     /* Sombra para destacar o submenu */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    /* Garante que fique acima de outros elementos */
+    z-index: 1001;
+}
+
+/*
+   MOSTRAR O DROPDOWN NO HOVER
+   
+   Quando o mouse está sobre o .nav-item.dropdown,
+   o .dropdown-menu dentro dele fica visível.
+*/
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Volta para posição normal */
+}
+
+/* ============================================
+   LINKS DO SUBMENU
+   ============================================ */
+
+.dropdown-link {
+    /* Remove sublinhado */
+    text-decoration: none;
+    
+    /* Cor branca */
+    color: #ffffff;
+    
+    /* 
+       FONT-WEIGHT: 400
+       
+       Peso normal (não negrito).
+       Diferencia visualmente dos itens principais.
+    */
+    font-weight: 400;
+    
+    /* Tamanho da fonte ligeiramente menor */
+    font-size: 0.9rem;
+
+     /* Display block para ocupar toda a largura */
+    display: block;
+    
+    /* Espaçamento interno */
+    padding: 10px 20px;
+    
+    /* Transição suave */
+    transition: all 0.2s ease;
+}
+
+/* Hover nos links do submenu */
+.dropdown-link:hover {
+    /* Fundo branco semi-transparente */
+    background: rgba(255, 255, 255, 0.1);
+    
+    /* Padding-left maior = efeito de "deslizar" */
+    padding-left: 25px;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================
+   
+   A "hero section" é a área visual principal no topo do site.
+   É onde ficam o carrossel, o gradiente, o logo e as legendas.
+   ============================================ */
+
+.hero {
+    /* 
+       POSITION: RELATIVE
+       
+       Define que este elemento é o "ponto de referência"
+       para elementos filhos que tiverem position: absolute.
+       
+       Sem isso, os elementos absolute dentro dele se
+       posicionariam em relação à página inteira (body).
+    */
+    position: relative;
+
+    /*
+       MARGIN-TOP: VAR(--HERO-MARGIN-TOP)
+       
+       Usa a variável calculada (60px).
+       O carrossel começa 60px do topo, mas como
+       o navbar tem cantos arredondos, as imagens
+       "entram" 10px por baixo dele, preenchendo
+       o espaço visualmente.
+    */
+    margin-top: var(--hero-margin-top);
+    
+    /* 
+       HEIGHT: 50VH
+       
+       VH = "Viewport Height" (altura da tela visível).
+       50vh significa 50% da altura da tela do usuário.
+       
+       Se a tela tem 1000px de altura, a hero terá 500px.
+       Isso cria um efeito visual impactante no topo.
+    */
+    height: 50vh;
+    
+    /* 
+       OVERFLOW: HIDDEN
+       
+       Esconde qualquer conteúdo que "vaze" para fora
+       dos limites deste elemento.
+       
+       Útil aqui porque as imagens do carrossel são maiores
+       e precisam ser cortadas para caber.
+    */
+    overflow: hidden;
+}
+
+/* ============================================
+   CARROSSEL
+   ============================================
+   
+   O carrossel é o container das imagens que ficam
+   passando automaticamente no fundo da hero section.
+   ============================================ */
+
+.carousel {
+    /* 
+       POSITION: ABSOLUTE
+       
+       Tira o elemento do fluxo normal da página e o
+       posiciona em relação ao primeiro ancestral com
+       position: relative (no caso, .hero).
+       
+       Com top: 0, left: 0, width: 100%, height: 100%,
+       ele preenche TODA a área do .hero.
+    */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ============================================
+   CADA SLIDE DO CARROSSEL
+   ============================================ */
+
+.carousel-slide {
+    /* Mesmo posicionamento absoluto do .carousel */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 
+       OPACITY: 0
+       
+       Todos os slides começam invisíveis.
+       Apenas o slide com classe .active ficará visível.
+       Isso cria o efeito de "fade" entre as imagens.
+    */
+    opacity: 0;
+    
+    /* 
+       TRANSITION: OPACITY 1S EASE-IN-OUT
+       
+       Define uma animação suave quando a opacidade muda.
+       
+       opacity = propriedade que será animada
+       1s = duração de 1 segundo
+       ease-in-out = começa devagar, acelera no meio,
+                     e desacelera no final (suave)
+    */
+    transition: opacity 1s ease-in-out;
+}
+
+/* 
+   SLIDE ATIVO
+   Apenas o slide que tiver a classe "active" fica visível.
+   O JavaScript adiciona/remove essa classe.
+*/
+.carousel-slide.active {
+    opacity: 1;
+}
+
+/* ============================================
+   IMAGENS DENTRO DOS SLIDES
+   ============================================ */
+
+.carousel-slide img {
+    /* A imagem ocupa toda a largura do slide */
+    width: 100%;
+    
+    /* A imagem ocupa toda a altura do slide */
+    height: 100%;
+    
+    /* 
+       OBJECT-FIT: COVER
+       
+       Faz a imagem preencher todo o espaço disponível,
+       mantendo a proporção original (não distorce).
+       
+       Se a proporção da imagem for diferente do container,
+       ela será CORTADA (zoom) para caber.
+    */
+    object-fit: cover;
+    
+    /* 
+       OBJECT-POSITION: 75% CENTER
+       
+       Controla QUAL PARTE da imagem fica visível quando
+       há corte (por causa do object-fit: cover).
+       
+       75% = foca no ponto que está a 75% da largura
+              (mais para a direita da imagem)
+       50% = centraliza verticalmente
+       
+       Isso faz o "assunto principal" da imagem aparecer
+       no lado direito, onde está a área transparente
+       do gradiente.
+    */
+    object-position: 75% 50%;
+    
+    /* 
+       FILTER: BRIGHTNESS(0.7)
+       
+       Escurece a imagem para 70% do brilho original.
+       Isso melhora o contraste do texto branco sobre
+       a imagem, deixando mais legível.
+    */
+    filter: brightness(0.7);
+}
+
+/* ============================================
+   OVERLAY COM GRADIENTE
+   ============================================
+   
+   O overlay é a camada que fica POR CIMA das imagens
+   do carrossel. Ele contém o gradiente azul, o logo
+   e as legendas dos slides.
+   ============================================ */
+
+.hero-overlay {
+    /* Posicionamento absoluto para cobrir toda a hero */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 
+       Z-INDEX: 10
+       
+       Controla a "profundidade" do elemento.
+       Quanto maior o z-index, mais "na frente" ele fica.
+       
+       O carrossel tem z-index implícito de 0 (padrão).
+       Com z-index: 10, o overlay fica por cima das imagens.
+    */
+    z-index: 10;
+    
+    /* 
+       BACKGROUND: LINEAR-GRADIENT(...)
+       
+       Cria um gradiente (degradê) de cor.
+       
+       to right = direção da esquerda para a direita
+       
+       #24426c 0% = cor sólida no início (esquerda)
+       rgba(36, 66, 108, 0.95) 15% = quase opaco aos 15%
+       rgba(36, 66, 108, 0.6) 25% = 60% opaco aos 25%
+       transparent 40% = totalmente transparente aos 40%
+       
+       O resultado é uma faixa azul escura à esquerda
+       que vai ficando transparente, revelando a imagem.
+    */
+    background: linear-gradient(
+        to right,
+        #24426c 0%,
+        rgba(36, 66, 108, 0.95) 15%,
+        rgba(36, 66, 108, 0.6) 25%,
+        transparent 40%
+    );
+    
+    /* 
+       DISPLAY: FLEX
+       
+       Ativa o Flexbox, um sistema moderno de layout.
+       Flexbox alinha elementos em linhas ou colunas.
+    */
+    display: flex;
+    
+    /* Alinha os filhos verticalmente ao centro */
+    align-items: center;
+    
+    /* 
+       JUSTIFY-CONTENT: SPACE-BETWEEN
+       
+       Distribui os filhos com o máximo de espaço
+       possível entre eles.
+       
+       Logo fica na extrema esquerda, legendas na direita.
+    */
+    justify-content: space-between;
+}
+
+/* ============================================
+   LOGO (lado esquerdo do overlay)
+   ============================================ */
+
+.logo-container {
+    /* Espaçamento interno nas laterais */
+    padding: 0 60px;
+    
+    /* Largura máxima para não ficar muito largo */
+    max-width: 400px;
+    
+    /* 
+       FLEX-SHRINK: 0
+       
+       Impede que este elemento encolha quando o espaço
+       for apertado (em telas menores, por exemplo).
+       
+       Sem isso, o logo poderia ficar esmagado.
+    */
+    flex-shrink: 0;
+}
+
+/* Título principal do logo (CAFIS) */
+.logo-text {
+    /* Tamanho da fonte: 3.5x o tamanho padrão do root */
+    font-size: 3.5rem;
+    
+    /* Peso da fonte: 700 = negrito */
+    font-weight: 700;
+    
+    /* Cor branca para contrastar com o fundo escuro */
+    color: #ffffff;
+    
+    /* Espaçamento entre as letras */
+    letter-spacing: 2px;
+    
+    /* 
+       TEXT-SHADOW: sombra no texto
+       
+       2px 2px = deslocamento horizontal e vertical
+       4px = quanto a sombra é "borrada" (blur)
+       rgba(0,0,0,0.5) = cor preta com 50% de opacidade
+       
+       Ajuda a legibilidade do texto sobre imagens.
+    */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Subtítulo do logo */
+.logo-subtitle {
+    font-size: 1.2rem;
+    color: #e0e0e0; /* Cinza claro */
+    margin-top: 8px; /* Espaço acima do subtítulo */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   LEGENDAS DOS SLIDES (lado direito)
+   ============================================ */
+
+.captions-container {
+    /* 
+       FLEX: 1
+       
+       "Ocupa todo o espaço restante" dentro do flex container.
+       Como o logo tem flex-shrink: 0 (tamanho fixo),
+       este container pega o espaço que sobrou à direita.
+    */
+    flex: 1;
+    
+    /* Espaçamento interno nas laterais */
+    padding: 0 80px;
+    
+    /* Flexbox para centralizar o conteúdo */
+    display: flex;
+    
+    /* 
+       ALIGN-ITEMS: BOTTOM
+       
+       Alinha os itens na parte inferior do container.
+       (Nota: o valor correto seria 'flex-end', 'bottom'
+       pode não funcionar em todos os navegadores, mas
+       funciona como alias em alguns. ARRUMAR DEPOIS)
+    */
+    align-items: bottom;
+    
+    /* Centraliza horizontalmente */
+    justify-content: center;
+}
+
+/* ============================================
+   CADA LEGENDA INDIVIDUAL
+   ============================================ */
+
+.slide-caption {
+    /* 
+       POSITION: ABSOLUTE
+       
+       Tira a legenda do fluxo normal e a posiciona
+       em relação ao .captions-container (se ele tiver
+       position: relative) ou ao .hero.
+       
+       Isso faz as legendas se sobreporem umas às outras,
+       ocupando o mesmo espaço.
+    */
+    position: absolute;
+    
+    /* Começa invisível (será mostrada pelo JS) */
+    opacity: 0;
+    
+    /* 
+       TRANSFORM: TRANSLATEY(20PX)
+       
+       Move o elemento 20px para baixo de sua posição normal.
+       Quando ativa, volta para translateY(0), criando um
+       efeito de "subida" suave.
+    */
+    transform: translateY(20px);
+    
+    /* Animação suave para opacity e transform */
+    transition: all 0.6s ease;
+    
+    /* Alinha o texto à esquerda */
+    text-align: left;
+    
+    /* Largura máxima para não ficar muito largo */
+    max-width: 500px;
+}
+
+/* Legenda do slide atualmente ativo */
+.slide-caption.active {
+    opacity: 1;
+    transform: translateY(0); /* Posição final (sem deslocamento) */
+}
+
+/* Título da legenda (ex: "Semana Acadêmica 2026") */
+.caption-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    
+    /* Sombra mais forte para legibilidade sobre imagens */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    
+    /* Espaço abaixo do título */
+    margin-bottom: 12px;
+    
+    /* Altura da linha mais compacta para títulos */
+    line-height: 1.2;
+}
+
+/* Subtítulo da legenda */
+.caption-subtitle {
+    font-size: 1.1rem;
+    color: #f0f0f0;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    line-height: 1.5;
+}
+
+/* ============================================
+   SETAS DE NAVEGAÇÃO
+   ============================================ */
+
+.carousel-arrow {
+    /* Posicionamento absoluto dentro da .hero */
+    position: absolute;
+    
+    /* 
+       TOP: 65%
+       
+       Posiciona o topo do botão a 65% da altura da hero.
+       (O centro do botão será um pouco mais abaixo por
+       causa do transform: translateY(-50%))
+    */
+    top: 65%;
+    
+    /* 
+       TRANSFORM: TRANSLATEY(-50%)
+       
+       Move o botão 50% de sua própria altura para cima.
+       Isso centraliza verticalmente o botão no ponto
+       definido por 'top'.
+    */
+    transform: translateY(-50%);
+    
+    /* Fica acima do overlay (z-index: 10) */
+    z-index: 20;
+    
+    /* Dimensões do botão circular */
+    width: 50px;
+    height: 50px;
+    
+    /* Remove a borda padrão do botão */
+    border: none;
+    
+    /* Bordas arredondadas: 50% = círculo perfeito */
+    border-radius: 50%;
+    
+    /* 
+       BACKGROUND: RGBA(255, 255, 255, 0.2)
+       
+       Fundo branco com 20% de opacidade (quase transparente).
+       O efeito "vidro fosco" vem do backdrop-filter abaixo.
+    */
+    background: rgba(255, 255, 255, 0.2);
+    
+    /* 
+       BACKDROP-FILTER: BLUR(4PX)
+       
+       Aplica um efeito de desfoque no que está ATRÁS do elemento.
+       Cria aquele efeito "vidro fosco" moderno.
+       
+       Nota: pode não funcionar em navegadores muito antigos.
+    */
+    backdrop-filter: blur(4px);
+    
+    /* Muda o cursor para "mãozinha" ao passar o mouse */
+    cursor: pointer;
+    
+    /* Flexbox para centralizar o ícone SVG dentro do botão */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Transição suave para todas as propriedades */
+    transition: all 0.3s ease;
+    
+    /* Começa invisível (aparece no hover da hero) */
+    opacity: 0;
+}
+
+/* 
+   Quando o mouse está sobre a .hero, as setas ficam visíveis.
+   
+   .hero:hover .carousel-arrow = "quando .hero está com mouse
+   em cima, aplique estes estilos nos .carousel-arrow dentro dela"
+*/
+.hero:hover .carousel-arrow {
+    opacity: 1;
+}
+
+/* ============================================
+   SETA "ANTERIOR" (←)
+   ============================================ */
+
+.carousel-arrow-prev {
+    /* 
+       LEFT: 35%
+       
+       Posiciona a seta a 35% da largura da hero, contando
+       da esquerda. Como o gradiente vai até ~40%, a seta
+       fica na área transparente, não sobre o azul escuro.
+    */
+    left: 35%;
+}
+
+/* ============================================
+   SETA "PRÓXIMO" (→)
+   ============================================ */
+
+.carousel-arrow-next {
+    /* Posiciona a 20px da borda direita */
+    right: 20px;
+}
+
+/* ============================================
+   EFEITO HOVER NAS SETAS
+   ============================================ */
+
+.carousel-arrow:hover {
+    /* Fundo mais opaco ao passar o mouse */
+    background: rgba(255, 255, 255, 0.4);
+    
+    /* 
+       TRANSFORM: TRANSLATEY(-50%) SCALE(1.1)
+       
+       Mantém o alinhamento vertical (translateY) e aumenta
+       o botão para 110% do tamanho (scale(1.1)).
+    */
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Ícone SVG dentro do botão */
+.carousel-arrow svg {
+    width: 24px;
+    height: 24px;
+    
+    /* 
+       COLOR: #FFFFFF
+       
+       Define a cor do traço do SVG (stroke="currentColor"
+       no HTML faz o SVG herdar esta cor).
+    */
+    color: #ffffff;
+}
+
+/* ============================================
+   INDICADORES DE SLIDE (bolinhas)
+   ============================================ */
+
+.carousel-indicators {
+    position: absolute;
+    
+    /* Posiciona a 25px acima da borda inferior */
+    bottom: 25px;
+    
+    /* 
+       LEFT: 67.5%
+       
+       Posiciona o container das bolinhas a 67.5% da largura,
+       contando da esquerda. Isso as coloca na área transparente,
+       alinhadas com as legendas.
+    */
+    left: 67.5%;
+    
+    /* 
+       TRANSFORM: TRANSLATEX(-50%)
+       
+       Move o container 50% de sua própria largura para a esquerda.
+       Isso centraliza o container no ponto definido por 'left'.
+    */
+    transform: translateX(-50%);
+    
+    z-index: 20;
+    
+    /* Flexbox para alinhar as bolinhas em linha */
+    display: flex;
+    
+    /* Espaçamento entre as bolinhas */
+    gap: 12px;
+}
+
+/* Cada bolinha individual */
+.indicator {
+    /* Dimensões da bolinha */
+    width: 12px;
+    height: 12px;
+    
+    /* Círculo perfeito */
+    border-radius: 50%;
+    
+    /* Borda branca semi-transparente */
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    
+    /* Fundo transparente (apenas a borda é visível) */
+    background: transparent;
+    
+    /* Cursor de clique */
+    cursor: pointer;
+    
+    /* Transição suave para todas as propriedades */
+    transition: all 0.3s ease;
+}
+
+/* Bolinha do slide atualmente ativo */
+.indicator.active {
+    /* Fundo branco sólido */
+    background: #ffffff;
+    
+    /* Borda branca sólida */
+    border-color: #ffffff;
+    
+    /* 
+       TRANSFORM: SCALE(1.3)
+       
+       Aumenta a bolinha para 130% do tamanho.
+       Isso destaca visualmente qual slide está ativo.
+    */
+    transform: scale(1.3);
+}
+
+/* Efeito hover nas bolinhas INATIVAS */
+.indicator:not(.active):hover {
+    /* 
+       :NOT(.ACTIVE) = "elementos que NÃO têm a classe .active"
+       
+       Isso evita que a bolinha ativa mude de cor no hover.
+    */
+    background: rgba(255, 255, 255, 0.4);
+    border-color: #ffffff;
+}
+
+/* ============================================
+   MAIN (conteúdo principal da página)
+   ============================================ */
+
+main {
+    /* Espaçamento interno */
+    padding: 40px 60px;
+
+    /* Altura mínima para não ficar muito pequeno */
+    min-height: 150vh;
+
+    /*
+       FLEX: 1
+       
+       Faz o <main> crescer e ocupar todo o espaço
+       disponível entre o navbar e o footer.
+       
+       Isso garante que o footer fique no rodapé
+       mesmo com pouco conteúdo.
+    */
+    flex: 1;
+}
+
+/* ============================================
+   TIPOGRAFIA DO CONTEÚDO PRINCIPAL
+   ============================================
+   
+   Estilos para textos dentro do <main>.
+   Definem cores, fontes, pesos e alinhamentos
+   para criar hierarquia visual e legibilidade.
+   ============================================ */
+
+/* ============================================
+   TÍTULOS PRINCIPAIS (H1)
+   ============================================ */
+
+main h1 {
+    /*
+       COLOR: #24426C
+       
+       Azul escuro da identidade visual do CAFIS.
+       Usado nos títulos principais para manter
+       consistência com o navbar e o gradiente.
+    */
+    color: #24426c;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    
+    /*
+       FONT-FAMILY
+       
+       Herda a fonte do body, mas podemos reforçar
+       ou mudar se quisermos destaque tipográfico.
+       Por enquanto, mantemos a mesma família.
+    */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /*
+       FONT-WEIGHT: 700
+       
+       Negrito forte para títulos principais.
+       Cria contraste visual com o subtítulo e o corpo.
+    */
+    font-weight: 700;
+    
+    /*
+       FONT-SIZE: 2.5REM
+       
+       Tamanho grande para destacar como título principal.
+       2.5rem = 40px (se o font-size base for 16px).
+    */
+    font-size: 2rem;
+    
+    /*
+       TEXT-ALIGN: LEFT
+       
+       Alinhado à esquerda, conforme solicitado.
+    */
+    text-align: left;
+    
+    /*
+       PADDING-RIGHT: 30%
+       
+       "Leve espaçamento para a direita":
+       adiciona 30% de padding vazio à direita,
+       fazendo o texto ocupar apenas 70% da largura.
+       
+       Isso cria uma linha mais curta, mais confortável
+       de ler e visualmente mais elegante.
+    */
+    padding-right: 40%;
+    
+    /*
+       MARGIN-BOTTOM: 1.5REM
+       
+       Espaço abaixo do título antes do próximo elemento.
+       Cria separação visual na hierarquia.
+    */
+    margin-bottom: 1.5rem;
+    
+    /*
+       LINE-HEIGHT: 1.2
+       
+       Altura de linha compacta para títulos.
+       Títulos não precisam de tanto espaçamento
+       entre linhas quanto parágrafos.
+    */
+    line-height: 1.2;
+}
+
+/* ============================================
+   SUBTÍTULOS (H2)
+   ============================================ */
+
+main h2 {
+    /*
+       COLOR: #36A49F
+       
+       Verde-água da identidade visual.
+       Diferencia visualmente dos títulos principais
+       criando hierarquia de cores.
+    */
+    color: #36a49f;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    
+    /* Mesma família de fonte */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /*
+       FONT-WEIGHT: 600
+       
+       Semi-negrito: menos pesado que o h1,
+       mas ainda com destaque suficiente.
+       
+       600 fica entre normal (400) e negrito (700).
+    */
+    font-weight: 600;
+    
+    /*
+       FONT-SIZE: 1.8REM
+       
+       ~29px. Menor que o h1, mas ainda proeminente.
+       Razão de aproximadamente 1.4x entre h1 e h2.
+    */
+    font-size: 1.3rem;
+    
+    /* Alinhado à esquerda */
+    text-align: left;
+    
+    /*
+       PADDING-RIGHT: 35%
+       
+       Espaçamento para a direita, ligeiramente
+       menor que o h1 para manter hierarquia visual.
+    */
+    padding-right: 35%;
+    
+    /*
+       MARGIN-TOP: 2.5REM
+       
+       Espaço acima do subtítulo para separar
+       de seções anteriores.
+    */
+    margin-top: 2.5rem;
+    
+    /* Espaço abaixo do subtítulo */
+    margin-bottom: 1rem;
+    
+    /* Altura de linha compacta */
+    line-height: 1.3;
+}
+
+/* ============================================
+   PARÁGRAFOS (P)
+   ============================================ */
+
+main p {
+    /*
+       COLOR: #333333
+       
+       Cinza escuro quase preto.
+       Mais suave que #000000 puro, melhor para leitura
+       prolongada (menos contraste agressivo).
+    */
+    color: #333;
+    
+    /* Mesma família de fonte */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    /*
+       FONT-WEIGHT: 400
+       
+       Peso normal (regular).
+       Parágrafos longos em negrito cansam a leitura.
+    */
+    font-weight: 400;
+    
+    /*
+       FONT-SIZE: 1REM
+       
+       Tamanho base: 16px na maioria dos navegadores.
+       Padrão confortável para leitura em tela.
+    */
+    font-size: 1rem;
+    
+    /*
+       TEXT-ALIGN: JUSTIFY
+       
+       Alinha o texto dos dois lados (esquerda E direita).
+       Cria bordas retas em ambos os lados do parágrafo,
+       similar a livros e jornais.
+       
+       Nota: em telas muito estreitas, justify pode criar
+       espaçamentos estranhos entre palavras. Para mobile,
+       podemos mudar para left mais tarde.
+    */
+    text-align: justify;
+    
+    /*
+       MARGIN-BOTTOM: 1.2REM
+       
+       Espaço entre parágrafos.
+       Cria "respiro" visual sem precisar de <br>.
+    */
+    margin-bottom: 1.2rem;
+    
+    /*
+       LINE-HEIGHT: 1.7
+       
+       Altura de linha generosa para conforto de leitura.
+       Recomendação de acessibilidade: mínimo 1.5.
+       
+       1.7 deixa o texto "arejado" e fácil de acompanhar.
+    */
+    line-height: 1.7;
+}
+
+/* ============================================
+   OUTROS ELEMENTOS DE TEXTO
+   ============================================ */
+
+/*
+   NEGRITO DENTRO DE PARÁGRAFOS (<STRONG> E <B>)
+   
+   Mantém a cor do parágrafo, apenas aumenta o peso.
+*/
+main p strong,
+main p b {
+    font-weight: 700;
+    color: #24426c; /* Destaca em azul ao invés de preto */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/*
+   ITÁLICO DENTRO DE PARÁGRAFOS (<EM> E <I>)
+   
+   Adiciona ênfase sutil mantendo legibilidade.
+*/
+main p em,
+main p i {
+    font-style: italic;
+    color: #555; /* Cinza ligeiramente mais claro */
+}
+
+/*
+   LINKS DENTRO DO CONTEÚDO
+*/
+main a {
+    /*
+       COLOR: #24426C
+       
+       Azul da identidade para links.
+    */
+    color: #24426c;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    
+    /* Sem sublinhado */
+    text-decoration: none;
+    
+    /* Sublinhado em cor mais clara para elegância */
+    /* text-decoration-color: rgba(36, 66, 108, 0.3); */
+    
+    /* Transição suave para hover */
+    transition: all 0.3s ease;
+}
+
+main a:hover {
+    /* Muda para o verde-água no hover */
+    color: #36a49f;
+    
+    /* Sublinhado mais forte */
+    /* text-decoration-color: #36a49f; */
+}
+
+/*
+   LISTAS (UL E OL) DENTRO DO MAIN
+*/
+main ul,
+main ol {
+    /*
+       PADDING-LEFT: 2REM
+       
+       Espaço para os bullets/números não ficarem
+       colados na borda.
+    */
+    padding-left: 2rem;
+    
+    /* Espaço abaixo da lista */
+    margin-bottom: 1.2rem;
+}
+
+main li {
+    /* Espaço entre itens da lista */
+    margin-bottom: 0.5rem;
+    
+    /* Mesma altura de linha dos parágrafos */
+    line-height: 1.7;
+    
+    /* Cor igual aos parágrafos */
+    color: #333;
+}
+
+/*
+   CITAÇÕES (<BLOCKQUOTE>)
+   
+   Para depoimentos ou citações importantes.
+*/
+main blockquote.left {
+    /*
+       BORDER-LEFT
+       
+       Linha vertical colorida à esquerda.
+    */
+    border-left: 4px solid #36a49f;
+    
+    /* Espaçamento interno */
+    padding: 1rem 1.5rem;
+    
+    /* Fundo cinza muito claro */
+    background: #f8f9fa;
+    
+    /* Margens para destacar do texto normal */
+    margin: 2rem 0;
+    
+    /* Fonte em itálico para diferenciar */
+    font-style: italic;
+    
+    /* Cor ligeiramente diferente */
+    color: #555;
+}
+
+main blockquote.right {
+    /*
+       BORDER-LEFT
+       
+       Linha vertical colorida à esquerda.
+    */
+    border-right: 4px solid #36a49f;
+    
+    /* Espaçamento interno */
+    padding: 1rem 1.5rem;
+    
+    /* Fundo cinza muito claro */
+    background: #f8f9fa;
+    
+    /* Margens para destacar do texto normal */
+    margin: 2rem 0;
+    
+    /* Fonte em itálico para diferenciar */
+    font-style: italic;
+    
+    /* Cor ligeiramente diferente */
+    color: #555;
+}
+
+
+/*
+   SEPARADORES (<HR>)
+   
+   Linhas horizontais entre seções.
+*/
+main hr {
+    /* Remove bordas padrão */
+    border: none;
+    
+    /* Altura da linha */
+    height: 2px;
+    
+    /* Gradiente sutil como separador */
+    background: linear-gradient(
+        to right,
+        transparent,
+        #36a49f,
+        transparent
+    );
+    
+    /* Margens acima e abaixo */
+    margin: 3rem 0;
+}
+
+/*
+   IMAGENS DENTRO DO MAIN ENVELOPADAS POR TEXTO (WRAP)
+   
+   Estiliza imagens que aparecem no conteúdo principal.
+*/
+
+.wrapped-image-left {
+  float: left;        /* Can be 'left' or 'right' */
+  margin: 0 20px 10px 0; /* Adds space around the image so text doesn't touch it (top right bottom left) */
+  width: 200px;       /* Set a width so the text has room to wrap */
+}
+
+.wrapped-image-right {
+  float: right;        /* Can be 'left' or 'right' */
+  margin: 0 0 10px 20px; /* Adds space around the image so text doesn't touch it (top right bottom left) */
+  width: 200px;       /* Set a width so the text has room to wrap */
+}
+
+/* ============================================
+   CARROSSEL WRAPPED (FLOTADO NO TEXTO)
+   ============================================
+   
+   Carrossel de imagens que flutua à esquerda ou
+   direita do texto, permitindo que o conteúdo
+   "envelope" (wrap) o carrossel.
+   
+   Baseado no mesmo princípio das .wrapped-image-left
+   e .wrapped-image-right que você já tem.
+   ============================================ */
+
+/* 
+   ========================================
+   CONTAINER PRINCIPAL DO CARROSSEL
+   ========================================
+*/
+
+.wrapped-carousel {
+    /*
+       POSITION: RELATIVE
+       
+       Ponto de referência para os elementos absolutos
+       dentro do carrossel (setas, indicadores).
+    */
+    position: relative;
+    
+    /* 
+       LARGURA E ALTURA FIXAS
+       
+       Essencial para o float funcionar! O navegador
+       precisa saber exatamente quanto espaço reservar.
+    */
+    width: 400px;
+    height: 300px;
+    
+    /* Bordas arredondadas para elegância */
+    border-radius: 12px;
+    
+    overflow: hidden; 
+
+    margin-top: 0px;
+    
+    /* 
+       BACKGROUND COM GRADIENTE ANIMADO
+       
+       Cria uma "moldura" viva ao redor do carrossel.
+       O padding revela o gradiente nas bordas.
+    */
+    padding: 6px;
+    background: linear-gradient(
+        135deg,
+        #24426c 0%,
+        #36a49f 50%,
+        #24426c 100%
+    );
+    background-size: 200% 200%;
+    
+    /* 
+       SOMBRA INICIAL
+       
+       Sombra média para destacar do texto.
+    */
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.15),
+        0 16px 32px rgba(36, 66, 108, 0.2);
+    
+    /* Transição suave para todas as propriedades */
+    transition: all 0.4s ease;
+}
+
+/*
+   EFEITO HOVER: LEVANTA, BRILHA E ANIMA O GRADIENTE
+   
+   Quando o mouse passa sobre o carrossel:
+   - Sobe 4px (levitação)
+   - Sombra fica mais forte (mais próxima do "chão")
+   - Gradiente começa a "respirar" (animação)
+*/
+.wrapped-carousel:hover {
+    
+    /*
+       SOMBRA MAIS FORTE NO HOVER
+       
+       - Sombra próxima mais escura (contato com chão)
+       - Sombra média maior (elevação)
+       - Aura colorida mais intensa
+    */
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.2),
+        0 12px 24px rgba(0, 0, 0, 0.15),
+        0 24px 48px rgba(54, 164, 159, 0.3);
+    
+    /*
+       ANIMAÇÃO DO GRADIENTE
+       
+       Ativa a animação "gradientShift" definida abaixo.
+       O gradiente "respira" movendo a posição do background.
+    */
+    animation: gradientShift 3s ease infinite;
+}
+
+/*
+   DEFINIÇÃO DA ANIMAÇÃO DO GRADIENTE
+   
+   Move a posição do background do gradiente,
+   criando um efeito de luz fluida.
+*/
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 
+   ========================================
+   CONTAINER INTERNO DAS IMAGENS
+   ========================================
+*/
+
+.wrapped-carousel-inner {
+    /* Ocupa todo o espaço disponível (descontando padding) */
+    width: 100%;
+    height: 100%;
+    
+    /* Fundo escuro para transições suaves entre imagens */
+    background: #1a1a1a;
+    
+    /*
+       BORDER-RADIUS: 8PX
+       
+       Cantos arredondados internos, ligeiramente menores
+       que os do container externo (12px) para criar um
+       efeito de "moldura" consistente.
+    */
+    border-radius: 8px;
+   
+    overflow: hidden;
+    
+     /*
+       POSITION: RELATIVE
+       
+       Ponto de referência para a legenda, que agora
+       será posicionada em relação a este container,
+       não ao .wrapped-carousel.
+    */
+    position: relative;
+}
+
+/* 
+   ========================================
+   VARIANTES DE FLOTACAO
+   ========================================
+*/
+
+.wrapped-carousel-left {
+    float: left;
+    margin: 0 20px 15px 0;
+}
+
+.wrapped-carousel-right {
+    float: right;
+    margin: 0 0 15px 20px;
+}
+
+/* 
+   ========================================
+   CADA IMAGEM DO CARROSSEL
+   ========================================
+*/
+
+.wrapped-carousel-img {
+    /*
+       POSITION: ABSOLUTE
+       
+       Todas as imagens ocupam o mesmo espaço,
+       uma sobrepondo a outra.
+    */
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* Preenche todo o container */
+    width: 100%;
+    height: 100%;
+    
+    /* Mantém proporção, corta o excesso */
+    object-fit: cover;
+    
+    /* Começa invisível (apenas a .active é visível) */
+    opacity: 0;
+    
+    /* Transição suave de fade */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Imagem atualmente visível */
+.wrapped-carousel-img.active {
+    opacity: 1;
+}
+
+/* 
+   ========================================
+   LEGENDA DA FOTO
+   ========================================
+*/
+
+.wrapped-carousel-caption {
+    /*
+       POSITION: ABSOLUTE
+       
+       Fica na parte inferior do carrossel,
+       sobrepondo a imagem.
+    */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    
+    /* Largura total */
+    width: 100%;
+    
+    /* Espaçamento interno */
+    padding: 8px 12px;
+    
+     /*
+       BACKGROUND COM GRADIENTE SUTIL
+       
+       Gradiente que combina com o frame externo.
+    */
+    background: linear-gradient(
+        to top,
+        rgba(36, 66, 108, 0.85) 0%,
+        rgba(36, 66, 108, 0.4) 60%,
+        transparent 100%
+    );
+    
+    color: #ffffff;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0;
+    
+    /* Z-index acima das imagens */
+    z-index: 5;
+
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.wrapped-carousel-caption.active {
+    opacity: 1;
+}
+
+/* 
+   ========================================
+   INDICADORES (BOLINHAS MINI)
+   ========================================
+*/
+
+.wrapped-carousel-indicators {
+    position: absolute;
+    bottom: 45px; /* Acima da legenda */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    
+    /* Flexbox para alinhar bolinhas */
+    display: flex;
+    gap: 6px;
+}
+
+.wrapped-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.wrapped-indicator.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.2);
+}
+
+/* 
+   ========================================
+   SETAS DE NAVEGAÇÃO (MINI)
+   ========================================
+*/
+
+.wrapped-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 6;
+    
+    /* Botões menores que os da hero */
+    width: 28px;
+    height: 28px;
+    
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(2px);
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    opacity: 0; /* Invisível até hover */
+    transition: all 0.2s ease;
+}
+
+/* Aparecem no hover do carrossel */
+.wrapped-carousel:hover .wrapped-arrow {
+    opacity: 1;
+}
+
+.wrapped-arrow:hover {
+    background: rgba(255, 255, 255, 0.45);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.wrapped-arrow-prev {
+    left: 10px;
+}
+
+.wrapped-arrow-next {
+    right: 10px;
+}
+
+/* Ícone SVG dentro da seta */
+.wrapped-arrow svg {
+    width: 14px;
+    height: 14px;
+    color: #ffffff;
+}
+
+/* 
+   ========================================
+   LIMPEZA DE FLOAT
+   ========================================
+   
+   Se você precisar que um elemento NÃO flutue
+   ao lado do carrossel (ex: um h2 que deve
+   começar abaixo), use esta classe.
+*/
+
+.clear-float {
+    /*
+       CLEAR: BOTH
+       
+       "Não permita elementos flutuantes dos dois
+       lados." O elemento começa em uma nova linha,
+       abaixo de qualquer float.
+    */
+    clear: both;
+}
+
+/* ============================================
+   FOOTER (RODAPÉ)
+   ============================================
+   
+   Fundo preto com duas seções: contato (esquerda)
+   e apoio (direita).
+   ============================================ */
+
+.site-footer {
+    /*
+       BACKGROUND: #90b1de
+       
+       Fundo azul claro para contraste com os logos do DPF e da UFV.
+       Pode usar #111111 para um preto "mais suave"
+       se preferir.
+    */
+    background: #90B1DE;
+    
+    /* Cor do texto padrão no footer */
+    color: #323232;
+    
+    /* Espaçamento interno superior/inferior */
+    padding: 50px 0 0 0;
+    
+    /* 
+       MARGIN-TOP: AUTO
+       
+       Empurra o footer para o final da página,
+       garantindo que ele fique no rodapé mesmo
+       com pouco conteúdo no <main>.
+    */
+    margin-top: auto;
+}
+
+/* ============================================
+   CONTAINER DO FOOTER
+   ============================================ */
+
+.footer-container {
+    /*
+       MAX-WIDTH: 1400PX
+       
+       Mesma largura máxima do navbar para alinhamento
+       visual consistente.
+    */
+    max-width: 1400px;
+    
+    /* Centraliza horizontalmente */
+    margin: 0 auto;
+    
+    /* Espaçamento interno nas laterais */
+    padding: 0 40px;
+    
+    /* 
+       DISPLAY: FLEX
+       
+       Alinha as duas seções (contato e apoio)
+       lado a lado, uma em cada extremidade.
+    */
+    display: flex;
+    
+    /* Alinha os itens pelo topo */
+    align-items: flex-start;
+    
+    /* 
+       JUSTIFY-CONTENT: SPACE-EVENLY
+       
+        Distribui as seções com espaço igual entre elas
+    */
+    justify-content: space-evenly;
+    
+    /* 
+       GAP: 40PX
+       
+       Espaço mínimo entre as seções caso o espaço
+       fique apertado.
+    */
+    gap: 40px;
+}
+
+/* ============================================
+   SEÇÕES DO FOOTER
+   ============================================ */
+
+.footer-section {
+    /* Cada seção pode crescer, mas tem base em seu conteúdo */
+    flex: 0 1 auto;
+}
+
+/* ============================================
+   TÍTULO DAS SEÇÕES
+   ============================================ */
+
+.footer-title {
+    /*
+       FONT-SIZE: 1.2REM
+       
+       Tamanho ligeiramente maior que o texto normal.
+    */
+    font-size: 1.2rem;
+    
+    /* Peso da fonte: negrito */
+    font-weight: 700;
+    
+    /* Cor branca */
+    color: #343434;
+    
+    /* Espaço abaixo do título */
+    margin-bottom: 20px;
+    
+    /* Espaçamento entre letras sutil */
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   LISTA DE CONTATOS
+   ============================================ */
+
+.contact-list {
+    /* Remove bullets da lista */
+    list-style: none;
+    
+    /* Remove padding/margin padrão */
+    padding: 0;
+    margin: 0;
+    
+    /* Espaçamento entre os itens */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ============================================
+   CADA ITEM DE CONTATO
+   ============================================ */
+
+.contact-item {
+    /*
+       DISPLAY: FLEX
+       
+       Alinha ícone e texto horizontalmente,
+       centralizados verticalmente.
+    */
+    display: flex;
+    align-items: center;
+    
+    /* Espaço entre ícone e texto */
+    gap: 12px;
+}
+
+/* ============================================
+   ÍCONE DE CONTATO
+   ============================================ */
+
+.contact-icon {
+    /* Tamanho do ícone SVG */
+    width: 20px;
+    height: 20px;
+    
+    /* Cor branca com 80% opacidade (mais suave) */
+    color: rgba(52, 52, 52, 0.8);
+    
+    /* 
+       FLEX-SHRINK: 0
+       
+       Impede que o ícone encolha se o texto for longo.
+    */
+    flex-shrink: 0;
+}
+
+/* ============================================
+   LINKS DE CONTATO
+   ============================================ */
+
+.contact-link {
+    /* Remove sublinhado */
+    text-decoration: none;
+    
+    /* Cor branca com 80% opacidade */
+    color: rgba(52, 52, 52, 0.8);
+    
+    /* Tamanho da fonte */
+    font-size: 0.95rem;
+    
+    /* Transição suave para hover */
+    transition: all 0.3s ease;
+}
+
+/* Hover nos links de contato */
+.contact-link:hover {
+    /* Cor branca total no hover */
+    color: #000000;
+    
+    /* Sutil brilho */
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   SEÇÃO DE APOIO
+   ============================================ */
+
+.footer-support {
+    /* Alinha o conteúdo à direita */
+    text-align: left;
+}
+
+/* ============================================
+   CONTAINER DOS LOGOS DE APOIO
+   ============================================ */
+
+.support-logos {
+    /* Flexbox para alinhar logos lado a lado */
+    display: flex;
+    
+    /* Alinha à esquerda (por causa do text-align do pai) */
+    justify-content: flex-start;
+    
+    /* Espaço entre os logos */
+    gap: 30px;
+    
+    /* Alinha verticalmente ao centro */
+    align-items: flex-start;
+}
+
+/* ============================================
+   LINKS DOS LOGOS
+   ============================================ */
+
+.support-link {
+    /*
+       DISPLAY: BLOCK
+       
+       Garante que o link ocupe o espaço do logo
+       inteiro, não apenas o texto.
+    */
+    display: block;
+    
+    /* Transição suave para hover */
+    transition: all 0.3s ease;
+}
+
+/* Hover nos links dos logos */
+.support-link:hover {
+    /*
+       TRANSFORM: SCALE(1.05)
+       
+       Aumenta levemente o logo no hover,
+       similar ao efeito do navbar.
+    */
+    transform: scale(1.05);
+}
+
+/* ============================================
+   LOGOS DPF E UFV
+   ============================================ */
+
+.support-logo {
+    /*
+       WIDTH / HEIGHT
+       
+       Dimensões do container do logo.
+       Ajuste conforme o tamanho real das imagens.
+    */
+    width: 96px;
+    height: 76px;
+    
+    /* Transição suave */
+    transition: all 0.3s ease;
+}
+
+
+/* ============================================
+   LINHA INFERIOR DO FOOTER
+   ============================================ */
+
+.footer-bottom {
+    /*
+       BORDER-TOP
+       
+       Linha sutil separando o conteúdo do copyright.
+    */
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Espaçamento interno */
+    padding: 20px 40px;
+    
+    /* Margem superior para separar das seções */
+    margin-top: 40px;
+    
+    /* Centraliza o texto */
+    text-align: center;
+}
+
+/* ============================================
+   TEXTO DE COPYRIGHT
+   ============================================ */
+
+.copyright {
+    /* Tamanho pequeno para texto secundário */
+    font-size: 0.85rem;
+    
+    /* Cor cinza claro (menos destaque) */
+    color: rgba(52, 52, 52, 0.7);
+    
+    /* Remove margin padrão do <p> */
+    margin: 0;
+}
+
+/* ============================================
+   CARDS DE EVENTOS PASSADOS (EXPANSÍVEIS)
+   ============================================
+
+   Cards clicáveis que se expandem para mostrar
+   um carrossel de imagens e conteúdo detalhado.
+
+   Estrutura HTML esperada:
+   <div class="event-cards-container">
+     <div class="event-card">
+       <div class="event-card-header">
+         <h3 class="event-card-title">Título da Edição</h3>
+         <span class="event-card-year">2025</span>
+         <button class="event-card-toggle" aria-label="Expandir card">
+           <svg>...</svg>
+         </button>
+       </div>
+       <div class="event-card-body">
+         <div class="event-card-carousel">
+           <div class="event-card-carousel-inner">
+             <img src="..." class="event-card-carousel-img active">
+             <img src="..." class="event-card-carousel-img">
+             ...
+           </div>
+           <div class="event-card-carousel-indicators">
+             <button class="event-card-indicator active" data-slide="0"></button>
+             ...
+           </div>
+           <button class="event-card-arrow event-card-arrow-prev">...</button>
+           <button class="event-card-arrow event-card-arrow-next">...</button>
+         </div>
+         <div class="event-card-content">
+           <h1>...</h1>
+           <h2>...</h2>
+           <p>...</p>
+         </div>
+       </div>
+     </div>
+   </div>
+   ============================================ */
+
+/* ============================================
+   CONTAINER DOS CARDS
+   ============================================ */
+
+.event-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/* ============================================
+   CARD BASE (COLAPSADO)
+   ============================================
+
+   O card tem uma "moldura" de gradiente animado criada pelo
+   padding. O fundo branco do header e body cobre o centro,
+   deixando apenas as bordas com o gradiente visível.
+
+   Isso é um truque CSS: padding + background no pai + 
+   background branco nos filhos = borda gradiente.
+   ============================================ */
+
+.event-card {
+    /* Fundo = gradiente que será a "moldura" */
+    background: linear-gradient(
+        135deg,
+        #24426c 0%,
+        #36a49f 50%,
+        #24426c 100%
+    );
+    background-size: 200% 200%;
+
+    /* O padding cria a espessura da borda gradiente */
+    padding: 3px;
+
+    /* Bordas arredondadas */
+    border-radius: 16px;
+
+    /* Sombra inicial */
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 8px 24px rgba(36, 66, 108, 0.15);
+
+    /* Transição suave para hover e expansão */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Cursor de clique quando colapsado */
+    cursor: pointer;
+
+    /* Esconde o que transborda (importante para o gradiente) */
+    overflow: hidden;
+}
+
+/* 
+   EFEITO HOVER NO CARD COLAPSADO
+   - Levanta 4px (translateY)
+   - Sombra fica mais forte
+   - Gradiente começa a animar (gradientShift)
+*/
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.15),
+        0 16px 40px rgba(36, 66, 108, 0.25);
+    animation: gradientShift 3s ease infinite;
+}
+
+/* 
+   DEFINIÇÃO DA ANIMAÇÃO DO GRADIENTE
+
+   Move a posição do background do gradiente,
+   criando um efeito de luz fluida nas bordas.
+
+   background-position controla onde o gradiente começa:
+   - 0% 50% = começo
+   - 100% 50% = meio (inverte as cores)
+   - volta para 0% 50%
+*/
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 
+   CARD EXPANDIDO
+   - Mantém a sombra forte
+   - Remove cursor pointer (não precisa mais clicar)
+   - Continua com gradiente animado
+*/
+.event-card.expanded {
+    cursor: default;
+    transform: translateY(-4px);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.2),
+        0 24px 60px rgba(36, 66, 108, 0.3);
+    animation: gradientShift 3s ease infinite;
+}
+
+/* ============================================
+   CABEÇALHO DO CARD
+   ============================================
+
+   Sempre visível. Quando o card está colapsado,
+   o header tem bordas arredondadas em todos os lados.
+   Quando expandido, as bordas inferiores ficam retas
+   para fazer a "costura" com o body.
+   ============================================ */
+
+.event-card-header {
+    /* Fundo branco por cima do gradiente do pai */
+    background: #ffffff;
+    border-radius: 12px;
+
+    /* Flexbox: alinha título, ano e botão em linha */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    /* Espaçamento interno */
+    padding: 16px 24px;
+
+    /* Transição suave das bordas */
+    transition: border-radius 0.4s ease;
+}
+
+/* Quando expandido: remove bordas arredondadas inferiores */
+.event-card.expanded .event-card-header {
+    border-radius: 12px 12px 0 0;
+}
+
+/* Título da edição */
+.event-card-title {
+    /* Ocupa o espaço disponível (empurra o resto para a direita) */
+    flex: 1;
+
+    /* Estilos de texto */
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #24426c;
+    margin: 0;
+
+    /* Trunca texto longo com reticências */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Botão de expandir/colapsar (seta) */
+.event-card-toggle {
+    /* Remove estilos padrão de botão */
+    background: none;
+    border: none;
+    padding: 4px;
+
+    /* Dimensões */
+    width: 32px;
+    height: 32px;
+
+    /* Centraliza o ícone */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Cursor de clique */
+    cursor: pointer;
+
+    /* Círculo para hover */
+    border-radius: 50%;
+
+    /* Transição suave */
+    transition: all 0.3s ease;
+}
+
+.event-card-toggle:hover {
+    background: rgba(36, 66, 108, 0.1);
+}
+
+/* Ícone SVG da seta */
+.event-card-toggle svg {
+    width: 20px;
+    height: 20px;
+    color: #24426c;
+
+    /* Transição de rotação suave */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Quando expandido: seta gira 180° (aponta para cima) */
+.event-card.expanded .event-card-toggle svg {
+    transform: rotate(180deg);
+}
+
+/* ============================================
+   CORPO DO CARD (CONTEÚDO EXPANDIDO)
+   ============================================
+
+   Começa com max-height: 0 (invisível) e padding: 0.
+   Quando o card recebe a classe .expanded, max-height
+   aumenta para um valor grande e o padding aparece.
+
+   A transição de max-height cria a animação de "abrir".
+   ============================================ */
+
+.event-card-body {
+    /* Fundo branco */
+    background: #ffffff;
+
+    /* Bordas arredondadas inferiores */
+    border-radius: 0 0 12px 12px;
+
+    /* 
+       max-height: 0 = colapsado (invisível)
+       overflow: hidden = esconde o conteúdo que transborda
+    */
+    max-height: 0;
+    overflow: hidden;
+
+    /* 
+       Transição de max-height cria a animação de abertura.
+       cubic-bezier(0.4, 0, 0.2, 1) = curva de aceleração suave
+       (começa rápido, desacelera no final).
+    */
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.4s ease;
+
+    /* Sem padding quando colapsado */
+    padding: 0 24px;
+}
+
+/* Quando o card está expandido */
+.event-card.expanded .event-card-body {
+    /* 
+       max-height alto o suficiente para caber o conteúdo.
+       Se o conteúdo for maior que 2000px, aumente este valor.
+    */
+    max-height: 2000px;
+
+    /* Padding quando expandido */
+    padding: 20px 24px 30px 24px;
+}
+
+/* ============================================
+   CARROSSEL INTERNO DO CARD
+   ============================================
+
+   O carrossel dentro do card tem:
+   - Imagens com efeito de blur nas laterais
+   - Indicadores (bolinhas) na parte inferior
+   - Setas de navegação nos lados
+   - Auto-play via JavaScript
+   ============================================ */
+
+.event-card-carousel {
+    /* Position relative para posicionar setas e indicadores */
+    position: relative;
+
+    /* Largura total do card */
+    width: 100%;
+
+    /* Altura fixa para o carrossel */
+    height: 320px;
+
+    /* Bordas arredondadas */
+    border-radius: 12px;
+
+    /* Esconde o que transborda (importante para as imagens) */
+    overflow: hidden;
+
+    /* Fundo escuro enquanto imagens carregam */
+    background: #1a1a1a;
+
+    /* Margem inferior antes do conteúdo de texto */
+    margin-bottom: 24px;
+
+    z-index: 1; /* Garante que o carrossel fique abaixo da blur layer */
+}
+
+/* Container das imagens */
+.event-card-carousel-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ============================================
+   EFEITO DE BLUR NAS LATERAIS DO CARROSSEL
+   ============================================
+   
+   TÉCNICA: "Blur Layer" (Camada de Desfoque)
+   
+   Em vez de aplicar máscara na imagem principal (que apenas
+   esconde as bordas), criamos uma CAMADA EXTRA por cima:
+   
+   - Camada 1 (z-index 1): imagem original NÍTIDA em 100%
+   - Camada 2 (z-index 2): mesma imagem com filter: blur(),
+     mostrando APENAS nas bordas via mask-image
+   
+   RESULTADO: centro nítido, bordas suavemente desfocadas.
+   ============================================ */
+
+/* 
+   ========================================
+   CAMADA 1: IMAGEM ORIGINAL (NÍTIDA)
+   ========================================
+   
+   Fica em z-index 1, visível em 100% do container.
+   É a base sobre a qual aplicamos o blur nas bordas.
+*/
+.event-card-carousel-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    z-index: 1; /* Camada de baixo */
+}
+
+
+/* Imagem ativa (visível) */
+.event-card-carousel-img.active {
+    opacity: 1;
+}
+
+/* 
+   ========================================
+   CAMADA 2: BLUR LAYER (DESFOQUE NAS BORDAS)
+   ========================================
+   
+   Elemento criado dinamicamente via JavaScript.
+   Contém a MESMA imagem do slide ativo, mas borrada.
+   
+   - filter: blur(12px) → desfoque real
+   - mask-image → mostra apenas 25% das bordas
+   - z-index 2 → fica POR CIMA da imagem nítida
+   
+   Nas bordas: vemos a imagem BORRADA (camada 2)
+   No centro: vemos a imagem NÍTIDA (camada 1, atrás)
+*/
+.blur-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Por cima da imagem original */
+    
+    /* Permite cliques passarem para as setas/indicadores abaixo */
+    pointer-events: none;
+    
+    /* Invisível por padrão, JS ativa quando há slide */
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    
+    /* Background definido via JS (mesma imagem do slide ativo) */
+    background-size: cover;
+    background-position: center;
+    
+    /* 
+       FILTER: BLUR(15PX) — O SEGREDO DO EFEITO!
+       
+       Aplica desfoque gaussiano real na imagem.
+       Quanto maior o valor, mais borrada.
+       15px é um bom equilíbrio para 400px de largura.
+    */
+    filter: blur(15px);
+    -webkit-filter: blur(15px); /* Prefixo Safari */
+    
+    /* 
+       MASK-IMAGE: GRADIENTE HORIZONTAL
+       
+       Controla ONDE a camada borrada aparece:
+       
+       black (0%-15%)   → borda esquerda VISÍVEL (borrada)
+       transparent      → centro INVISÍVEL (mostra nítida de baixo)
+       black (85%-100%) → borda direita VISÍVEL (borrada)
+       
+       A transição black → transparent é suave (gradiente),
+       criando o efeito de "suavização" do blur.
+    */
+    -webkit-mask-image: linear-gradient(
+        to right,
+        black 0%,
+        black 8%,      /* Borda esquerda: blur total */
+        transparent 30%, /* Começa a suavizar */
+        transparent 70%, /* Centro: totalmente transparente */
+        black 92%,      /* Borda direita: começa blur */
+        black 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        black 0%,
+        black 8%,
+        transparent 30%,
+        transparent 70%,
+        black 92%,
+        black 100%
+    );
+}
+
+/* 
+   ========================================
+   VARIAÇÃO: BLUR MAIS FORTE (OPCIONAL)
+   ========================================
+   
+   Descomente esta regra se quiser bordas MAIS borradas.
+   Ideal para imagens com muitos detalhes nas bordas.
+*/
+/*
+.blur-layer.strong-blur {
+    filter: blur(20px);
+    -webkit-filter: blur(20px);
+    -webkit-mask-image: linear-gradient(
+        to right,
+        black 0%,
+        black 8%,
+        transparent 30%,
+        transparent 70%,
+        black 92%,
+        black 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        black 0%,
+        black 8%,
+        transparent 30%,
+        transparent 70%,
+        black 92%,
+        black 100%
+    );
+}
+*/
+
+/* ============================================
+   INDICADORES DO CARROSSEL DO CARD (BOLINHAS)
+   ============================================ */
+
+.event-card-carousel-indicators {
+    /* Posicionamento na parte inferior, centralizado */
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Acima das imagens */
+    z-index: 10;
+
+    /* Flexbox para alinhar em linha */
+    display: flex;
+    gap: 10px;
+}
+
+/* Cada bolinha */
+.event-card-indicator {
+    /* Dimensões */
+    width: 10px;
+    height: 10px;
+
+    /* Círculo */
+    border-radius: 50%;
+
+    /* Borda branca semi-transparente */
+    border: 2px solid rgba(255, 255, 255, 0.7);
+
+    /* Fundo transparente */
+    background: transparent;
+
+    /* Cursor de clique */
+    cursor: pointer;
+
+    /* Remove padding padrão de botão */
+    padding: 0;
+
+    /* Transição suave */
+    transition: all 0.3s ease;
+}
+
+/* Bolinha do slide ativo */
+.event-card-indicator.active {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.3);
+}
+
+/* Hover em bolinhas inativas */
+.event-card-indicator:not(.active):hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* ============================================
+   SETAS DE NAVEGAÇÃO DO CARROSSEL DO CARD
+   ============================================ */
+
+.event-card-arrow {
+    /* Posicionamento vertical central */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    /* Acima das imagens */
+    z-index: 10;
+
+    /* Dimensões */
+    width: 40px;
+    height: 40px;
+
+    /* Remove bordas padrão de botão */
+    border: none;
+
+    /* Círculo */
+    border-radius: 50%;
+
+    /* Fundo semi-transparente com efeito de vidro */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    /* Cursor de clique */
+    cursor: pointer;
+
+    /* Centraliza o ícone SVG */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Começa invisível (aparece no hover do carrossel) */
+    opacity: 0;
+
+    /* Transição suave */
+    transition: all 0.3s ease;
+}
+
+/* 
+   APARECEM NO HOVER DO CARROSSEL
+
+   .event-card-carousel:hover .event-card-arrow
+   = "quando o mouse está sobre o carrossel, 
+      as setas dentro dele ficam visíveis"
+*/
+.event-card-carousel:hover .event-card-arrow {
+    opacity: 1;
+}
+
+/* Hover nas setas */
+.event-card-arrow:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Seta anterior (esquerda) */
+.event-card-arrow-prev {
+    left: 16px;
+}
+
+/* Seta próximo (direita) */
+.event-card-arrow-next {
+    right: 16px;
+}
+
+/* Ícone SVG dentro da seta */
+.event-card-arrow svg {
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+}
+
+/* ============================================
+   CONTEÚDO DE TEXTO DO CARD EXPANDIDO
+   ============================================
+
+   NOTA SOBRE ESTILOS DE TEXTO:
+
+   Os estilos de h1, h2, p, etc. dentro de .event-card-content
+   HERDAM as propriedades definidas em main.css (como font-family,
+   line-height, color), mas SOBRESCREVEM algumas propriedades
+   específicas como font-size e margin.
+
+   Isso é necessário porque o espaço dentro do card é mais
+   compacto que o main geral. Os títulos precisam ser menores
+   para não dominarem visualmente o card.
+
+   Se você remover estas regras, os elementos usarão os estilos
+   de main.css, que têm fontes maiores (h1: 2rem, h2: 1.3rem)
+   e padding-right generoso. No card, isso pode ficar desproporcional.
+
+   Você pode ajustar os valores abaixo conforme preferir,
+   ou removê-los se quiser usar os estilos padrão do main.
+   ============================================ */
+
+.event-card-content {
+    /* Espaçamento interno nas laterais */
+    padding: 0 8px;
+}
+
+/* Títulos dentro do card — menores que os do main */
+.event-card-content h1 {
+    color: #24426c;
+    font-size: 1.5rem;      /* menor que o 2rem do main */
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    padding-right: 0;       /* remove o padding-right do main */
+    text-align: left;
+    line-height: 1.2;
+}
+
+.event-card-content h2 {
+    color: #36a49f;
+    font-size: 1.15rem;     /* menor que o 1.3rem do main */
+    font-weight: 600;
+    margin-top: 1.2rem;
+    margin-bottom: 0.6rem;
+    padding-right: 0;
+    text-align: left;
+    line-height: 1.3;
+}
+
+/* Parágrafos dentro do card */
+.event-card-content p {
+    color: #333;
+    font-size: 0.95rem;     /* ligeiramente menor */
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+    text-align: justify;
+}
+
+/* Negrito dentro do card */
+.event-card-content strong,
+.event-card-content b {
+    font-weight: 700;
+    color: #24426c;
+}
+
+/* Links dentro do card */
+.event-card-content a {
+    color: #24426c;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.event-card-content a:hover {
+    color: #36a49f;
+}
+
+/* Listas dentro do card */
+.event-card-content ul,
+.event-card-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.event-card-content li {
+    margin-bottom: 0.4rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Separadores dentro do card */
+.event-card-content hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #36a49f,
+        transparent
+    );
+    margin: 1.5rem 0;
+}
+
+/* ============================================
+   FOTO DOS VENCEDORES
+   ============================================
+
+   Use esta classe para mostrar uma foto centralizada
+   com legenda abaixo (nomes dos vencedores).
+
+   Estrutura HTML:
+   <figure class="winners-photo">
+     <img src="foto-vencedores.jpg" alt="Vencedores do Eureka 2025">
+     <figcaption>
+       <strong>1º Lugar:</strong> João Silva e Maria Oliveira<br>
+       <strong>2º Lugar:</strong> Pedro Santos<br>
+       <strong>3º Lugar:</strong> Ana Costa
+     </figcaption>
+   </figure>
+   ============================================ */
+
+.winners-photo {
+    /* Centraliza o conteúdo */
+    text-align: center;
+
+    /* Margens */
+    margin: 1.5rem auto;
+
+    /* Largura máxima */
+    max-width: 700px;
+}
+
+/* Imagem dos vencedores */
+.winners-photo img {
+    /* Largura total do container */
+    width: 100%;
+
+    /* Altura automática (mantém proporção) */
+    height: auto;
+
+    /* Bordas arredondadas */
+    border-radius: 12px;
+
+    /* Sombra suave */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+}
+
+/* Legenda da foto (nomes dos vencedores) */
+.winners-photo figcaption {
+    /* Espaço acima da legenda */
+    margin-top: 12px;
+
+    /* Estilos de texto */
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+
+    /* Espaçamento interno */
+    padding: 0 8px;
+}
