@@ -95,9 +95,6 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Inscrições</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Workchopp</a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -177,10 +174,6 @@
                         <span class="schedule-legend-swatch schedule-legend-swatch--revealed" aria-hidden="true"></span>
                         Confirmado
                     </li>
-                    <li>
-                        <span class="schedule-legend-swatch schedule-legend-swatch--info" aria-hidden="true"></span>
-                        Programação geral
-                    </li>
                 </ul>
 
                 <!--
@@ -211,7 +204,9 @@
                         <tbody>
                             <tr>
                                 <th scope="row" class="schedule-time">08h00 – 09h00</th>
-                                <td class="schedule-cell schedule-cell--info">Credenciamento</td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">CREDENCIAMENTO</span>
+                                </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">MESA REDONDA</span>
                                 </td>
@@ -221,7 +216,12 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">09h00 – 09h30</th>
-                                <td class="schedule-cell schedule-cell--info">Cerimônia de Abertura</td>
+                                <!-- rowspan="2": esta célula representa 09h00–10h00 (2 horários
+                                     da tabela), então a linha de baixo (09h30–10h00) NÃO tem
+                                     uma célula própria nesta coluna — ela é "coberta" por esta. -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">CERIMÔNIA DE ABERTURA</span>
+                                </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
@@ -231,7 +231,8 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">09h30 – 10h00</th>
-                                <td class="schedule-cell schedule-cell--empty"></td>
+                                <!-- Sem <td> de quarta-feira aqui de propósito — coberta pelo
+                                     rowspan="2" da Cerimônia de Abertura, na linha de cima. -->
                                 <td class="schedule-cell schedule-cell--revealed">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
                                 </td>
@@ -318,7 +319,9 @@
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
+                                <!-- rowspan="2": esta célula representa 15h00–16h00 (2
+                                     horários da tabela) só na sexta-feira. -->
+                                <td class="schedule-cell schedule-cell--pending" rowspan="2">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                             </tr>
@@ -330,15 +333,20 @@
                                 <td class="schedule-cell schedule-cell--revealed">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">APRESENTAÇÃO DE TRABALHO</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--empty"></td>
+                                <!-- Sem <td> de sexta-feira aqui de propósito — coberta pelo
+                                     rowspan="2" da Palestra, na linha de cima. -->
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">16h00 – 16h30</th>
                                 <td class="schedule-cell schedule-cell--revealed">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--empty"></td>
-                                <td class="schedule-cell schedule-cell--empty"></td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">16h30 – 17h30</th>
@@ -361,8 +369,8 @@
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--info">
-                                    <span class="schedule-cell-category">ENCERRAMENTO</span>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">ENCERRAMENTO</span>
                                     <span class="schedule-cell-theme">19h00 – 19h30</span>
                                 </td>
                             </tr>
@@ -378,22 +386,20 @@
                PALESTRANTES E MESAS REVELADOS
                ========================================
 
-               Fica vazia por enquanto (nenhum palestrante
-               confirmado ainda). Conforme forem sendo revelados,
+               Conforme os palestrantes forem sendo revelados,
                duplique o modelo comentado logo abaixo para cada
                um — ele já vem com a estrutura pedida: foto com
-               wrapped-image (alternando left/right a cada nova
-               entrada), <h1> com o tema e <h2> com o(s) nome(s).
+               speaker-photo-left/right (200px — classe própria,
+               diferente da wrapped-image-left/right de 300px
+               usada na página inicial), envolvida por um
+               blockquote (mesmo estilo já usado na página
+               inicial), <h1> com o tema e <h2> com o(s) nome(s).
             -->
             <section class="speakers-section" id="palestrantes">
                 <h1>Palestrantes e Mesas Reveladas</h1>
 
                 <p>
-                    Conforme os palestrantes e temas forem confirmados,
-                    você encontrará aqui o tema da palestra ou mesa
-                    redonda, uma breve biografia e a foto de cada
-                    convidado. Fique de olho nas nossas redes sociais
-                    para acompanhar as revelações!
+                    Aos poucos a SEAFís vai tomando forma! Confira os palestrantes e mesas redondas já confirmados.
                 </p>
 
                 <!--
@@ -404,7 +410,11 @@
                    1) Copie um dos dois blocos comentados abaixo (o da
                       esquerda ou o da direita — ALTERNE a cada nova
                       entrada, para o texto ir "serpenteando" entre as
-                      fotos, em vez de todas do mesmo lado).
+                      fotos, em vez de todas do mesmo lado). Note que
+                      o lado da foto (speaker-photo-left/right) e o
+                      lado da borda do blockquote (class="left"/"right")
+                      andam juntos nos dois modelos abaixo — mantenha
+                      esse par ao criar uma nova entrada.
                    2) Remova os marcadores de comentário HTML
                       ao redor do bloco copiado.
                    3) Troque o id, a foto, o tema (h1), o(s) nome(s) (h2)
@@ -419,30 +429,46 @@
                     <span class="speaker-kicker">MESA REDONDA</span>
                     <h1>Tema da mesa redonda ou palestra</h1>
                     <h2>Nome do(s) Palestrante(s)</h2>
-                    <div class="container">
-                        <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="wrapped-image-left">
-                        <p>
-                            Breve biografia e trajetória acadêmica/profissional
-                            do(a) palestrante, destacando a relação com o tema
-                            da palestra ou mesa redonda.
-                        </p>
-                    </div>
+                    <blockquote class="left">
+                        <div class="container">
+                            <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="speaker-photo-left">
+                            <p>
+                                Breve biografia e trajetória acadêmica/profissional
+                                do(a) palestrante, destacando a relação com o tema
+                                da palestra ou mesa redonda.
+                            </p>
+                        </div>
+                    </blockquote>
                 </div>
 
                 <div class="speaker-entry" id="exemplo-palestra">
                     <span class="speaker-kicker">PALESTRA</span>
                     <h1>Outro tema de palestra</h1>
                     <h2>Nome do(a) Palestrante</h2>
-                    <div class="container">
-                        <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="wrapped-image-right">
-                        <p>
-                            Breve biografia e trajetória acadêmica/profissional
-                            do(a) palestrante, destacando a relação com o tema
-                            da palestra.
-                        </p>
-                    </div>
+                    <blockquote class="right">
+                        <div class="container">
+                            <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="speaker-photo-right">
+                            <p>
+                                Breve biografia e trajetória acadêmica/profissional
+                                do(a) palestrante, destacando a relação com o tema
+                                da palestra.
+                            </p>
+                        </div>
+                    </blockquote>
                 </div>
                 -->
+
+                <div class="speaker-entry" id="pouya">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Teoria do Caos e suas Aplicações para a Física</h1>
+                    <h2>Pouya Mehdipour</h2>
+                    <blockquote class="right">
+                        <div class="container">
+                            <img src="imagens/palestrantes/pouya.gif" alt="Foto de Pouya Mehdipour" class="speaker-photo-right">
+                            <p>Mestre em Mathematica pelo Instituto de Estudos Avançados e Ciências Básicas (2009) e doutor em Matemática pela Universidade de São Paulo (2014). Tem experiência na área de Matemática, com ênfase em Sistemas Dinâmicos e Teoria do Caos, atuando principalmente nos seguintes temas: Dinâmica Hiperbólica Suave, Teoria Ergódica, Hiperbolicidade Não Uniforme, Dinâmica Simbólica e Autômatos Celulares.</p>
+                        </div>
+                    </blockquote>
+                </div>
             </section>
 
         </main>
@@ -551,48 +577,120 @@
                             -->
                             <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
                         </li>
+
+                        <!--
+                           ITEM DO INSTAGRAM DA SEAFÍS
+
+                           Mesmo ícone do item acima — é a mesma rede
+                           social, só um perfil diferente (o do evento,
+                           não o do CAFís em si).
+                        -->
+                        <li class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            <a href="https://www.instagram.com/seafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@seafis.ufv</a>
+                        </li>
                     </ul>
                 </div>
 
-                <!-- 
+                <!--
                    =====================================
-                   SEÇÃO DIREITA: APOIO
+                   SEÇÃO: REALIZAÇÃO
                    =====================================
-                   
-                   Contém logos dos apoiadores.
-                   Alinhada à direita do footer.
+
+                   Quem organiza o evento: CAFís e o Departamento
+                   de Física. Logos em imagens/patrocinio/.
                 -->
-                <div class="footer-section footer-support">
-                    
+                <div class="footer-section footer-realizacao">
+
                     <!-- Título da seção -->
-                    <h3 class="footer-title">Apoio:</h3>
-                    
-                    <!-- 
+                    <h3 class="footer-title">Realização:</h3>
+
+                    <!--
                        CONTAINER DOS LOGOS
-                       
+
                        Flexbox para alinhar os logos lado a lado.
                     -->
-                    <div class="support-logos">
-                        
-                        <!-- 
-                           LOGO DA UFV
-                           
-                           Link clicável que leva ao site da UFV.
-                           A imagem será estilizada pelo CSS.
-                        -->
-                        <a href="https://www.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site da UFV">
-                            <img src="imagens/logo_UFV.png" alt="Logo da Universidade Federal de Viçosa" class="support-logo logo-ufv">
+                    <div class="support-logos">                    
+                        <a href="https://www.instagram.com/cafis.ufv/" class="support-link" aria-label="CAFís">
+                            <img src="imagens/patrocinio/cafis.png" alt="Logo do CAFís" class="support-logo">
                         </a>
-                        
-                        <!-- Logo do Departamento de Física -->
-                        <a href="https://www.dpf.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site do Departamento de Física">
-                            <img src="imagens/logo_DPF.png" alt="Logo do Departamento de Física" class="support-logo logo-dpf">
+
+                        <a href="https://www.dpf.ufv.br/" class="support-link" aria-label="Departamento de Física">
+                            <img src="imagens/patrocinio/dpf.png" alt="Logo do Departamento de Física" class="support-logo">
+                        </a>
+                    </div>
+                </div>
+
+                <!--
+                   =====================================
+                   SEÇÃO: APOIO
+                   =====================================
+
+                   Demais apoiadores/patrocinadores do evento.
+                   São mais logos que a Realização, por isso usam
+                   .support-logos--grid (uma grade que quebra em
+                   várias linhas) em vez do flex simples de lá.
+                -->
+                <div class="footer-section footer-apoio">
+
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Apoio:</h3>
+
+                    <!--
+                       NOMES DOS APOIADORES
+
+                       Os nomes completos de alguns apoiadores não
+                       estavam claros só pelo nome do arquivo (ccb,
+                       cce, nova, pec, thor) — usei o nome do arquivo
+                       em maiúsculas como texto alternativo por
+                       enquanto. Ajuste o "alt" de cada <img> abaixo
+                       com o nome real do apoiador quando puder.
+                    -->
+                    <!--
+                       ORDEM DAS IMAGENS = ORDEM NA GRADE
+
+                       A grade (.support-logos--grid, em main.css) usa
+                       um número FIXO de 4 colunas, então os itens
+                       "quebram" para a linha de baixo automaticamente
+                       a cada 4 — por isso a ORDEM aqui no HTML decide
+                       quem fica em qual fileira: os 4 primeiros
+                       (UFV/CCB/CCE/PEC) ficam na primeira fileira, os
+                       3 últimos (Thorlabs/Quantum Design/Nova ND) na
+                       segunda, como pedido. As duas primeiras da
+                       segunda fileira também usam a classe extra
+                       "support-logo--large" (maiores que as demais).
+                    -->
+                    <div class="support-logos support-logos--grid">
+                        <a href="https://www.ufv.br/" class="support-link" aria-label="UFV">
+                            <img src="imagens/patrocinio/ufv.png" alt="Logo da UFV" class="support-logo">
+                        </a>
+                        <a href="https://www.ccb.ufv.br/" class="support-link" aria-label="CCB">
+                            <img src="imagens/patrocinio/ccb.png" alt="Logo do apoiador CCB" class="support-logo">
+                        </a>
+                        <a href="https://www.cce.ufv.br/" class="support-link" aria-label="CCE">
+                            <img src="imagens/patrocinio/cce.png" alt="Logo do apoiador CCE" class="support-logo">
+                        </a>
+                        <a href="https://www.pec.ufv.br/" class="support-link" aria-label="PEC">
+                            <img src="imagens/patrocinio/pec.png" alt="Logo do apoiador PEC" class="support-logo">
+                        </a>
+                        <a href="https://www.thorlabs.com/" class="support-link" aria-label="Thorlabs">
+                            <img src="imagens/patrocinio/thor.png" alt="Logo do apoiador Thorlabs" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.qd-latam.com/site/en/" class="support-link" aria-label="Quantum Design">
+                            <img src="imagens/patrocinio/qdesign.png" alt="Logo do apoiador Quantum Design" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.novand.com.br/" class="support-link" aria-label="Nova ND">
+                            <img src="imagens/patrocinio/nova.png" alt="Logo do apoiador Nova ND Tecnologia" class="support-logo">
                         </a>
                     </div>
                 </div>
 
             </div>
-            
+
             <!-- 
                LINHA DE COPYRIGHT
                

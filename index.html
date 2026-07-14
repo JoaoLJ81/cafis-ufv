@@ -95,9 +95,6 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">Inscrições</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">Workchopp</a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -277,33 +274,7 @@
                 <span class="content-circles-ring content-circles-ring--3"></span>
             </div>
 
-            <h1>Quem somos?</h1>
-
-            <h2>O que é o CAFís?</h2>
-
-            <p>O Centro Acadêmico do Curso de Física da UFV é uma associação formada por alunos, que
-tem por objetivo representar os estudantes de Bacharelado em Física, Licenciatura em Física e Engenharia Física e defender os
-interesses destes. Foi reativado em 2015 objetivando uma maior participação nas atividades desenvolvidas pelo
-Departamento de Física (DPF). O <b>CAFís</b> é composto por alunos da graduação em Bacharelado em Física, Licenciatura em Física e Engenharia Física. Anualmente
-há um processo de eleição, em que grupos de alunos concorrem para compor o <b>CAFís</b>.</p>
-
-            <h2>O que o CAFís já fez?</h2>
-
-            <p>O <b>CAFís</b> já realizou inúmeras atividades, sejam acadêmicas ou de integração. Entre estas
-atividades, podemos citar a <a href="#">Semana Acadêmica de Física</a>, que reúne professores e alunos em
-um ciclo de palestras, debates e minicursos. Além disso, realizamos diversos eventos
-objetivando uma integração entre alunos e professores. Também promovemos Assembleias
-para discutir assuntos relevantes à comunidade acadêmica.</p>
-
-            <h2>Como posso contribuir?</h2>
-
-            <p>Você pode demonstrar interesse em participar da gestão atual contatando os seus
-membros e a sua entrada será votada em Assembleia Geral. Ou, durante o processo eleitoral,
-você pode se juntar com pessoas interessadas e formar uma chapa. Além disso, estudantes podem 
-contribuir com sugestões e ideias para melhorar a experiência dos alunos no curso e participando do eventos 
-promovidos.</p>
-
-            <h1>História</h1>
+            <h1>VII SEAFís - Física: A ciência mãe</h1>
 
             <div class="container">
                 <img src="imagens/primeira_chapa.JPG" alt="Primeira chapa do CAFís durante a realização do Dia Acadêmico." class="wrapped-image-right">
@@ -440,48 +411,120 @@ promovidos.</p>
                             -->
                             <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
                         </li>
+
+                        <!--
+                           ITEM DO INSTAGRAM DA SEAFÍS
+
+                           Mesmo ícone do item acima — é a mesma rede
+                           social, só um perfil diferente (o do evento,
+                           não o do CAFís em si).
+                        -->
+                        <li class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            <a href="https://www.instagram.com/seafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@seafis.ufv</a>
+                        </li>
                     </ul>
                 </div>
 
-                <!-- 
+                <!--
                    =====================================
-                   SEÇÃO DIREITA: APOIO
+                   SEÇÃO: REALIZAÇÃO
                    =====================================
-                   
-                   Contém logos dos apoiadores.
-                   Alinhada à direita do footer.
+
+                   Quem organiza o evento: CAFís e o Departamento
+                   de Física. Logos em imagens/patrocinio/.
                 -->
-                <div class="footer-section footer-support">
-                    
+                <div class="footer-section footer-realizacao">
+
                     <!-- Título da seção -->
-                    <h3 class="footer-title">Apoio:</h3>
-                    
-                    <!-- 
+                    <h3 class="footer-title">Realização:</h3>
+
+                    <!--
                        CONTAINER DOS LOGOS
-                       
+
                        Flexbox para alinhar os logos lado a lado.
                     -->
                     <div class="support-logos">
-                        
-                        <!-- 
-                           LOGO DA UFV
-                           
-                           Link clicável que leva ao site da UFV.
-                           A imagem será estilizada pelo CSS.
-                        -->
-                        <a href="https://www.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site da UFV">
-                            <img src="imagens/logo_UFV.png" alt="Logo da Universidade Federal de Viçosa" class="support-logo logo-ufv">
+                        <a href="https://www.instagram.com/cafis.ufv/" class="support-link" aria-label="CAFís">
+                            <img src="imagens/patrocinio/cafis.png" alt="Logo do CAFís" class="support-logo">
                         </a>
-                        
-                        <!-- Logo do Departamento de Física -->
-                        <a href="https://www.dpf.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site do Departamento de Física">
-                            <img src="imagens/logo_DPF.png" alt="Logo do Departamento de Física" class="support-logo logo-dpf">
+
+                        <a href="https://www.dpf.ufv.br/" class="support-link" aria-label="Departamento de Física">
+                            <img src="imagens/patrocinio/dpf.png" alt="Logo do Departamento de Física" class="support-logo">
+                        </a>
+                    </div>
+                </div>
+
+                <!--
+                   =====================================
+                   SEÇÃO: APOIO
+                   =====================================
+
+                   Demais apoiadores/patrocinadores do evento.
+                   São mais logos que a Realização, por isso usam
+                   .support-logos--grid (uma grade que quebra em
+                   várias linhas) em vez do flex simples de lá.
+                -->
+                <div class="footer-section footer-apoio">
+
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Apoio:</h3>
+
+                    <!--
+                       NOMES DOS APOIADORES
+
+                       Os nomes completos de alguns apoiadores não
+                       estavam claros só pelo nome do arquivo (ccb,
+                       cce, nova, pec, thor) — usei o nome do arquivo
+                       em maiúsculas como texto alternativo por
+                       enquanto. Ajuste o "alt" de cada <img> abaixo
+                       com o nome real do apoiador quando puder.
+                    -->
+                    <!--
+                       ORDEM DAS IMAGENS = ORDEM NA GRADE
+
+                       A grade (.support-logos--grid, em main.css) usa
+                       um número FIXO de 4 colunas, então os itens
+                       "quebram" para a linha de baixo automaticamente
+                       a cada 4 — por isso a ORDEM aqui no HTML decide
+                       quem fica em qual fileira: os 4 primeiros
+                       (UFV/CCB/CCE/PEC) ficam na primeira fileira, os
+                       3 últimos (Thorlabs/Quantum Design/Nova ND) na
+                       segunda, como pedido. As duas primeiras da
+                       segunda fileira também usam a classe extra
+                       "support-logo--large" (maiores que as demais).
+                    -->
+                    <div class="support-logos support-logos--grid">
+                        <a href="https://www.ufv.br/" class="support-link" aria-label="UFV">
+                            <img src="imagens/patrocinio/ufv.png" alt="Logo da UFV" class="support-logo">
+                        </a>
+                        <a href="https://www.ccb.ufv.br/" class="support-link" aria-label="CCB">
+                            <img src="imagens/patrocinio/ccb.png" alt="Logo do apoiador CCB" class="support-logo">
+                        </a>
+                        <a href="https://www.cce.ufv.br/" class="support-link" aria-label="CCE">
+                            <img src="imagens/patrocinio/cce.png" alt="Logo do apoiador CCE" class="support-logo">
+                        </a>
+                        <a href="https://www.pec.ufv.br/" class="support-link" aria-label="PEC">
+                            <img src="imagens/patrocinio/pec.png" alt="Logo do apoiador PEC" class="support-logo">
+                        </a>
+                        <a href="https://www.thorlabs.com/" class="support-link" aria-label="Thorlabs">
+                            <img src="imagens/patrocinio/thor.png" alt="Logo do apoiador Thorlabs" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.qd-latam.com/site/en/" class="support-link" aria-label="Quantum Design">
+                            <img src="imagens/patrocinio/qdesign.png" alt="Logo do apoiador Quantum Design" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.novand.com.br/" class="support-link" aria-label="Nova ND">
+                            <img src="imagens/patrocinio/nova.png" alt="Logo do apoiador Nova ND Tecnologia" class="support-logo">
                         </a>
                     </div>
                 </div>
 
             </div>
-            
+
             <!-- 
                LINHA DE COPYRIGHT
                

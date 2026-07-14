@@ -117,17 +117,26 @@
 
        --GRADIENT-READABLE
 
-       O degradê "de marca" do site (visto nas molduras dos
+       O degradê "forte" da marca (visto nas molduras dos
        carrosséis e nos cards de eventos): marrom → laranja →
-       verde-água. Usamos --color-highlight-text (o laranja
-       ESCURECIDO) no meio, em vez do --color-highlight claro
-       — isso garante que texto BRANCO por cima do degradê
-       inteiro continue legível também na faixa do meio, onde
-       um laranja claro deixaria o contraste fraco. Criado
-       para a página de Programação (tabela de horários), mas
-       fica aqui no :root para poder ser reaproveitado em
-       qualquer lugar que precise de "texto ou fundo com o
-       degradê da marca, mas legível".
+       verde-água, todo em tons escuros/saturados. Usamos
+       --color-highlight-text (o laranja ESCURECIDO) no meio,
+       em vez do --color-highlight claro, para texto BRANCO
+       por cima continuar legível também na faixa do meio.
+       Reservado para onde o gradiente É o próprio texto (ver
+       --gradient-soft abaixo para fundos de card).
+
+       --GRADIENT-SOFT
+
+       O mesmo degradê CLARO já usado no fundo do navbar (azul
+       claro → azul médio → laranja claro). Criado para a
+       planilha de horários (programacao.html): o
+       --gradient-readable acima, usado como FUNDO de um card
+       inteiro, ficava "pesado" demais visualmente. Como este
+       degradê é claro (não escuro), o texto por cima dele usa
+       uma cor escura sólida (--color-neutral-dark), do mesmo
+       jeito que o navbar já faz — não dá pra usar texto branco
+       aqui (contraste fraco nas partes mais claras).
     */
     --color-highlight: #EFBA7B;
     --color-highlight-text: #B3651F;
@@ -137,6 +146,7 @@
     --color-neutral-warm: #938463;
     --color-neutral-dark: #3D2E22;
     --gradient-readable: linear-gradient(135deg, #3D2E22 0%, #B3651F 50%, #558383 100%);
+    --gradient-soft: linear-gradient(to right, #B3DEFA 0%, #66A2C1 55%, #EFBA7B 100%);
 }
 
 
@@ -1463,6 +1473,30 @@ main {
 }
 
 /*
+   AJUSTE PARA PÁGINAS INTERNAS (programacao.html e futuras)
+
+   "top: 55%" funciona bem na página inicial, mas
+   programacao.html tem uma estrutura de conteúdo bem
+   diferente (título, parágrafo, legenda, DUAS tabelas — cada
+   uma podendo crescer se novos horários forem adicionados) —
+   55% da altura total do <main> ali pode cair bem em cima de
+   um título, o que já aconteceu.
+
+   Em vez de tentar adivinhar uma porcentagem seguro para cada
+   página interna, ancoramos pelo FIM do <main> (bottom, não
+   top): o conteúdo sempre termina com a seção de palestrantes,
+   deixando esse canto inferior esquerdo livre de texto na
+   prática, não importa quantas linhas a planilha tenha.
+
+   ".page-interna" é a classe que o <body> de páginas internas
+   já usa (ver --navbar-safe-area, no topo do arquivo).
+*/
+body.page-interna .content-circles--bottom-left {
+    top: auto;
+    bottom: 40px;
+}
+
+/*
    CADA ANEL, INDIVIDUALMENTE
 
    Em vez de um único radial-gradient desenhando os 3 anéis
@@ -1958,9 +1992,36 @@ main hr {
 
 /*
    IMAGENS DENTRO DO MAIN ENVELOPADAS POR TEXTO (WRAP)
-   
+
    Estiliza imagens que aparecem no conteúdo principal.
 */
+
+/*
+   .CONTAINER — "CLEARFIX"
+
+   .container envolve uma imagem flutuante (wrapped-image-*
+   ou speaker-photo-*) junto com o texto que a rodeia — tanto
+   na seção "História" quanto dentro dos blockquotes de
+   palestrantes.
+
+   O PROBLEMA (por que o blockquote não "abraçava" a foto
+   inteira): elementos com float NÃO contam para a altura do
+   elemento pai, por padrão. Se o texto ao lado da foto for
+   mais curto que ela, o .container (e qualquer coisa que o
+   envolva, como o blockquote) termina onde o TEXTO termina,
+   e a foto simplesmente "vaza" para fora, por baixo.
+
+   A SOLUÇÃO: display: flow-root cria um novo "contexto de
+   formatação de bloco" para o .container — dentro desse
+   contexto, elementos flutuantes VOLTAM a contar para a
+   altura do pai. É a versão moderna do truque antigo
+   "clearfix" (que usava overflow: hidden ou um ::after com
+   clear: both); flow-root faz a mesma coisa sem o efeito
+   colateral de esconder conteúdo que overflow: hidden teria.
+*/
+.container {
+    display: flow-root;
+}
 
 .wrapped-image-left {
   float: left;        /* Can be 'left' or 'right' */
@@ -1972,6 +2033,28 @@ main hr {
   float: right;        /* Can be 'left' or 'right' */
   margin: 0 0 10px 20px; /* Adds space around the image so text doesn't touch it (top right bottom left) */
   width: 300px;       /* Set a width so the text has room to wrap */
+}
+
+/*
+   FOTOS DE PALESTRANTES (programacao.html) — 200PX
+
+   Mesma técnica das .wrapped-image-left/right acima (float +
+   margem + largura fixa), só que em 200px em vez de 300px.
+   São uma classe SEPARADA, e não um ajuste direto nas duas de
+   cima, exatamente para poder ter um tamanho diferente sem
+   afetar as imagens da seção "História" (página inicial), que
+   usam wrapped-image-left/right e devem continuar em 300px.
+*/
+.speaker-photo-left {
+  float: left;
+  margin: 0 20px 10px 0;
+  width: 200px;
+}
+
+.speaker-photo-right {
+  float: right;
+  margin: 0 0 10px 20px;
+  width: 200px;
 }
 
 /* ============================================
@@ -2390,29 +2473,25 @@ main hr {
     /* Espaçamento interno nas laterais */
     padding: 0 40px;
     
-    /* 
-       DISPLAY: FLEX
-       
-       Alinha as duas seções (contato e apoio)
-       lado a lado, uma em cada extremidade.
+    /*
+       DISPLAY: GRID + GRID-TEMPLATE-COLUMNS: REPEAT(3, 1FR)
+
+       As três seções (Contato, Realização e Apoio) viram TRÊS
+       COLUNAS DE LARGURA IGUAL, sempre — diferente de flexbox
+       (usado antes), onde cada seção só ocupava o espaço do
+       seu próprio conteúdo, deixando tudo "encostado" à
+       esquerda em vez de dividir o rodapé igualmente.
     */
-    display: flex;
-    
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
     /* Alinha os itens pelo topo */
-    align-items: flex-start;
-    
-    /* 
-       JUSTIFY-CONTENT: SPACE-EVENLY
-       
-        Distribui as seções com espaço igual entre elas
-    */
-    justify-content: space-evenly;
-    
-    /* 
+    align-items: start;
+
+    /*
        GAP: 40PX
-       
-       Espaço mínimo entre as seções caso o espaço
-       fique apertado.
+
+       Espaço entre as colunas.
     */
     gap: 40px;
 }
@@ -2422,8 +2501,15 @@ main hr {
    ============================================ */
 
 .footer-section {
-    /* Cada seção pode crescer, mas tem base em seu conteúdo */
-    flex: 0 1 auto;
+    /*
+       TEXT-ALIGN: CENTER
+
+       Centraliza o título (h3) e qualquer texto solto da
+       seção. Listas e grades de logo (que são flex/grid, não
+       texto) precisam da própria centralização — ver
+       .contact-list e .support-logos mais abaixo.
+    */
+    text-align: center;
 }
 
 /* ============================================
@@ -2458,15 +2544,28 @@ main hr {
 .contact-list {
     /* Remove bullets da lista */
     list-style: none;
-    
+
     /* Remove padding/margin padrão */
     padding: 0;
     margin: 0;
-    
+
     /* Espaçamento entre os itens */
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    /*
+       ALIGN-ITEMS: CENTER
+
+       Cada .contact-item é uma linha (ícone + texto). Por
+       padrão, uma coluna flex estica seus itens para ocupar
+       toda a largura disponível (align-items: stretch), o que
+       fazia cada linha ficar "grudada" na borda esquerda desta
+       coluna, mesmo com o pai centralizado. align-items: center
+       faz cada linha encolher para o tamanho do seu próprio
+       conteúdo e então centralizar essa linha inteira.
+    */
+    align-items: center;
 }
 
 /* ============================================
@@ -2535,30 +2634,85 @@ main hr {
 }
 
 /* ============================================
-   SEÇÃO DE APOIO
-   ============================================ */
-
-.footer-support {
-    /* Alinha o conteúdo à direita */
-    text-align: left;
-}
-
-/* ============================================
-   CONTAINER DOS LOGOS DE APOIO
+   CONTAINER DOS LOGOS (REALIZAÇÃO)
    ============================================ */
 
 .support-logos {
     /* Flexbox para alinhar logos lado a lado */
     display: flex;
-    
-    /* Alinha à esquerda (por causa do text-align do pai) */
-    justify-content: flex-start;
-    
+
+    /* Centraliza os logos dentro da coluna (antes ficavam
+       encostados à esquerda) */
+    justify-content: center;
+
     /* Espaço entre os logos */
     gap: 30px;
-    
+
     /* Alinha verticalmente ao centro */
     align-items: flex-start;
+
+    /* Permite quebrar linha se não houver espaço suficiente
+       (relevante sobretudo para --grid, logo abaixo) */
+    flex-wrap: wrap;
+}
+
+/*
+   CONTAINER DOS LOGOS (APOIO) — VÁRIAS FILEIRAS
+
+   A seção de Apoio tem bem mais logos que a de Realização
+   (7 contra 2), então precisa quebrar em mais de uma fileira.
+
+   IMPORTANTE: aqui usamos FLEXBOX com flex-wrap, e não CSS
+   Grid. Testamos Grid antes, mas Grid não resolve o pedido de
+   "centralizar uma fileira incompleta em relação à de cima" —
+   numa grade, cada item fica preso à SUA coluna (a 2ª fileira,
+   com só 3 itens, ocupa as colunas 1-3, ficando à esquerda em
+   vez de centralizada). Flexbox com wrap não tem esse
+   problema: cada fileira "nova" que se forma ao quebrar linha
+   é centralizada de forma INDEPENDENTE via justify-content,
+   então uma fileira com menos itens naturalmente centraliza
+   sozinha, sem ficar alinhada às colunas da fileira de cima.
+*/
+.support-logos--grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    /* A 2ª fileira mistura tamanhos (Thorlabs/Quantum Design
+       maiores, Nova ND no tamanho padrão) — center alinha
+       todos pelo meio da fileira, em vez de todos "grudados"
+       no topo (que deixaria a Nova ND com um vão embaixo) */
+    align-items: center;
+
+    gap: 20px 24px;
+
+    /*
+       MAX-WIDTH: 432PX
+
+       Esse valor não é arbitrário: é exatamente a largura dos
+       4 primeiros logos (UFV/CCB/CCE/PEC, 90px cada, tamanho
+       padrão) mais os 3 espaços entre eles (4×90 + 3×24 =
+       432px). Isso garante que a quebra de linha aconteça
+       SEMPRE depois do 4º logo (o 5º, maior — Thorlabs — não
+       cabe mais nessa largura e "empurra" os 3 últimos para a
+       fileira de baixo), e é o que permite controlar quais
+       logos ficam em qual fileira só pela ORDEM deles no HTML
+       (ver comentário em index.html/programacao.html).
+
+       Se um dia adicionar/remover logos desta lista, pode
+       precisar recalcular este valor.
+    */
+    max-width: 432px;
+
+    /*
+       MARGIN: 0 AUTO
+
+       Com max-width, esta caixa não ocupa mais 100% da coluna
+       do rodapé — precisa se autocentralizar dentro dela para
+       o título ("Apoio:") e os logos ficarem alinhados um
+       embaixo do outro.
+    */
+    margin: 0 auto;
 }
 
 /* ============================================
@@ -2590,21 +2744,48 @@ main hr {
 }
 
 /* ============================================
-   LOGOS DPF E UFV
+   LOGOS DE REALIZAÇÃO E APOIO
    ============================================ */
 
 .support-logo {
     /*
        WIDTH / HEIGHT
-       
-       Dimensões do container do logo.
-       Ajuste conforme o tamanho real das imagens.
+
+       Dimensões do "quadro" de cada logo. Como agora temos
+       vários logos de proporções bem diferentes entre si
+       (retrato, paisagem, quadrado...), largura/altura fixas
+       sozinhas distorceriam a maioria deles.
     */
-    width: 96px;
-    height: 76px;
-    
+    width: 90px;
+    height: 70px;
+
+    /*
+       OBJECT-FIT: CONTAIN
+
+       Faz a imagem inteira caber dentro do quadro acima,
+       MANTENDO sua proporção original (sem esticar/espremer)
+       — o oposto do "cover" já usado no carrossel da hero, que
+       propositalmente CORTA a imagem para preencher o espaço.
+       Aqui queremos o logo inteiro sempre visível.
+    */
+    object-fit: contain;
+
     /* Transição suave */
     transition: all 0.3s ease;
+}
+
+/*
+   LOGOS MAIORES (Thorlabs, Quantum Design)
+
+   Essas duas imagens têm mais espaço vazio ao redor do
+   desenho/texto principal do que as outras, então no mesmo
+   tamanho de quadro (90x70) ficavam menores/menos legíveis na
+   prática. Usada JUNTO com .support-logo no HTML (as duas
+   classes no mesmo <img>).
+*/
+.support-logo--large {
+    width: 130px;
+    height: 100px;
 }
 
 
@@ -3433,24 +3614,19 @@ main hr {
 
    ESTADOS DE CADA CÉLULA DA PLANILHA
 
-   Como nem todo mundo já foi anunciado, cada célula de evento
-   (Palestra, Mesa Redonda, Apresentação de Trabalho, Minicurso,
-   Coffee Break) pode estar em um de três "estados" visuais:
+   Cada célula de evento pode estar em um de dois "estados"
+   visuais:
 
    1) .schedule-cell--pending ("ainda será revelado"): Palestra,
       Mesa Redonda e Minicurso, por enquanto — fundo no degradê
-      da marca, texto branco por cima.
+      claro (--gradient-soft, o mesmo do navbar), texto escuro
+      por cima.
 
-   2) .schedule-cell--revealed ("já revelado", mesmo sem
-      palestrante definido): Coffee Break e Apresentação de
-      Trabalho — fundo branco, texto no degradê (não é o TIPO de
-      evento que muda de sala/palestrante, então já contamos como
-      certo).
-
-   3) .schedule-cell--info: itens fixos de logística que não têm
-      "revelação" nenhuma (Credenciamento, Cerimônia de Abertura,
-      Encerramento) — um terceiro estilo neutro, só pra não
-      confundir com os dois estados acima.
+   2) .schedule-cell--revealed ("já certo"): tanto os tipos de
+      evento que não mudam mais (Coffee Break, Apresentação de
+      Trabalho) quanto a logística fixa (Credenciamento,
+      Cerimônia de Abertura, Encerramento) — fundo branco, texto
+      no degradê escuro (--gradient-readable).
 
    Há ainda .schedule-cell--empty para horários sem nenhum evento
    naquele dia específico.
@@ -3486,26 +3662,33 @@ main hr {
    faixa única entre a tabela da manhã e a da tarde/noite,
    marcando visualmente a pausa, em vez de repetir "ALMOÇO"
    em 3 colunas.
+
+   Visualmente, é DE PROPÓSITO igual à .schedule-time (a
+   coluna de horários): mesma cor de fundo, mesma borda — a
+   ideia é que o Almoço pareça "mais um horário" da planilha,
+   não um elemento novo com identidade própria.
 */
 .schedule-break {
     text-align: center;
-    color: #ffffff;
+    color: #3D2E22;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1rem;
     letter-spacing: 0.5px;
 
-    padding: 16px 20px;
-    margin: 30px 0;
-    border-radius: 12px;
+    padding: 12px 20px;
+    margin: 20px 0;
+    border-radius: 10px;
 
-    background: var(--color-bg-dark);
+    /* Mesmo verde-água claro de .schedule-time — ver comentário
+       lá para o porquê de não ser uma variável do :root */
+    background: #CBE6E2;
 
     /* Mesma técnica de "borda no degradê" usada nas células da
        planilha (ver .schedule-cell) — border-image aplica um
        gradiente real à borda, ao contrário de várias camadas de
        box-shadow (que criam discos cheios, não bordas/anéis). */
     border: 3px solid transparent;
-    border-image: var(--gradient-readable) 1;
+    border-image: var(--gradient-soft) 1;
 }
 
 /*
@@ -3549,21 +3732,15 @@ main hr {
     height: 16px;
     border-radius: 4px;
     border: 2px solid transparent;
-    border-image: var(--gradient-readable) 1;
+    border-image: var(--gradient-soft) 1;
 }
 
 .schedule-legend-swatch--pending {
-    background: var(--gradient-readable);
+    background: var(--gradient-soft);
 }
 
 .schedule-legend-swatch--revealed {
     background: #ffffff;
-}
-
-.schedule-legend-swatch--info {
-    background: var(--color-neutral-warm);
-    border-image: none;
-    border-color: var(--color-neutral-warm);
 }
 
 /*
@@ -3609,21 +3786,36 @@ main hr {
     margin-bottom: 14px;
 }
 
-/* Célula vazia no canto superior esquerdo (acima da coluna de
-   horários, à esquerda dos cabeçalhos de dia) */
-.schedule-corner {
-    background: transparent;
-}
-
 /*
-   CABEÇALHO DE CADA DIA (19/08, 20/08, 21/08)
+   CANTO SUPERIOR ESQUERDO ("Horário") E CABEÇALHO DE CADA DIA
+
+   Compartilham o mesmo visual — um fundo sólido, sem degradê
+   nenhum — de propósito BEM diferente das células de evento
+   logo abaixo (que usam o degradê claro ou fundo branco). Isso
+   faz a linha inteira de cabeçalho se destacar como uma
+   "faixa" própria da planilha, em vez de parecer só mais uma
+   célula de evento comum.
+
+   Cor: --color-highlight-text, o laranja ESCURECIDO da
+   paleta (o mesmo usado em h2/links no resto do site) — dá
+   destaque sem repetir nem o degradê nem o azul-claro já
+   usados em outras partes da planilha.
 */
+.schedule-corner,
 .schedule-day-header {
-    background: var(--gradient-readable);
+    background: var(--color-highlight-text);
     color: #ffffff;
     padding: 12px 8px;
     border-radius: 10px;
     font-weight: 700;
+}
+
+/* O canto ("Horário") é só um rótulo de coluna, sem data —
+   menor e mais discreto que os cabeçalhos de dia */
+.schedule-corner {
+    font-size: 0.85rem;
+    font-weight: 400;
+    opacity: 0.85;
 }
 
 /* Nome do dia da semana (ex: "Quarta-feira") — menor e mais
@@ -3649,7 +3841,12 @@ main hr {
    RÓTULO (o horário), não um evento em si.
 */
 .schedule-time {
-    background: var(--color-bg-light);
+    /* Verde-água bem claro/dessaturado — não é uma das
+       variáveis do :root (que são todas mais vivas/escuras),
+       é uma versão bem clareada de --color-bg-dark (#558383)
+       só para este fundo, precisando de um texto escuro por
+       cima */
+    background: #CBE6E2;
     color: #3D2E22;
     font-weight: 700;
     font-size: 0.9rem;
@@ -3660,16 +3857,16 @@ main hr {
     /* Mesma borda no degradê usada nas células de evento — veja
        .schedule-cell para a explicação completa da técnica */
     border: 3px solid transparent;
-    border-image: var(--gradient-readable) 1;
+    border-image: var(--gradient-soft) 1;
 }
 
 /*
    CÉLULA DE EVENTO — BASE COMPARTILHADA
 
-   .schedule-cell--pending / --revealed / --info / --empty (mais
-   abaixo) mudam cor de fundo e de texto; esta regra aqui cuida
-   do que é igual entre todas: tamanho, cantos arredondados,
-   espaçamento e a borda no degradê da marca.
+   .schedule-cell--pending / --revealed / --empty (mais abaixo)
+   mudam cor de fundo e de texto; esta regra aqui cuida do que
+   é igual entre todas: tamanho, cantos arredondados,
+   espaçamento e a borda no degradê.
 */
 .schedule-cell {
     padding: 14px 10px;
@@ -3689,7 +3886,7 @@ main hr {
        e usa uma fatia para cada lado da borda.
     */
     border: 3px solid transparent;
-    border-image: var(--gradient-readable) 1;
+    border-image: var(--gradient-soft) 1;
 
     /* Transição suave para quando a célula virar interativa
        (ver .schedule-cell--clickable, mais abaixo) */
@@ -3717,24 +3914,31 @@ main hr {
 /*
    ESTADO 1: "AINDA SERÁ REVELADO"
    Palestra, Mesa Redonda, Minicurso (por enquanto)
+
+   Fundo no degradê CLARO (--gradient-soft, o mesmo do navbar)
+   — por ser claro, o texto usa uma cor escura sólida por
+   cima (o mesmo raciocínio já aplicado ao texto do navbar),
+   em vez de branco (que teria contraste fraco nas partes
+   mais claras do degradê).
 */
 .schedule-cell--pending {
-    background: var(--gradient-readable);
-    color: #ffffff;
-
-    /* Reforça a legibilidade do texto branco sobre a faixa
-       mais clara do degradê (o laranja no meio) */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35);
+    background: var(--gradient-soft);
+    color: #3D2E22;
 }
 
 /*
-   ESTADO 2: "JÁ REVELADO"
-   Coffee Break e Apresentação de Trabalho
+   ESTADO 2: "JÁ CERTO"
+   Coffee Break, Apresentação de Trabalho e também a
+   logística fixa (Credenciamento, Cerimônia de Abertura,
+   Encerramento) — nada disso tem uma "revelação" pendente.
 
-   Aqui o fundo é branco; é o TEXTO que usa o degradê, via
-   background-clip: text (o span .schedule-cell-label--gradient
-   vira uma "janela" que só deixa aparecer a parte do gradiente
-   por trás de onde há caracteres).
+   Aqui o fundo é branco; é o TEXTO que usa o degradê ESCURO
+   (--gradient-readable), via background-clip: text (o span
+   .schedule-cell-label--gradient vira uma "janela" que só
+   deixa aparecer a parte do gradiente por trás de onde há
+   caracteres — precisa ser o degradê escuro aqui, e não o
+   --gradient-soft, porque a parte clara dele quase não
+   apareceria sobre o fundo branco).
 */
 .schedule-cell--revealed {
     background: #ffffff;
@@ -3755,17 +3959,6 @@ main hr {
     color: transparent;
 
     font-weight: 700;
-}
-
-/*
-   ESTADO 3: INFORMATIVO
-   Credenciamento, Cerimônia de Abertura, Encerramento — itens
-   fixos de logística, sem "revelação" nenhuma pendente.
-*/
-.schedule-cell--info {
-    background: var(--color-neutral-warm);
-    color: #ffffff;
-    font-style: italic;
 }
 
 /*
