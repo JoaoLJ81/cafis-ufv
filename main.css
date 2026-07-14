@@ -279,13 +279,14 @@ body.page-interna main {
     transition: all 0.3s ease;
 }
 
+.nav-logo-image {
+   height: 50px; /* Ajuste o tamanho do logo conforme necessário */
+}
+
 /* Efeito hover no logo */
 .nav-logo:hover {
     /* Aumenta levemente o tamanho */
     transform: scale(1.05);
-    
-    /* Adiciona brilho sutil */
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 /* ============================================
@@ -804,7 +805,14 @@ body.page-interna main {
     flex-shrink: 0;
 }
 
-/* Título principal do logo (CAFIS) */
+/* Imagem principal do logo (CAFIS) */
+.logo-container-image {
+    height: auto; /* Mantém a proporção original da imagem */
+    width: 50%; /* Ocupa toda a largura disponível */
+    margin-left: 60px;
+}
+
+/* Título principal do logo, quando não há imagem (CAFIS) */
 .logo-text {
     /* Tamanho da fonte: 3.5x o tamanho padrão do root */
     font-size: 3.5rem;
@@ -833,6 +841,7 @@ body.page-interna main {
 /* Subtítulo do logo */
 .logo-subtitle {
     font-size: 1.2rem;
+    font-weight: 600;
     color: #e0e0e0; /* Cinza claro */
     margin-top: 8px; /* Espaço acima do subtítulo */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
