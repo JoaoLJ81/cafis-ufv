@@ -74,6 +74,69 @@
        não ficar colado no conteúdo.
     */
     --navbar-safe-area: 80px;
+
+    /*
+       ============================================
+       PALETA DE CORES DA SEAFÍS
+       ============================================
+
+       Estas variáveis documentam a paleta oficial da
+       Semana Acadêmica de Física (SEAFís). O CSS abaixo
+       ainda usa os valores hexadecimais "soltos" nas
+       propriedades (para não quebrar nada ao migrar do
+       CAFís), mas as variáveis ficam aqui como referência
+       rápida e para você já poder usar var(--nome) em
+       qualquer nova regra que criar.
+
+       DESTAQUE (cor de chamada, usar com moderação):
+       --color-highlight: #EFBA7B (laranja do logo — usar em
+       preenchimentos, bordas decorativas, ícones, hovers de
+       fundo; é uma cor CLARA, então evite usá-la como cor de
+       TEXTO sobre fundo branco, pois o contraste fica fraco)
+       --color-highlight-text: #B3651F (o mesmo laranja, porém
+       escurecido — este sim tem contraste suficiente para ser
+       usado como cor de TEXTO em links, títulos, etc.)
+
+       FUNDO (tons de azul/verde-água, do mais claro ao
+       mais escuro — pensados para céu/água):
+       --color-bg-light:  #B3DEFA
+       --color-bg-medium: #66A2C1
+       --color-bg-dark:   #558383
+
+       NEUTRO (tons terrosos, remetendo às raízes do tema
+       "Física: a ciência mãe"):
+       --color-neutral-warm: #938463
+       --color-neutral-dark: #3D2E22 (marrom quente bem escuro e
+       saturado — trocado a partir do #574E47 original, que era
+       um marrom-acinzentado apagado e destoava das outras cores
+       vibrantes da paleta; o novo tom tem mais presença e ainda
+       mantém a família "terrosa" do tema)
+
+       Equivalente em RGB do --color-neutral-dark, usado nas
+       sombras/fundos translúcidos com rgba(): 61, 46, 34
+
+       --GRADIENT-READABLE
+
+       O degradê "de marca" do site (visto nas molduras dos
+       carrosséis e nos cards de eventos): marrom → laranja →
+       verde-água. Usamos --color-highlight-text (o laranja
+       ESCURECIDO) no meio, em vez do --color-highlight claro
+       — isso garante que texto BRANCO por cima do degradê
+       inteiro continue legível também na faixa do meio, onde
+       um laranja claro deixaria o contraste fraco. Criado
+       para a página de Programação (tabela de horários), mas
+       fica aqui no :root para poder ser reaproveitado em
+       qualquer lugar que precise de "texto ou fundo com o
+       degradê da marca, mas legível".
+    */
+    --color-highlight: #EFBA7B;
+    --color-highlight-text: #B3651F;
+    --color-bg-light: #B3DEFA;
+    --color-bg-medium: #66A2C1;
+    --color-bg-dark: #558383;
+    --color-neutral-warm: #938463;
+    --color-neutral-dark: #3D2E22;
+    --gradient-readable: linear-gradient(135deg, #3D2E22 0%, #B3651F 50%, #558383 100%);
 }
 
 
@@ -181,8 +244,16 @@ body.page-interna main {
     /*
        BACKGROUND: LINEAR-GRADIENT(...)
        
-       Gradiente da esquerda para a direita:
-       #24426c (azul escuro) → #36a49f (verde-água)
+       Gradiente da esquerda para a direita, do azul mais claro
+       da paleta (FUNDO) até o laranja de destaque (DESTAQUE),
+       passando por um azul médio no meio para a transição
+       ficar suave:
+       #B3DEFA (azul claro) → #66A2C1 (azul médio) → #EFBA7B (laranja)
+
+       IMPORTANTE: como o fundo agora é claro (principalmente
+       à esquerda e no laranja da direita), o texto do menu
+       precisou deixar de ser branco e virar escuro — veja
+       .nav-link, .dropdown-arrow e .nav-item.active mais abaixo.
        
        O gradiente do navbar é diferente do hero:
        - Vai de esquerda para direita (to right)
@@ -190,9 +261,9 @@ body.page-interna main {
     */
     background: linear-gradient(
         to right,
-        #24426c 0%,
-        #23576A 65%,
-        #36a49f 100%
+        #B3DEFA 0%,
+        #66A2C1 55%,
+        #EFBA7B 100%
     );
 
     /* 
@@ -265,22 +336,64 @@ body.page-interna main {
     */
     text-decoration: none;
     
-    /* Cor branca para contrastar com o gradiente */
-    color: #ffffff;
+    /* Cor escura para contrastar com o novo gradiente claro
+       (usada apenas se a imagem do logo não carregar) */
+    color: #3D2E22;
     
-    /* Tamanho e peso da fonte */
+    /* Tamanho e peso da fonte (usado apenas se não houver imagem) */
     font-size: 1.5rem;
     font-weight: 700;
     
     /* Espaçamento entre letras */
     letter-spacing: 1px;
+
+    /*
+       DISPLAY: FLEX + ALIGN-ITEMS: CENTER
+
+       <img> é um elemento "inline" por padrão, o que faz o
+       navegador reservar um pequeno espaço extra embaixo dele
+       (o espaço reservado para a "descida" de letras como
+       "g" e "j"). Isso fazia o logo ficar levemente desalinhado
+       verticalmente dentro do navbar.
+
+       Transformando o .nav-logo (o link <a> que envolve a
+       imagem) em flex container, a imagem passa a ser
+       centralizada com precisão, sem esse espaço fantasma.
+    */
+    display: flex;
+    align-items: center;
+    height: 100%;
     
     /* Transição suave para hover */
     transition: all 0.3s ease;
 }
 
 .nav-logo-image {
-   height: 50px; /* Ajuste o tamanho do logo conforme necessário */
+    /*
+       ALTURA FIXA + LARGURA AUTOMÁTICA
+
+       height define o tamanho do logo dentro do navbar
+       (que tem 70px de altura). Aumentamos de 46px para
+       62px porque a logo (Titulo_SF_2.png) é um wordmark
+       BEM largo e "baixo" (proporção ~2,34:1) — em 46px de
+       altura o texto "SEAFÍS" ficava pequeno demais para
+       ler. 62px deixa só 8px de folga entre a imagem e as
+       bordas do navbar (70px), o máximo que dá pra crescer
+       sem esbarrar nelas.
+
+       width: auto garante que a largura seja calculada
+       automaticamente a partir da altura, respeitando a
+       proporção original da imagem (evita distorcer o logo).
+       Como a proporção é fixa, aumentar a altura também
+       aumenta a largura proporcionalmente — é assim que a
+       logo "estica para a direita" e fica mais legível, sem
+       espremer/esticar as letras de forma desigual.
+    */
+    height: 62px;
+    width: auto;
+
+    /* Remove o espaço fantasma extra que <img> tem por padrão */
+    display: block;
 }
 
 /* Efeito hover no logo */
@@ -325,8 +438,15 @@ body.page-interna main {
     /* Remove sublinhado */
     text-decoration: none;
     
-    /* Cor branca */
-    color: #ffffff;
+    /*
+       COR ESCURA (não mais branca)
+
+       O navbar agora tem um gradiente CLARO (azul claro até
+       laranja), então um texto branco ficaria quase invisível.
+       Usamos o neutro escuro da paleta, que tem bom contraste
+       tanto sobre o azul claro quanto sobre o laranja.
+    */
+    color: #3D2E22;
     
     /* Negrito */
     font-weight: 700;
@@ -358,7 +478,9 @@ body.page-interna main {
    
    Quando o mouse passa sobre o link:
    - Aumenta de tamanho (scale)
-   - Muda o fundo para branco semi-transparente
+   - Muda o fundo para um tom escuro semi-transparente
+     (antes era branco semi-transparente, mas isso quase não
+     aparecia sobre o fundo claro do novo gradiente)
 */
 
 .nav-link:hover {
@@ -370,8 +492,8 @@ body.page-interna main {
     */
     transform: scale(1.1);
     
-    /* Fundo branco com 15% de opacidade */
-    background: rgba(255, 255, 255, 0.15);
+    /* Fundo escuro (neutro) com 12% de opacidade */
+    background: rgba(61, 46, 34, 0.12);
 }
 
 /*
@@ -381,11 +503,11 @@ body.page-interna main {
    destaque visual diferente.
 */
 .nav-item.active .nav-link {
-    /* Fundo branco com 20% de opacidade */
-    background: rgba(255, 255, 255, 0.2);
+    /* Fundo escuro (neutro) com 15% de opacidade */
+    background: rgba(61, 46, 34, 0.15);
     
-    /* Borda sutil embaixo */
-    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    /* Borda de destaque embaixo, na cor laranja */
+    border-bottom: 2px solid #B3651F;
 }
 
 /* ============================================
@@ -400,8 +522,8 @@ body.page-interna main {
     width: 14px;
     height: 14px;
 
-    /* Cor herda do pai (branco) */
-    color: #ffffff;
+    /* Cor de destaque */
+    color: #B3651F;
     
     /* Transição suave para rotação */
     transition: transform 0.3s ease;
@@ -472,8 +594,8 @@ body.page-interna main {
     /* Fundo do submenu (gradiente mais escuro) */
     background: linear-gradient(
         to bottom,
-        #24426c 0%,
-        #1a3355 100%
+        #3D2E22 0%,
+        #3D3733 100%
     );
     
     /* Bordas arredondadas */
@@ -745,19 +867,19 @@ body.page-interna main {
        
        to right = direção da esquerda para a direita
        
-       #24426c 0% = cor sólida no início (esquerda)
-       rgba(36, 66, 108, 0.95) 15% = quase opaco aos 15%
-       rgba(36, 66, 108, 0.6) 25% = 60% opaco aos 25%
+       #558383 0% = cor sólida no início (esquerda)
+       rgba(85, 131, 131, 0.95) 15% = quase opaco aos 15%
+       rgba(85, 131, 131, 0.6) 25% = 60% opaco aos 25%
        transparent 40% = totalmente transparente aos 40%
        
-       O resultado é uma faixa azul escura à esquerda
+       O resultado é uma faixa azul/verde-água à esquerda
        que vai ficando transparente, revelando a imagem.
     */
     background: linear-gradient(
         to right,
-        #24426c 0%,
-        rgba(36, 66, 108, 0.95) 15%,
-        rgba(36, 66, 108, 0.6) 25%,
+        #558383 0%,
+        rgba(85, 131, 131, 0.95) 15%,
+        rgba(85, 131, 131, 0.6) 25%,
         transparent 40%
     );
     
@@ -789,7 +911,7 @@ body.page-interna main {
 
 .logo-container {
     /* Espaçamento interno nas laterais */
-    padding: 0 60px;
+    padding: 0 100px;
     
     /* Largura máxima para não ficar muito largo */
     max-width: 400px;
@@ -805,11 +927,56 @@ body.page-interna main {
     flex-shrink: 0;
 }
 
-/* Imagem principal do logo (CAFIS) */
+/*
+   Ícone do logo (átomo com raízes) da SEAFís
+
+   A imagem SemTextoSemFundo.png é desenhada em PRETO sobre
+   fundo transparente. Sobre o gradiente do .hero-overlay, o
+   preto ficaria quase invisível, então precisamos recolori-lo.
+
+   Chegamos a testar uma técnica de MÁSCARA CSS (mask-image)
+   para pintar o ícone de uma cor exata (laranja), mas ela
+   exigia trocar o <img> por uma <div> vazia — o que causou
+   um bug difícil de rastrear (o elemento não aparecia nem no
+   DevTools em alguns testes). Voltamos para a abordagem mais
+   simples: FILTER. Não dá pra "mirar" uma cor exata como o
+   laranja só com filtro, mas para branco funciona perfeito
+   e sem os problemas da máscara:
+
+     filter: brightness(0) invert(1);
+
+   brightness(0) = escurece a imagem inteira para preto puro
+   (elimina qualquer variação de tom que já existisse).
+   invert(1) = inverte as cores: preto vira branco.
+*/
 .logo-container-image {
-    height: auto; /* Mantém a proporção original da imagem */
-    width: 50%; /* Ocupa toda a largura disponível */
-    margin-left: 60px;
+    /*
+       Altura fixa (o pai, .logo-container, não define altura
+       própria — ela nasce do conteúdo, então é esta regra que
+       decide o tamanho final do ícone).
+       A largura foi calculada a partir da proporção real do
+       ícone (aprox. 0,73 largura/altura).
+    */
+    height: 300px;
+    width: 219px;
+
+    /* Preenche o espaço mantendo a proporção da imagem,
+       sem distorcer (mesmo espírito do object-fit: contain,
+       útil aqui porque width/height são fixos) */
+    object-fit: contain;
+
+    /*
+       FILTER: BRIGHTNESS(0) INVERT(1) + DROP-SHADOW
+
+       Os dois primeiros valores recolorem o ícone (preto →
+       branco, ver explicação acima). drop-shadow é como um
+       box-shadow, mas segue o CONTORNO real da imagem (não
+       o retângulo do elemento) — importante aqui porque o
+       ícone tem um formato irregular, não um quadrado.
+       Ajuda o ícone branco não "sumir" sobre partes claras
+       da foto de fundo do carrossel.
+    */
+    filter: brightness(0) invert(1) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 /* Título principal do logo, quando não há imagem (CAFIS) */
@@ -1181,8 +1348,14 @@ main {
     /* Espaçamento interno */
     padding: 40px 60px;
 
-    /* Altura mínima para não ficar muito pequeno */
-    min-height: 150vh;
+    /*
+       POSITION: RELATIVE
+
+       Ponto de referência para os círculos decorativos
+       (.content-circles), que são posicionados de forma
+       absoluta em relação a este <main>.
+    */
+    position: relative;
 
     /*
        FLEX: 1
@@ -1194,6 +1367,202 @@ main {
        mesmo com pouco conteúdo.
     */
     flex: 1;
+}
+
+/* ============================================
+   CÍRCULOS DECORATIVOS DO CONTEÚDO
+   ============================================
+
+   Duas "árvores" de elementos puramente decorativas (sem
+   texto, sem função), inseridas dentro do <main> no
+   index.html:
+
+     <div class="content-circles content-circles--top-right" aria-hidden="true">
+         <span class="content-circles-ring content-circles-ring--1"></span>
+         <span class="content-circles-ring content-circles-ring--2"></span>
+         <span class="content-circles-ring content-circles-ring--3"></span>
+     </div>
+     <div class="content-circles content-circles--bottom-left" aria-hidden="true">
+         ... (mesma estrutura interna) ...
+     </div>
+
+   .content-circles é só o "grupo": cuida da posição geral
+   (--top-right / --bottom-left) e gira como um bloco só
+   (ver main.js). Cada anel de dentro é um elemento
+   INDEPENDENTE (.content-circles-ring--1/2/3), cada um com
+   seu próprio tamanho de "tracejado" e seu próprio ângulo
+   inicial — de propósito DIFERENTES entre si, para não
+   ficarem alinhados nem do mesmo tamanho (um anel com
+   falhas idênticas e alinhadas às dos outros pareceria
+   "mecânico demais"; variando os três, o resultado lembra
+   mais órbitas reais, meio irregulares).
+
+   Ficam ATRÁS de todo o texto do conteúdo (graças ao
+   z-index negativo), como uma "marca d'água" temática — os
+   mesmos anéis concêntricos que aparecem atrás do "FÍS" na
+   logo oficial (imagens/Titulo_SF_2.png).
+
+   aria-hidden="true" no HTML avisa leitores de tela para
+   ignorar estes elementos, já que não carregam informação
+   nenhuma (são só decoração visual).
+   ============================================ */
+
+.content-circles {
+    /* Tira o elemento do fluxo normal; a posição exata de
+       cada instância vem dos modificadores mais abaixo.
+       Como esta regra também tem position != static, ela
+       vira o "ponto de referência" para os anéis internos
+       (position: absolute neles se orienta por AQUI, não
+       pela página toda). */
+    position: absolute;
+
+    /* Tamanho do "quadro" que contém os três anéis */
+    width: 800px;
+    height: 800px;
+
+    /* 30% de opacidade, como pedido — mantém os anéis como
+       um detalhe bem sutil, sem competir com o texto */
+    opacity: 0.3;
+
+    /* Fica atrás de todo o conteúdo do <main> (que tem
+       position: relative, então este z-index negativo é
+       relativo a ele, não à página inteira) */
+    z-index: -1;
+
+    /* Puramente decorativo: não deve capturar cliques nem
+       atrapalhar seleção de texto */
+    pointer-events: none;
+
+    /*
+       TRANSITION suave caso o navegador precise reajustar
+       o transform (o giro em si é feito via JavaScript, em
+       main.js, a cada evento de scroll). Aplicado aqui no
+       grupo inteiro: os 3 anéis giram sempre JUNTOS, como
+       uma peça rígida só — só o padrão de tracejado de
+       cada um é que é diferente.
+    */
+    transition: transform 0.05s linear;
+}
+
+/* Instância de cima: mais para a direita, perto do topo
+   do <main> (logo abaixo do carrossel da hero) */
+.content-circles--top-right {
+    top: 20px;
+    right: 2%;
+}
+
+/* Instância de baixo: mais para a esquerda, na parte
+   inferior do conteúdo. Usamos "top" em porcentagem — como
+   o <main> é bem mais alto que a tela (o conteúdo é longo),
+   uma porcentagem do total garante que ela fique de fato
+   na METADE DE BAIXO da página, não importa o quão longo
+   o texto acabe ficando. */
+.content-circles--bottom-left {
+    top: 55%;
+    left: 2%;
+}
+
+/*
+   CADA ANEL, INDIVIDUALMENTE
+
+   Em vez de um único radial-gradient desenhando os 3 anéis
+   de uma vez (a versão anterior), agora cada anel é o seu
+   próprio elemento: um círculo OCO, feito com border-radius:
+   50% + border colorida (o miolo fica transparente porque
+   não há background). Isso permite dar a CADA um seu próprio
+   mask-image (ver os modificadores --1/--2/--3 abaixo), que
+   é o que não era possível quando os 3 dividiam um só
+   elemento.
+*/
+.content-circles-ring {
+    /* Centraliza o anel dentro do .content-circles
+       (que tem 600x600px), não importa o tamanho dele */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+    border-style: solid;
+    border-color: #558383;
+
+    /*
+       MASK-IMAGE: TRANSFORMA O ANEL EM "TRACEJADO"
+
+       Um anel perfeitamente redondo é simétrico: girar ele
+       não muda NADA visualmente, porque cada ângulo é
+       idêntico ao anterior. Para a rotação no scroll (ver
+       main.js) ficar visível, precisamos quebrar essa
+       simetria.
+
+       repeating-conic-gradient cria fatias alternadas (como
+       ponteiros de relógio) em vez de uma borda sólida:
+       preto (opaco, "mostra o anel" naquele trecho) por um
+       tanto de graus, depois transparente ("esconde o anel")
+       por outro tanto, repetindo até completar a volta toda.
+       Cada modificador (--1, --2, --3) usa um tamanho de
+       fatia e um ângulo inicial ("from") diferente, então as
+       falhas de um anel não coincidem com as dos outros.
+    */
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+/* Anel mais interno: fatias curtas e vão curto — um
+   tracejado "miudinho" */
+.content-circles-ring--1 {
+    width: 186px;
+    height: 186px;
+    border-width: 9px;
+
+    -webkit-mask-image: repeating-conic-gradient(
+        from 0deg,
+        black 0deg 10deg,
+        transparent 10deg 24deg
+    );
+    mask-image: repeating-conic-gradient(
+        from 0deg,
+        black 0deg 10deg,
+        transparent 10deg 24deg
+    );
+}
+
+/* Anel do meio: fatias mais longas, ângulo inicial deslocado
+   (35deg) para não alinhar com o anel de dentro */
+.content-circles-ring--2 {
+    width: 282px;
+    height: 282px;
+    border-width: 9px;
+
+    -webkit-mask-image: repeating-conic-gradient(
+        from 35deg,
+        black 0deg 18deg,
+        transparent 18deg 40deg
+    );
+    mask-image: repeating-conic-gradient(
+        from 35deg,
+        black 0deg 18deg,
+        transparent 18deg 40deg
+    );
+}
+
+/* Anel mais externo: fatias curtas mas vãos bem largos
+   (mais "espaçado"), outro ângulo inicial (70deg) */
+.content-circles-ring--3 {
+    width: 378px;
+    height: 378px;
+    border-width: 9px;
+
+    -webkit-mask-image: repeating-conic-gradient(
+        from 40deg,
+        black 0deg 8deg,
+        transparent 8deg 38deg
+    );
+    mask-image: repeating-conic-gradient(
+        from 40deg,
+        black 0deg 8deg,
+        transparent 8deg 38deg
+    );
 }
 
 /* ============================================
@@ -1211,15 +1580,17 @@ main {
 
 main h1 {
     /*
-       COLOR: #24426C
-       
-       Azul escuro da identidade visual do CAFIS.
+       COLOR: #3D2E22
+
+       Neutro escuro (marrom quente e saturado) da identidade
+       visual da SEAFís — a mesma cor do contorno do logo.
        Usado nos títulos principais para manter
        consistência com o navbar e o gradiente.
     */
-    color: #24426c;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-    
+    color: #eeb97c; /* Destaca em neutro escuro ao invés de preto */
+    -webkit-text-stroke: 1.5px #564d46; /* Thickness and color of the outline */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+
     /*
        FONT-FAMILY
        
@@ -1288,14 +1659,17 @@ main h1 {
 
 main h2 {
     /*
-       COLOR: #36A49F
+       COLOR: #B3651F
        
-       Verde-água da identidade visual.
+       Laranja escurecido (variante legível do DESTAQUE
+       #EFBA7B da SEAFís — veja a explicação da variável
+       --color-highlight-text no início do arquivo).
        Diferencia visualmente dos títulos principais
-       criando hierarquia de cores.
+       criando hierarquia de cores, e agora "pisca" mais
+       aos olhos do que o verde-água usado antes.
     */
-    color: #36a49f;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    color: #3D2E22;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
     
     /* Mesma família de fonte */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1421,7 +1795,7 @@ main p {
 main p strong,
 main p b {
     font-weight: 700;
-    color: #24426c; /* Destaca em azul ao invés de preto */
+    color: #B3651F;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -1441,29 +1815,35 @@ main p i {
 */
 main a {
     /*
-       COLOR: #24426C
+       COLOR: #B3651F
        
-       Azul da identidade para links.
+       Laranja escurecido (DESTAQUE legível — mesma cor usada
+       no h2). Links precisam ser claramente identificáveis
+       como clicáveis, então além da cor usamos um sublinhado
+       sutil (veja text-decoration abaixo).
     */
-    color: #24426c;
+    color: #B3651F;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
     
-    /* Sem sublinhado */
+    /* Sublinhado sutil: ajuda a diferenciar o link de texto
+       em negrito comum, que também poderia "parecer" clicável
+       se dependesse só da cor */
     text-decoration: none;
-    
-    /* Sublinhado em cor mais clara para elegância */
-    /* text-decoration-color: rgba(36, 66, 108, 0.3); */
+    text-decoration-color: rgba(179, 101, 31, 0.4);
+    text-underline-offset: 3px;
     
     /* Transição suave para hover */
     transition: all 0.3s ease;
 }
 
 main a:hover {
-    /* Muda para o verde-água no hover */
-    color: #36a49f;
-    
-    /* Sublinhado mais forte */
-    /* text-decoration-color: #36a49f; */
+    /*
+       Troca para o verde-água escuro (FUNDO) no hover.
+       A troca entre uma cor "quente" (laranja) e uma "fria"
+       (verde-água) deixa a interação bem perceptível.
+    */
+    color: #558383;
+    text-decoration-color: #558383;
 }
 
 /*
@@ -1505,7 +1885,8 @@ main blockquote.left {
        
        Linha vertical colorida à esquerda.
     */
-    border-left: 4px solid #36a49f;
+    /* Laranja de destaque (cor cheia, decorativa — não é texto) */
+    border-left: 4px solid #EFBA7B;
     
     /* Espaçamento interno */
     padding: 1rem 1.5rem;
@@ -1529,7 +1910,8 @@ main blockquote.right {
        
        Linha vertical colorida à esquerda.
     */
-    border-right: 4px solid #36a49f;
+    /* Laranja de destaque (cor cheia, decorativa — não é texto) */
+    border-right: 4px solid #EFBA7B;
     
     /* Espaçamento interno */
     padding: 1rem 1.5rem;
@@ -1560,11 +1942,13 @@ main hr {
     /* Altura da linha */
     height: 2px;
     
-    /* Gradiente sutil como separador */
+    /* Gradiente sutil como separador — laranja de destaque
+       (cor cheia; funciona bem aqui porque é decorativo, não
+       é texto que precisa de contraste para leitura) */
     background: linear-gradient(
         to right,
         transparent,
-        #36a49f,
+        #EFBA7B,
         transparent
     );
     
@@ -1581,13 +1965,13 @@ main hr {
 .wrapped-image-left {
   float: left;        /* Can be 'left' or 'right' */
   margin: 0 20px 10px 0; /* Adds space around the image so text doesn't touch it (top right bottom left) */
-  width: 200px;       /* Set a width so the text has room to wrap */
+  width: 300px;       /* Set a width so the text has room to wrap */
 }
 
 .wrapped-image-right {
   float: right;        /* Can be 'left' or 'right' */
   margin: 0 0 10px 20px; /* Adds space around the image so text doesn't touch it (top right bottom left) */
-  width: 200px;       /* Set a width so the text has room to wrap */
+  width: 300px;       /* Set a width so the text has room to wrap */
 }
 
 /* ============================================
@@ -1642,9 +2026,9 @@ main hr {
     padding: 6px;
     background: linear-gradient(
         135deg,
-        #24426c 0%,
-        #36a49f 50%,
-        #24426c 100%
+        #3D2E22 0%,
+        #EFBA7B 50%,
+        #558383 100%
     );
     background-size: 200% 200%;
     
@@ -1655,7 +2039,7 @@ main hr {
     */
     box-shadow: 
         0 8px 16px rgba(0, 0, 0, 0.15),
-        0 16px 32px rgba(36, 66, 108, 0.2);
+        0 16px 32px rgba(61, 46, 34, 0.2);
     
     /* Transição suave para todas as propriedades */
     transition: all 0.4s ease;
@@ -1681,7 +2065,7 @@ main hr {
     box-shadow: 
         0 4px 8px rgba(0, 0, 0, 0.2),
         0 12px 24px rgba(0, 0, 0, 0.15),
-        0 24px 48px rgba(54, 164, 159, 0.3);
+        0 24px 48px rgba(85, 131, 131, 0.3);
     
     /*
        ANIMAÇÃO DO GRADIENTE
@@ -1821,8 +2205,8 @@ main hr {
     */
     background: linear-gradient(
         to top,
-        rgba(36, 66, 108, 0.85) 0%,
-        rgba(36, 66, 108, 0.4) 60%,
+        rgba(61, 46, 34, 0.85) 0%,
+        rgba(61, 46, 34, 0.4) 60%,
         transparent 100%
     );
     
@@ -1963,13 +2347,13 @@ main hr {
 
 .site-footer {
     /*
-       BACKGROUND: #90b1de
+       BACKGROUND: #B3DEFA
        
        Fundo azul claro para contraste com os logos do DPF e da UFV.
        Pode usar #111111 para um preto "mais suave"
        se preferir.
     */
-    background: #90B1DE;
+    background: #B3DEFA;
     
     /* Cor do texto padrão no footer */
     color: #323232;
@@ -2331,9 +2715,9 @@ main hr {
     /* Fundo = gradiente que será a "moldura" */
     background: linear-gradient(
         135deg,
-        #24426c 0%,
-        #36a49f 50%,
-        #24426c 100%
+        #3D2E22 0%,
+        #EFBA7B 50%,
+        #558383 100%
     );
     background-size: 200% 200%;
 
@@ -2346,7 +2730,7 @@ main hr {
     /* Sombra inicial */
     box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.1),
-        0 8px 24px rgba(36, 66, 108, 0.15);
+        0 8px 24px rgba(61, 46, 34, 0.15);
 
     /* Transição suave para hover e expansão */
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2368,7 +2752,7 @@ main hr {
     transform: translateY(-4px);
     box-shadow: 
         0 8px 20px rgba(0, 0, 0, 0.15),
-        0 16px 40px rgba(36, 66, 108, 0.25);
+        0 16px 40px rgba(61, 46, 34, 0.25);
     animation: gradientShift 3s ease infinite;
 }
 
@@ -2400,7 +2784,7 @@ main hr {
     transform: translateY(-4px);
     box-shadow: 
         0 12px 30px rgba(0, 0, 0, 0.2),
-        0 24px 60px rgba(36, 66, 108, 0.3);
+        0 24px 60px rgba(61, 46, 34, 0.3);
     animation: gradientShift 3s ease infinite;
 }
 
@@ -2445,7 +2829,7 @@ main hr {
     /* Estilos de texto */
     font-size: 1.3rem;
     font-weight: 700;
-    color: #24426c;
+    color: #3D2E22;
     margin: 0;
 
     /* Trunca texto longo com reticências */
@@ -2481,14 +2865,14 @@ main hr {
 }
 
 .event-card-toggle:hover {
-    background: rgba(36, 66, 108, 0.1);
+    background: rgba(61, 46, 34, 0.1);
 }
 
 /* Ícone SVG da seta */
 .event-card-toggle svg {
     width: 20px;
     height: 20px;
-    color: #24426c;
+    color: #3D2E22;
 
     /* Transição de rotação suave */
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2905,7 +3289,7 @@ main hr {
 
 /* Títulos dentro do card — menores que os do main */
 .event-card-content h1 {
-    color: #24426c;
+    color: #3D2E22;
     font-size: 1.5rem;      /* menor que o 2rem do main */
     font-weight: 700;
     margin-bottom: 0.8rem;
@@ -2915,7 +3299,7 @@ main hr {
 }
 
 .event-card-content h2 {
-    color: #36a49f;
+    color: #B3651F;
     font-size: 1.15rem;     /* menor que o 1.3rem do main */
     font-weight: 600;
     margin-top: 1.2rem;
@@ -2938,19 +3322,20 @@ main hr {
 .event-card-content strong,
 .event-card-content b {
     font-weight: 700;
-    color: #24426c;
+    color: #3D2E22;
 }
 
 /* Links dentro do card */
 .event-card-content a {
-    color: #24426c;
-    text-decoration: none;
+    color: #B3651F;
+    text-decoration: underline;
+    text-decoration-color: rgba(179, 101, 31, 0.4);
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .event-card-content a:hover {
-    color: #36a49f;
+    color: #558383;
 }
 
 /* Listas dentro do card */
@@ -2973,7 +3358,7 @@ main hr {
     background: linear-gradient(
         to right,
         transparent,
-        #36a49f,
+        #EFBA7B,
         transparent
     );
     margin: 1.5rem 0;
@@ -3036,4 +3421,503 @@ main hr {
 
     /* Espaçamento interno */
     padding: 0 8px;
+}
+
+/* ================================================================
+   PÁGINA: PROGRAMAÇÃO (programacao.html)
+   ================================================================
+
+   Tudo abaixo é usado exclusivamente em programacao.html: a
+   "planilha" de horários (duas tabelas, manhã e tarde/noite) e
+   a seção de palestrantes/mesas já revelados.
+
+   ESTADOS DE CADA CÉLULA DA PLANILHA
+
+   Como nem todo mundo já foi anunciado, cada célula de evento
+   (Palestra, Mesa Redonda, Apresentação de Trabalho, Minicurso,
+   Coffee Break) pode estar em um de três "estados" visuais:
+
+   1) .schedule-cell--pending ("ainda será revelado"): Palestra,
+      Mesa Redonda e Minicurso, por enquanto — fundo no degradê
+      da marca, texto branco por cima.
+
+   2) .schedule-cell--revealed ("já revelado", mesmo sem
+      palestrante definido): Coffee Break e Apresentação de
+      Trabalho — fundo branco, texto no degradê (não é o TIPO de
+      evento que muda de sala/palestrante, então já contamos como
+      certo).
+
+   3) .schedule-cell--info: itens fixos de logística que não têm
+      "revelação" nenhuma (Credenciamento, Cerimônia de Abertura,
+      Encerramento) — um terceiro estilo neutro, só pra não
+      confundir com os dois estados acima.
+
+   Há ainda .schedule-cell--empty para horários sem nenhum evento
+   naquele dia específico.
+   ================================================================ */
+
+/*
+   ÂNCORA "VOLTAR PARA A PLANILHA"
+
+   Este id fica no início da seção de programação (antes da
+   primeira tabela). O botão flutuante no fim da página (ver
+   .back-to-top-button, mais abaixo) rola suavemente até aqui
+   quando clicado — veja main.js, Seção 10.
+*/
+#planilha {
+    /*
+       SCROLL-MARGIN-TOP
+
+       Sem isso, ao pular para #planilha (seja pelo botão de
+       voltar ao topo, seja por um link com #planilha na URL),
+       o navbar fixo (70px) ficaria SOBRE o início da seção,
+       cobrindo o título. scroll-margin-top cria uma "folga"
+       antes do alvo do scroll, exatamente como o
+       --navbar-safe-area já faz para as páginas internas.
+    */
+    scroll-margin-top: var(--navbar-safe-area);
+}
+
+/*
+   FAIXA DO INTERVALO DE ALMOÇO
+
+   Não é uma linha dentro de nenhuma das tabelas — é o MESMO
+   horário para os 3 dias, então faz mais sentido como uma
+   faixa única entre a tabela da manhã e a da tarde/noite,
+   marcando visualmente a pausa, em vez de repetir "ALMOÇO"
+   em 3 colunas.
+*/
+.schedule-break {
+    text-align: center;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+
+    padding: 16px 20px;
+    margin: 30px 0;
+    border-radius: 12px;
+
+    background: var(--color-bg-dark);
+
+    /* Mesma técnica de "borda no degradê" usada nas células da
+       planilha (ver .schedule-cell) — border-image aplica um
+       gradiente real à borda, ao contrário de várias camadas de
+       box-shadow (que criam discos cheios, não bordas/anéis). */
+    border: 3px solid transparent;
+    border-image: var(--gradient-readable) 1;
+}
+
+/*
+   CONTAINER COM ROLAGEM HORIZONTAL
+
+   Ainda que o foco do site seja desktop, uma tabela de 4
+   colunas pode não caber em janelas mais estreitas. Este
+   wrapper permite rolar SÓ a tabela horizontalmente nesses
+   casos, em vez de quebrar o layout da página inteira.
+*/
+.schedule-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/*
+   LEGENDA DE CORES
+
+   Explica rapidamente o que cada estado de célula significa,
+   antes do usuário encontrar a primeira tabela.
+*/
+.schedule-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 10px 0 28px;
+    font-size: 0.85rem;
+    color: #3D2E22;
+}
+
+.schedule-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.schedule-legend-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    border-image: var(--gradient-readable) 1;
+}
+
+.schedule-legend-swatch--pending {
+    background: var(--gradient-readable);
+}
+
+.schedule-legend-swatch--revealed {
+    background: #ffffff;
+}
+
+.schedule-legend-swatch--info {
+    background: var(--color-neutral-warm);
+    border-image: none;
+    border-color: var(--color-neutral-warm);
+}
+
+/*
+   A TABELA EM SI
+
+   Usamos <table> de verdade (não uma grade de <div>s) porque
+   isso É uma tabela de dados (horário × dia), e <table> dá de
+   graça a navegação e leitura correta por leitores de tela
+   (célula de cabeçalho associada à célula de dados). O visual
+   de "cards coloridos" vem só do CSS nas células.
+*/
+.schedule-table {
+    width: 100%;
+
+    /*
+       BORDER-COLLAPSE: SEPARATE + BORDER-SPACING
+
+       Por padrão, tabelas "colam" as bordas das células
+       vizinhas (collapse). Aqui queremos o oposto: um respiro
+       entre as células, para cada uma parecer mesmo um "card"
+       independente, como uma planilha de verdade.
+    */
+    border-collapse: separate;
+    border-spacing: 8px;
+
+    /* Centraliza o texto de todas as células por padrão */
+    text-align: center;
+}
+
+/*
+   LEGENDA DA TABELA ("Manhã" / "Tarde e Noite")
+
+   <caption> é o título semanticamente correto para uma
+   <table> — leitores de tela anunciam o texto ANTES de entrar
+   na tabela, dizendo ao usuário o que ele está prestes a ouvir.
+*/
+.schedule-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3D2E22;
+    margin-bottom: 14px;
+}
+
+/* Célula vazia no canto superior esquerdo (acima da coluna de
+   horários, à esquerda dos cabeçalhos de dia) */
+.schedule-corner {
+    background: transparent;
+}
+
+/*
+   CABEÇALHO DE CADA DIA (19/08, 20/08, 21/08)
+*/
+.schedule-day-header {
+    background: var(--gradient-readable);
+    color: #ffffff;
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* Nome do dia da semana (ex: "Quarta-feira") — menor e mais
+   discreto que a data, só para dar contexto */
+.schedule-day-weekday {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 2px;
+}
+
+/* Data (ex: "19/08/2026") — o dado principal do cabeçalho */
+.schedule-day-date {
+    display: block;
+    font-size: 1.05rem;
+}
+
+/*
+   COLUNA DE HORÁRIOS (célula <th scope="row"> de cada linha)
+
+   Fica visualmente diferente das células de evento — é só um
+   RÓTULO (o horário), não um evento em si.
+*/
+.schedule-time {
+    background: var(--color-bg-light);
+    color: #3D2E22;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 12px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+
+    /* Mesma borda no degradê usada nas células de evento — veja
+       .schedule-cell para a explicação completa da técnica */
+    border: 3px solid transparent;
+    border-image: var(--gradient-readable) 1;
+}
+
+/*
+   CÉLULA DE EVENTO — BASE COMPARTILHADA
+
+   .schedule-cell--pending / --revealed / --info / --empty (mais
+   abaixo) mudam cor de fundo e de texto; esta regra aqui cuida
+   do que é igual entre todas: tamanho, cantos arredondados,
+   espaçamento e a borda no degradê da marca.
+*/
+.schedule-cell {
+    padding: 14px 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    vertical-align: middle;
+
+    /*
+       BORDER-IMAGE: A "DIVISÓRIA NO DEGRADÊ"
+
+       border-image aplica um gradiente DE VERDADE à borda de
+       um elemento retangular (ao contrário de box-shadow
+       empilhado, que cria discos cheios — mesmo problema que
+       já tivemos com os círculos decorativos do <main>). O "1"
+       no final é o "slice": divide a imagem/gradiente em fatias
+       e usa uma fatia para cada lado da borda.
+    */
+    border: 3px solid transparent;
+    border-image: var(--gradient-readable) 1;
+
+    /* Transição suave para quando a célula virar interativa
+       (ver .schedule-cell--clickable, mais abaixo) */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Categoria do evento (ex: "PALESTRA", "MESA REDONDA") */
+.schedule-cell-category {
+    display: block;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Linha secundária, menor — usada para um tema já definido
+   (ex: "Comemoração 10 anos de CAFís") ou um sub-horário
+   (ex: "19h00 – 19h30" dentro do Encerramento) */
+.schedule-cell-theme {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+/*
+   ESTADO 1: "AINDA SERÁ REVELADO"
+   Palestra, Mesa Redonda, Minicurso (por enquanto)
+*/
+.schedule-cell--pending {
+    background: var(--gradient-readable);
+    color: #ffffff;
+
+    /* Reforça a legibilidade do texto branco sobre a faixa
+       mais clara do degradê (o laranja no meio) */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+/*
+   ESTADO 2: "JÁ REVELADO"
+   Coffee Break e Apresentação de Trabalho
+
+   Aqui o fundo é branco; é o TEXTO que usa o degradê, via
+   background-clip: text (o span .schedule-cell-label--gradient
+   vira uma "janela" que só deixa aparecer a parte do gradiente
+   por trás de onde há caracteres).
+*/
+.schedule-cell--revealed {
+    background: #ffffff;
+}
+
+.schedule-cell-label--gradient {
+    background: var(--gradient-readable);
+
+    /* -webkit-background-clip existe por compatibilidade;
+       background-clip: text é o padrão atual */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* Torna o texto em si transparente, revelando o gradiente
+       "atrás" dele (que só aparece dentro do contorno das
+       letras, graças ao background-clip: text acima) */
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    font-weight: 700;
+}
+
+/*
+   ESTADO 3: INFORMATIVO
+   Credenciamento, Cerimônia de Abertura, Encerramento — itens
+   fixos de logística, sem "revelação" nenhuma pendente.
+*/
+.schedule-cell--info {
+    background: var(--color-neutral-warm);
+    color: #ffffff;
+    font-style: italic;
+}
+
+/*
+   HORÁRIO SEM EVENTO NAQUELE DIA
+*/
+.schedule-cell--empty {
+    background: transparent;
+    border: 2px dashed rgba(61, 46, 34, 0.15);
+    border-image: none;
+}
+
+/*
+   PREPARO PARA QUANDO A PLANILHA FICAR INTERATIVA
+
+   Hoje, NENHUMA célula tem esta classe (ainda não há
+   palestrante nenhum revelado para linkar). Quando um
+   Palestra/Mesa Redonda/Minicurso for confirmado:
+
+   1) Troque a <td> daquele evento para conter um <a> em vez de
+      só texto solto — algo como:
+
+        <td class="schedule-cell schedule-cell--revealed">
+            <a href="#fulano-de-tal" class="schedule-cell-link schedule-cell--clickable">
+                <span class="schedule-cell-label--gradient schedule-cell-category">PALESTRA</span>
+                <span class="schedule-cell-theme">Nome do tema</span>
+            </a>
+        </td>
+
+   2) Troque a classe de --pending para --revealed (a
+      informação deixou de ser "a definir").
+
+   3) Adicione id="fulano-de-tal" na seção correspondente do
+      palestrante, lá embaixo (ver .speaker-entry).
+
+   Esta classe já deixa pronto o efeito de hover/foco — é só
+   usar.
+*/
+.schedule-cell--clickable {
+    cursor: pointer;
+}
+
+.schedule-cell--clickable:hover,
+.schedule-cell--clickable:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(61, 46, 34, 0.25);
+    outline: none;
+}
+
+/* Um link dentro de uma célula não deve parecer um link de
+   texto comum (sem sublinhado, herdando a cor do pai) */
+.schedule-cell-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ================================================================
+   SEÇÃO: PALESTRANTES E MESAS REVELADOS
+   ================================================================
+
+   Cada palestrante/mesa revelado vira um ".speaker-entry": foto
+   com wrapped-image-left/right (a mesma técnica já usada na
+   seção "História" da página inicial, alternando lado a cada
+   entrada), <h1> com o tema da palestra/mesa e <h2> com o(s)
+   nome(s) do(s) palestrante(s), seguidos de uma breve bio.
+   ================================================================ */
+
+.speaker-entry {
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 2px solid rgba(61, 46, 34, 0.12);
+}
+
+/* Última entrada não precisa de linha divisória embaixo */
+.speaker-entry:last-of-type {
+    border-bottom: none;
+}
+
+/* Rótulo pequeno acima do <h1>, indicando o tipo de sessão
+   (ex: "MESA REDONDA", "PALESTRA") */
+.speaker-kicker {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
+    background: var(--color-bg-dark);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 0.5rem;
+}
+
+/* ================================================================
+   BOTÃO "VOLTAR PARA A PLANILHA"
+   ================================================================
+
+   Botão circular flutuante, fixo no canto inferior direito da
+   tela. Fica invisível até o usuário rolar a página um pouco
+   (ver main.js, Seção 10) — não faz sentido oferecer "voltar
+   para cima" quando já se está no topo.
+   ================================================================ */
+
+.back-to-top-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 900;
+
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+
+    background: var(--gradient-readable);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(61, 46, 34, 0.35);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /*
+       ESCONDIDO POR PADRÃO
+
+       opacity + visibility (não só opacity) para que o botão,
+       quando invisível, também não capture cliques nem fique
+       "no caminho" do teclado (Tab) — mesmo motivo pelo qual
+       .dropdown-menu no navbar usa essa dupla.
+    */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+
+    transition: opacity 0.3s ease, visibility 0.3s ease,
+                transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Classe adicionada pelo JavaScript depois de rolar a página */
+.back-to-top-button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top-button:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 8px 22px rgba(61, 46, 34, 0.45);
+}
+
+.back-to-top-button svg {
+    width: 22px;
+    height: 22px;
+    color: #ffffff;
 }

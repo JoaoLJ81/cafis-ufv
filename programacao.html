@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<!-- 
+   HTML LANG="PT-BR"
+   
+   Define o idioma principal da página como Português do Brasil.
+   Isso é importante para:
+   - Leitores de tela (acessibilidade)
+   - Tradutores automáticos do navegador
+   - SEO (motores de busca)
+-->
+<html lang="pt-BR">
+    <head>
+        <!-- 
+           META CHARSET="UTF-8"
+           
+           Define a codificação de caracteres como UTF-8.
+           UTF-8 suporta praticamente todos os caracteres do mundo,
+           incluindo acentos (á, é, í, ó, ú, ç, etc.).
+        -->
+        <meta charset="utf-8">
+        
+        <!-- 
+           META VIEWPORT
+           
+           Essencial para sites responsivos (mobile).
+           - width=device-width = largura igual à tela do dispositivo
+           - initial-scale=1 = zoom inicial de 100%
+           
+           Sem isso, o site aparece "miniaturizado" no celular.
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="main.css" rel="stylesheet">
+
+        <title>VIII Semana Acadêmica de Física</title>
+
+    </head>
+    <body class="page-interna">
+
+        <!-- 
+           ========================================
+           NAVBAR FIXO NO TOPO
+           ========================================
+           
+           O navbar está DIRETAMENTE no <body>, fora de qualquer
+           section. Isso é importante porque ele será "fixed"
+           (fixo) e precisa estar no fluxo principal da página.
+           
+           A classe "navbar" identifica este elemento para o CSS.
+           A classe "sticky" será adicionada/removida pelo JS
+           quando houver scroll (para adicionar sombra).
+        -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                
+                <!-- 
+                   LOGO DO NAVBAR (mini)
+                   
+                   Adicionei um logo pequeno à esquerda do menu.
+                   Isso é uma sugestão de usabilidade: o usuário
+                   sempre sabe onde clicar para voltar à home.
+                   
+                   Quando você tiver a imagem real, substitua o texto.
+                -->
+                <a href="index.html" class="nav-logo">
+                    <img src="imagens/Titulo_SF_2.png" alt="Logo inteira SEAFís" class="nav-logo-image">
+                </a>
+
+                <!-- 
+                   LISTA PRINCIPAL DE NAVEGAÇÃO
+                   
+                   UL.NAV-LIST = container dos itens do menu
+                -->
+                <ul class="nav-list">
+                    
+                    <!-- 
+                       ITEM SIMPLES (sem dropdown)
+                       
+                       A classe "active" indica a página atual.
+                       Por enquanto deixei no "Início".
+                    -->
+                    <li class="nav-item active">
+                        <a href="index.html" class="nav-link">Início</a>
+                    </li>
+                    
+                    <!-- 
+                       Item simples
+                    -->
+                    <li class="nav-item">
+                        <a href="programacao.html" class="nav-link">Programação</a>
+                    </li>
+                
+                    <!-- Itens simples -->
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Inscrições</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Workchopp</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        
+        <!-- 
+           ========================================
+           MAIN (conteúdo principal)
+           ========================================
+        -->
+        <main>
+            <!--
+               CÍRCULOS DECORATIVOS (fundo temático, sem conteúdo)
+
+               Puramente visual — emulam os anéis concêntricos da logo
+               (imagens/Titulo_SF_2.png) atrás do texto. Dois grupos,
+               para cobrir mais da página: um mais acima/à direita,
+               outro mais abaixo/à esquerda. Dentro de cada grupo, 3
+               anéis independentes (cada um com seu próprio tracejado,
+               de propósito diferente entre si). Estilizados em
+               main.css, nas regras .content-circles(-ring) e seus
+               modificadores. aria-hidden="true" diz a leitores de
+               tela para ignorar estes elementos.
+            -->
+            <div class="content-circles content-circles--top-right" aria-hidden="true">
+                <span class="content-circles-ring content-circles-ring--1"></span>
+                <span class="content-circles-ring content-circles-ring--2"></span>
+                <span class="content-circles-ring content-circles-ring--3"></span>
+            </div>
+            <div class="content-circles content-circles--bottom-left" aria-hidden="true">
+                <span class="content-circles-ring content-circles-ring--1"></span>
+                <span class="content-circles-ring content-circles-ring--2"></span>
+                <span class="content-circles-ring content-circles-ring--3"></span>
+            </div>
+
+            <!--
+               ========================================
+               PLANILHA DE HORÁRIOS
+               ========================================
+
+               id="planilha" é o alvo do botão "voltar para a
+               planilha" lá no fim da página (ver
+               .back-to-top-button e main.js, Seção 10).
+
+               Dividida em DUAS tabelas (manhã / tarde e noite)
+               em vez de uma só, cortando exatamente no horário
+               de almoço — assim cada tabela fica menor e mais
+               fácil de ler em janelas mais estreitas, sem
+               precisar de regras de responsividade específicas
+               para celular (fora do escopo por enquanto).
+            -->
+            <section id="planilha">
+                <h1>Programação</h1>
+
+                <p>
+                    Os palestrantes e temas específicos ainda estão sendo
+                    confirmados e divulgados aos poucos. Por enquanto, a
+                    planilha abaixo mostra QUAIS horários terão Palestra,
+                    Mesa Redonda, Apresentação de Trabalho, Minicurso ou
+                    Coffee Break — assim que um palestrante for confirmado,
+                    o card correspondente muda de cor e a descrição completa
+                    aparece na seção de palestrantes revelados, mais abaixo.
+                </p>
+
+                <!--
+                   LEGENDA DE CORES
+
+                   Ajuda o visitante a entender o "código de cores" da
+                   planilha antes de encontrar a primeira tabela.
+                -->
+                <ul class="schedule-legend">
+                    <li>
+                        <span class="schedule-legend-swatch schedule-legend-swatch--pending" aria-hidden="true"></span>
+                        A definir (palestrante em breve)
+                    </li>
+                    <li>
+                        <span class="schedule-legend-swatch schedule-legend-swatch--revealed" aria-hidden="true"></span>
+                        Confirmado
+                    </li>
+                    <li>
+                        <span class="schedule-legend-swatch schedule-legend-swatch--info" aria-hidden="true"></span>
+                        Programação geral
+                    </li>
+                </ul>
+
+                <!--
+                   ========================================
+                   TABELA 1: MANHÃ (08h00 – 12h30)
+                   ========================================
+                -->
+                <div class="schedule-table-wrapper">
+                    <table class="schedule-table">
+                        <caption>Manhã</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="schedule-corner">Horário</th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Quarta-feira</span>
+                                    <span class="schedule-day-date">19/08/2026</span>
+                                </th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Quinta-feira</span>
+                                    <span class="schedule-day-date">20/08/2026</span>
+                                </th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Sexta-feira</span>
+                                    <span class="schedule-day-date">21/08/2026</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="schedule-time">08h00 – 09h00</th>
+                                <td class="schedule-cell schedule-cell--info">Credenciamento</td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">09h00 – 09h30</th>
+                                <td class="schedule-cell schedule-cell--info">Cerimônia de Abertura</td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">09h30 – 10h00</th>
+                                <td class="schedule-cell schedule-cell--empty"></td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">10h00 – 11h00</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">11h00 – 12h30</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                    <span class="schedule-cell-theme">Comemoração 10 anos de CAFís</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Faixa de almoço: mesmo horário para os 3 dias, por
+                     isso é uma faixa só, não uma linha da tabela -->
+                <p class="schedule-break">Intervalo de Almoço — 12h30 às 14h00</p>
+
+                <!--
+                   ========================================
+                   TABELA 2: TARDE E NOITE (14h00 – 19h30)
+                   ========================================
+                -->
+                <div class="schedule-table-wrapper">
+                    <table class="schedule-table">
+                        <caption>Tarde e Noite</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="schedule-corner">Horário</th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Quarta-feira</span>
+                                    <span class="schedule-day-date">19/08/2026</span>
+                                </th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Quinta-feira</span>
+                                    <span class="schedule-day-date">20/08/2026</span>
+                                </th>
+                                <th scope="col" class="schedule-day-header">
+                                    <span class="schedule-day-weekday">Sexta-feira</span>
+                                    <span class="schedule-day-date">21/08/2026</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="schedule-time">14h00 – 15h00</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">15h00 – 15h30</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">15h30 – 16h00</th>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">APRESENTAÇÃO DE TRABALHO</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">APRESENTAÇÃO DE TRABALHO</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">16h00 – 16h30</th>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">COFFEE BREAK</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--empty"></td>
+                                <td class="schedule-cell schedule-cell--empty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">16h30 – 17h30</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                    <span class="schedule-cell-theme">Ciência, Brasil e Educação</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">17h30 – 19h30</th>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">MINICURSO</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--info">
+                                    <span class="schedule-cell-category">ENCERRAMENTO</span>
+                                    <span class="schedule-cell-theme">19h00 – 19h30</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <hr>
+
+            <!--
+               ========================================
+               PALESTRANTES E MESAS REVELADOS
+               ========================================
+
+               Fica vazia por enquanto (nenhum palestrante
+               confirmado ainda). Conforme forem sendo revelados,
+               duplique o modelo comentado logo abaixo para cada
+               um — ele já vem com a estrutura pedida: foto com
+               wrapped-image (alternando left/right a cada nova
+               entrada), <h1> com o tema e <h2> com o(s) nome(s).
+            -->
+            <section class="speakers-section" id="palestrantes">
+                <h1>Palestrantes e Mesas Reveladas</h1>
+
+                <p>
+                    Conforme os palestrantes e temas forem confirmados,
+                    você encontrará aqui o tema da palestra ou mesa
+                    redonda, uma breve biografia e a foto de cada
+                    convidado. Fique de olho nas nossas redes sociais
+                    para acompanhar as revelações!
+                </p>
+
+                <!--
+                   MODELO — DUPLIQUE PARA CADA PALESTRANTE REVELADO
+
+                   Passo a passo, quando uma palestra/mesa for confirmada:
+
+                   1) Copie um dos dois blocos comentados abaixo (o da
+                      esquerda ou o da direita — ALTERNE a cada nova
+                      entrada, para o texto ir "serpenteando" entre as
+                      fotos, em vez de todas do mesmo lado).
+                   2) Remova os marcadores de comentário HTML
+                      ao redor do bloco copiado.
+                   3) Troque o id, a foto, o tema (h1), o(s) nome(s) (h2)
+                      e a biografia.
+                   4) Na planilha acima, troque a célula correspondente
+                      de "schedule-cell--pending" para "schedule-cell--revealed"
+                      e envolva o conteúdo dela em um link para o id que
+                      você criou aqui (veja o comentário completo na
+                      regra .schedule-cell--clickable, em main.css).
+
+                <div class="speaker-entry" id="exemplo-mesa-redonda">
+                    <span class="speaker-kicker">MESA REDONDA</span>
+                    <h1>Tema da mesa redonda ou palestra</h1>
+                    <h2>Nome do(s) Palestrante(s)</h2>
+                    <div class="container">
+                        <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="wrapped-image-left">
+                        <p>
+                            Breve biografia e trajetória acadêmica/profissional
+                            do(a) palestrante, destacando a relação com o tema
+                            da palestra ou mesa redonda.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="speaker-entry" id="exemplo-palestra">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Outro tema de palestra</h1>
+                    <h2>Nome do(a) Palestrante</h2>
+                    <div class="container">
+                        <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="wrapped-image-right">
+                        <p>
+                            Breve biografia e trajetória acadêmica/profissional
+                            do(a) palestrante, destacando a relação com o tema
+                            da palestra.
+                        </p>
+                    </div>
+                </div>
+                -->
+            </section>
+
+        </main>
+
+        <!-- 
+           ========================================
+           FOOTER (RODAPÉ)
+           ========================================
+           
+           O <footer> contém informações de rodapé:
+           contato, links úteis, apoiadores, etc.
+           
+           Fundo preto com duas seções lado a lado.
+        -->
+        <footer class="site-footer">
+            
+            <!-- 
+               CONTAINER DO FOOTER
+               
+               Centraliza o conteúdo e limita a largura máxima,
+               similar ao navbar.
+            -->
+            <div class="footer-container">
+                
+                <!-- 
+                   =====================================
+                   SEÇÃO ESQUERDA: CONTATO
+                   =====================================
+                   
+                   Contém email e Instagram do CAFIS.
+                   Alinhada à esquerda do footer.
+                -->
+                <div class="footer-section footer-contact">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Contato:</h3>
+                    
+                    <!-- 
+                       LISTA DE CONTATOS
+                       
+                       UL sem bullets, com ícones + texto.
+                    -->
+                    <ul class="contact-list">
+                        
+                        <!-- 
+                           ITEM DE EMAIL
+                           
+                           Ícone de carta (SVG) + endereço de email.
+                           O link usa "mailto:" para abrir o cliente de email.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DE EMAIL (SVG)
+                               
+                               Desenho de um envelope/carta.
+                               stroke-linecap="round" deixa as pontas arredondadas.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Retângulo do envelope -->
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <!-- Linha do "V" da aba -->
+                                <polyline points="22,4 12,14 2,4"></polyline>
+                            </svg>
+                            
+                            <!-- 
+                               LINK MAILTO
+                               
+                               HREF="MAILTO:EMAIL@EXEMPLO.COM"
+                               
+                               Quando clicado, abre o aplicativo de email
+                               padrão do usuário com um novo email
+                               pré-endereçado.
+                            -->
+                            <a href="mailto:cafis@ufv.br" class="contact-link">cafis@ufv.br</a>
+                        </li>
+                        
+                        <!-- 
+                           ITEM DO INSTAGRAM
+                           
+                           Ícone do Instagram (SVG) + @ do perfil.
+                           Link externo que abre em nova aba.
+                        -->
+                        <li class="contact-item">
+                            <!-- 
+                               ÍCONE DO INSTAGRAM (SVG)
+                               
+                               Desenho da câmera do Instagram.
+                            -->
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- Corpo da câmera (retângulo com cantos arredondados) -->
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <!-- Lente (círculo central) -->
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <!-- Flash (ponto superior direito) -->
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            
+                            <!-- 
+                               LINK EXTERNO
+                               
+                               TARGET="_BLANK" = abre em nova aba do navegador
+                               REL="NOOPENER NOREFERRER" = segurança para links externos
+                               
+                               Sem target="_blank", o link abre na mesma aba,
+                               fazendo o usuário sair do seu site.
+                            -->
+                            <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 
+                   =====================================
+                   SEÇÃO DIREITA: APOIO
+                   =====================================
+                   
+                   Contém logos dos apoiadores.
+                   Alinhada à direita do footer.
+                -->
+                <div class="footer-section footer-support">
+                    
+                    <!-- Título da seção -->
+                    <h3 class="footer-title">Apoio:</h3>
+                    
+                    <!-- 
+                       CONTAINER DOS LOGOS
+                       
+                       Flexbox para alinhar os logos lado a lado.
+                    -->
+                    <div class="support-logos">
+                        
+                        <!-- 
+                           LOGO DA UFV
+                           
+                           Link clicável que leva ao site da UFV.
+                           A imagem será estilizada pelo CSS.
+                        -->
+                        <a href="https://www.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site da UFV">
+                            <img src="imagens/logo_UFV.png" alt="Logo da Universidade Federal de Viçosa" class="support-logo logo-ufv">
+                        </a>
+                        
+                        <!-- Logo do Departamento de Física -->
+                        <a href="https://www.dpf.ufv.br/" target="_blank" rel="noopener noreferrer" class="support-link" aria-label="Site do Departamento de Física">
+                            <img src="imagens/logo_DPF.png" alt="Logo do Departamento de Física" class="support-logo logo-dpf">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 
+               LINHA DE COPYRIGHT
+               
+               Barra inferior com informação de copyright.
+            -->
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 Centro Acadêmico de Física - UFV. Todos os direitos reservados.</p>
+            </div>
+
+        </footer>
+
+        <!--
+           BOTÃO "VOLTAR PARA A PLANILHA"
+
+           Fica escondido até o usuário rolar a página (ver
+           main.js, Seção 10, que adiciona/remove a classe
+           "visible" conforme o scroll). Ao clicar, rola
+           suavemente até #planilha (o início da seção de
+           programação, lá em cima).
+
+           Fica fora do <footer> e do <main> de propósito: é um
+           elemento "flutuante" (position: fixed em main.css),
+           então sua posição no HTML não importa para o layout —
+           só precisa existir em algum lugar do <body>.
+        -->
+        <button id="back-to-top" class="back-to-top-button" aria-label="Voltar para a planilha de horários">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+
+        <!--
+           SCRIPT SRC="MAIN.JS"
+           
+           Conecta o arquivo JavaScript à página.
+           É colocado no FINAL do <body> para garantir que
+           todo o HTML já foi carregado antes do JS executar.
+        -->
+        <script src="main.js"></script>
+    </body>
+</html>

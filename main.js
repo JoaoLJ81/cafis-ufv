@@ -22,6 +22,12 @@
 // 5. HIGHLIGHT DO MENU ATIVO
 //    - Marca o item do menu correspondente à página atual
 //
+// 6. CÍRCULOS DECORATIVOS — ROTAÇÃO NO SCROLL
+//    - Gira os anéis de fundo conforme a página é rolada
+//
+// 7. BOTÃO "VOLTAR PARA A PLANILHA" (programacao.html)
+//    - Aparece depois de rolar a página, rola suavemente de volta
+//
 // ============================================
 
 //
@@ -692,6 +698,91 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-});
+    // ==========================================
+    // SEÇÃO 9: CÍRCULOS DECORATIVOS — ROTAÇÃO NO SCROLL
+    // ==========================================
+    //
+    // As .content-circles (definidas em main.css) são a "marca
+    // d'água" de anéis concêntricos atrás do texto do <main>. Para
+    // dar mais vida a elas, giramos os anéis conforme o usuário
+    // rola a página — como se fossem órbitas de um átomo em
+    // movimento, reforçando o tema científico da logo.
+    //
+    // Um detalhe importante: um círculo com anéis totalmente
+    // sólidos é SIMÉTRICO, então girá-lo não muda nada visualmente
+    // (todo ângulo parece igual ao anterior). Por isso, no CSS,
+    // os anéis são "tracejados" via mask-image (repeating-conic-
+    // -gradient) — isso quebra a simetria, e agora a rotação
+    // realmente aparece.
+    //
+    // A ideia é simples: a cada evento de scroll, lemos quantos
+    // pixels a página rolou (window.scrollY) e transformamos esse
+    // valor em um ângulo de rotação. Como scrollY pode chegar a
+    // milhares de pixels, multiplicamos por um fator bem pequeno
+    // para que a rotação seja lenta e suave, não uma coisa girando
+    // loucamente.
+    //
+    // Cada um dos dois círculos gira com uma velocidade e um
+    // SENTIDO diferente (um multiplicador positivo, outro
+    // negativo) — como duas órbitas independentes, em vez de
+    // girarem sempre juntas e iguais. Isso dá uma sensação de
+    // profundidade/paralaxe ao rolar a página.
+    //
+    const rotatingCircles = [
+        { element: document.querySelector('.content-circles--top-right'), speed: 0.05 },
+        { element: document.querySelector('.content-circles--bottom-left'), speed: -0.08 }
+    ];
 
- 
+    window.addEventListener('scroll', function() {
+        rotatingCircles.forEach(function(circle) {
+            if (!circle.element) return;
+
+            const rotationAngle = window.scrollY * circle.speed;
+            circle.element.style.transform = 'rotate(' + rotationAngle + 'deg)';
+        });
+    });
+
+    // ==========================================
+    // SEÇÃO 10: BOTÃO "VOLTAR PARA A PLANILHA"
+    // ==========================================
+    //
+    // Só existe em programacao.html (o querySelector simplesmente
+    // não encontra nada nas outras páginas, e o "if" abaixo faz
+    // este bloco inteiro não fazer nada nesse caso — por isso dá
+    // pra manter este código aqui no main.js compartilhado, sem
+    // precisar de um arquivo .js separado só para esta página).
+    //
+
+    const backToTopButton = document.getElementById('back-to-top');
+
+    if (backToTopButton) {
+        // ----- MOSTRAR/ESCONDER CONFORME O SCROLL -----
+        //
+        // Mesmo padrão já usado na Seção 7 (sombra do navbar):
+        // abaixo de 300px de scroll, o botão fica escondido (não
+        // faz sentido oferecer "voltar" se o usuário já está perto
+        // do topo da página).
+        //
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // ----- CLIQUE: ROLAR SUAVEMENTE ATÉ A PLANILHA -----
+        //
+        // scrollIntoView com behavior: 'smooth' anima o scroll,
+        // em vez de "pular" instantaneamente — mesma técnica já
+        // usada para abrir os cards de eventos (initEventCard).
+        //
+        backToTopButton.addEventListener('click', function() {
+            const planilha = document.getElementById('planilha');
+            if (planilha) {
+                planilha.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+});

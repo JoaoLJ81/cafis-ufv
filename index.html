@@ -64,7 +64,7 @@
                    Quando você tiver a imagem real, substitua o texto.
                 -->
                 <a href="index.html" class="nav-logo">
-                    <img src="imagens/TItulo_SF_1.png" alt="Logo inteira SEAFís" class="nav-logo-image">
+                    <img src="imagens/Titulo_SF_2.png" alt="Logo inteira SEAFís" class="nav-logo-image">
                 </a>
 
                 <!-- 
@@ -85,40 +85,10 @@
                     </li>
                     
                     <!-- 
-                       ITEM COM DROPDOWN
-                       
-                       A classe "dropdown" no <li> indica que este
-                       item tem um submenu.
-                       
-                       Dentro do <a>, adicionamos um <span> com a
-                       seta ▼ para indicar visualmente que há submenu.
+                       Item simples
                     -->
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link">
-                            Programação
-                            <!-- 
-                               SETA PARA BAIXO
-                               
-                               Usamos um SVG inline para a seta.
-                               Isso garante que ela apareça igual
-                               em todos os navegadores.
-                            -->
-                            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </a>
-                        
-                        <!-- 
-                           SUBMENU (DROPDOWN)
-                           
-                           UL.DROPDOWN-MENU = container dos subitens
-                           Inicialmente invisível (controlado pelo CSS)
-                        -->
-                        <ul class="dropdown-menu">
-                            <li><a href="#" class="dropdown-link">Teste1</a></li>
-                            <li><a href="#" class="dropdown-link">Teste2</a></li>
-                            <li><a href="#" class="dropdown-link">Teste3</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a href="programacao.html" class="nav-link">Programação</a>
                     </li>
                 
                     <!-- Itens simples -->
@@ -191,8 +161,13 @@
                    Quando tiver a imagem do logo substituir o h1 por img
                 -->
                 <div class="logo-container">
+                    <!--
+                       Voltamos a ser um <img> comum. O ícone é recolorido
+                       de preto para branco via CSS (filter: brightness(0)
+                       invert(1) — veja main.css, regra .logo-container-image).
+                    -->
                     <img src="imagens/SemTextoSemFundo.png" alt="Logo simplificado SEAFís" class="logo-container-image">
-                    
+
                 </div>
 
                 <!-- 
@@ -278,6 +253,30 @@
            ========================================
         -->
         <main>
+            <!--
+               CÍRCULOS DECORATIVOS (fundo temático, sem conteúdo)
+
+               Puramente visual — emulam os anéis concêntricos da logo
+               (imagens/Titulo_SF_2.png) atrás do texto. Dois grupos,
+               para cobrir mais da página: um mais acima/à direita,
+               outro mais abaixo/à esquerda. Dentro de cada grupo, 3
+               anéis independentes (cada um com seu próprio tracejado,
+               de propósito diferente entre si). Estilizados em
+               main.css, nas regras .content-circles(-ring) e seus
+               modificadores. aria-hidden="true" diz a leitores de
+               tela para ignorar estes elementos.
+            -->
+            <div class="content-circles content-circles--top-right" aria-hidden="true">
+                <span class="content-circles-ring content-circles-ring--1"></span>
+                <span class="content-circles-ring content-circles-ring--2"></span>
+                <span class="content-circles-ring content-circles-ring--3"></span>
+            </div>
+            <div class="content-circles content-circles--bottom-left" aria-hidden="true">
+                <span class="content-circles-ring content-circles-ring--1"></span>
+                <span class="content-circles-ring content-circles-ring--2"></span>
+                <span class="content-circles-ring content-circles-ring--3"></span>
+            </div>
+
             <h1>Quem somos?</h1>
 
             <h2>O que é o CAFís?</h2>
@@ -307,47 +306,33 @@ promovidos.</p>
             <h1>História</h1>
 
             <div class="container">
-                <img src="https://placehold.co/400" alt="Primeira chapa" class="wrapped-image-right">
-                <p>Veniam excepteur incididunt quis eiusmod minim mollit. Ipsum veniam quis fugiat ex exercitation est voluptate. Eiusmod est tempor aliquip culpa nisi minim do dolor ad eiusmod nostrud.
+                <img src="imagens/primeira_chapa.JPG" alt="Primeira chapa do CAFís durante a realização do Dia Acadêmico." class="wrapped-image-right">
+                <p>O ano de 2015 marcou o retorno das atividades do Centro Acadêmico de Física após um período de inatividade que, infelizmente, não sabemos nem quanto tempo durou. Com um empurrão do professor Orlando e com a vontade de fazer a diferença, o corpo estudantil iniciou um novo capítulo para o CAFís.
 
-Sint labore ut pariatur dolore proident. Magna dolore irure duis exercitation non labore veniam aliquip ipsum consequat ea proident nisi ea. Qui exercitation esse incididunt laborum sit do id labore Lorem velit deserunt.
+                Um grande marco desse retorno foi a realização do <b>Dia Acadêmico da Física</b>, que futuramente iria se tornar a <b>Semana Acadêmica de Física</b>. O evento foi um sucesso, e a partir dele, o CAFís começou a se consolidar como uma entidade representativa dos estudantes do curso.</p>
 
-Duis cillum esse minim sunt irure ex officia excepteur ea. Do in exercitation nulla laborum non anim. Eu nulla proident nulla deserunt fugiat ea adipisicing. Laborum non velit occaecat tempor nulla dolor ea adipisicing laboris labore voluptate do. Eu eiusmod id sunt tempor irure sit anim officia exercitation nostrud. Deserunt non sint aute aliqua. Adipisicing nostrud consectetur proident tempor ullamco exercitation exercitation Lorem do.
+                <p>Desde o <b>Dia Acadêmico</b> muita coisa mudou, de lá para cá aconteceram 7 Semanas Acadêmicas, eventos de integração e atividades que fortaleceram a comunidade estudantil, eventos de apoio acadêmico para calouros, além da presença política do CAFís e de seus representados em todas as instâncias da universidade.</p>
 
-Sunt id excepteur occaecat consectetur et aliquip veniam adipisicing culpa. Nisi cupidatat eu quis culpa velit anim dolore commodo magna voluptate do. Qui tempor mollit anim velit nisi ut sint ullamco ut consectetur id exercitation. Veniam veniam amet quis velit. Lorem labore est non non voluptate non.
-
-Quis ex officia elit minim cillum in reprehenderit cupidatat excepteur enim ex excepteur. Cupidatat sint amet minim deserunt pariatur tempor magna. Ut mollit sunt ullamco est ut dolor.</p>
+                <p>Agora, em 2026, após 11 anos de contribuição para a comunidade estudantil, o CAFís retorna a seu principal evento para celebrar essa trajetória de alegrias, tristezas, aprendizados e muita luta. Celebraremos essa trajetória discutindo a Física e seu papel nas diferentes áreas do conhecimento, entendendo que a Física é a ciência mãe, capaz de dialogar com outras áreas para compreender o mundo e seus fenômenos.</p>
+                
             </div>
 
             <blockquote class="left">
                 <div class="container">
-                    <img src="https://placehold.co/200" alt="Milena" class="wrapped-image-left">
-                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
+                    <img src="imagens/henrique_perfil.jpeg" alt="Henrique Mota" class="wrapped-image-left">
+                        <p>Certa vez, ouvi de uma colega que parte da graça de se viver era, ao atravessar um lugar, mudar ao menos uma pedra de posição. A frase me marcou bastante.</p>
 
-Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
+                        <p>Na minha memória, o ano de 2014 foi bem difícil. Era meu primeiro ano de faculdade e eu sentia dificuldade em praticamente todas as matérias - nunca fui nenhum gênio, mas sempre tive boas notas na escola - ter ido mal em TODAS P1’s, mesmo estudando cerca de 8 horas por dia, era definitivamente algo novo. Para além de estar longe da família, todo o processo de se fazer novas amizades, de ser relembrado quase diariamente por colegas e professores que eu não era tão bom quanto acreditava, era exaustivo. Me aproximei de algumas pessoas rapidamente (algumas que mantenho contato até hoje, inclusive), mas eu sempre tinha esse sentimento de estar isolado num mar, onde cada um estava em sua própria bolha. Não sabia o que esperar dos próximos 2 ou 3 anos, quem diria dos próximos 5. Não conhecia ninguém que tivesse trilhado um caminho parecido com o meu, e só tinha contato com alguns poucos veteranos que haviam sido calouros no ano anterior. Todo esse mar de incertezas me deixava meio perdido.</p>
+
+                        <p>No ano de 2015, recebi "meus" calouros diretos - pessoas que definitivamente marcaram minha vida. Eles tinham as mesmas inquietações que eu (e muitos outros), mas diferente dos que antecederam eles, decidiram se movimentar. Ouvi falar de um grupo de astronomia amador e, algumas semanas depois, da possível formação de uma entidade para representar todos os alunos de física. A ideia me interessava. A possibilidade de poder engajar com todos estudantes que eu já conhecia, e com os que eu não conhecia, era muito interessante - imagina se um grupo de pessoas se juntassem para evitar que calouros (e veteranos) não se sentissem tão desamparados num curso que, por si só, já te desampara? Parecia ótimo.</p>
+
+                        <p>Não só parecia, como foi. Após um pequeno evento de 2 dias, a qual intitulamos <b>DIA ACADÊMICO DA FÍSICA</b> (sim, no singular - mesmo sendo dois!), criamos engajamento que, nos próximos anos, formou algo que realmente impactou a vida de todos aqueles que presenciaram. Não era só sobre organizar a Semana Acadêmica e integração entre alunos e professores, mas era também sobre zelar pelos interesses e demandas de todos os estudantes. Era, de alguma forma, tentar amortecer aquele sentimento de solidão e desespero que muitos de nós sentimos em nossos primeiros dias como universitários.</p>
+
+                        <p>Fizemos festas na casa de professores, convidamos professores de diferentes partes do Brasil para palestrar, mas principalmente, conseguimos aproximar os estudantes de física - um calouro tinha acesso a estudantes do mestrado no dia a dia. Ocupamos espaços nunca antes ocupados, como cadeira no colegiado e na comissão coordenadora do curso, e fizemos diferença na história do departamento.</p>
+
+                        <p>Sou muito grato por essa experiência, e sempre fico feliz e cheio de orgulho quando lembro de quantas coisas bacanas fizemos. Esse é um sentimento que encorajo todos a ter.</p>
                 </div>
-                
-                <cite>— Milena Lima Bispo</cite>
-            </blockquote>
-
-            <blockquote class="right">
-                <div class="container">
-                    <img src="https://placehold.co/200" alt="Henrique" class="wrapped-image-right">
-                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
-
-Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
-                </div>
-                <cite>— Henrique</cite>
-            </blockquote>
-
-            <blockquote class="left">
-                <div class="container">
-                    <img src="https://placehold.co/200" alt="Orlando" class="wrapped-image-left">
-                    <p>Exercitation ullamco eiusmod occaecat in laborum dolore. Lorem do veniam labore in occaecat exercitation ullamco officia voluptate. Ad voluptate consectetur excepteur aliquip commodo. Eu pariatur aliqua proident laborum dolor non labore proident nostrud non nostrud. Eu sint duis minim consectetur cillum cupidatat proident ullamco consectetur commodo laboris est duis culpa. Consequat id laborum excepteur aute tempor duis.
-
-Tempor proident cillum irure et consequat mollit incididunt aliquip excepteur. Velit ipsum sit nisi nostrud mollit nisi eiusmod proident fugiat laborum aliquip. Adipisicing esse sit labore reprehenderit fugiat mollit laboris eu nisi esse aliqua irure ad. Ex exercitation irure mollit duis reprehenderit cupidatat labore velit esse occaecat aute ad esse.</p>
-                </div>
-                <cite>— Orlando</cite>
+                <cite>— Henrique Mota (Presidente do CAFís 2015-2017)</cite>
             </blockquote>
         </main>
 
