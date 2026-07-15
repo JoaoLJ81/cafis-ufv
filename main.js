@@ -1,32 +1,32 @@
 // ============================================
-// MAIN.JS — Centro Acadêmico de Física (CAFIS)
+// MAIN.JS — SEAFís (Semana Acadêmica de Física) / CAFís
 // ============================================
 //
 // Este arquivo contém TODA a lógica JavaScript do site.
 // Ele é dividido em módulos funcionais:
 //
-// 1. CARROSSEL GENÉRICO (initCarousel)
-//    - Reutilizável para qualquer carrossel da página
-//    - Hero, wrapped, cards de eventos
+// 1. CARROSSEL DA HERO (initCarousel)
+//    - Troca automática de slides, com setas/indicadores/legenda
 //
-// 2. CARDS DE EVENTOS PASSADOS (initEventCard)
-//    - Expandir/colapsar ao clicar
-//    - Usa initCarousel para o carrossel interno
-//
-// 3. NAVEGAÇÃO POR TECLADO
+// 2. NAVEGAÇÃO POR TECLADO
 //    - Setas do teclado controlam o carrossel hero
 //
-// 4. NAVBAR — DETECÇÃO DE SCROLL
+// 3. NAVBAR — DETECÇÃO DE SCROLL
 //    - Adiciona sombra quando rola a página
 //
-// 5. HIGHLIGHT DO MENU ATIVO
+// 4. HIGHLIGHT DO MENU ATIVO
 //    - Marca o item do menu correspondente à página atual
 //
-// 6. CÍRCULOS DECORATIVOS — ROTAÇÃO NO SCROLL
-//    - Gira os anéis de fundo conforme a página é rolada
+// 5. CÍRCULOS DECORATIVOS
+//    - Monta os anéis de fundo em SVG (quantidade/espessura/raio
+//      meio aleatórios, com texto curvo "VIII SEAFís" em um deles)
+//    - Gira o conjunto conforme a página é rolada
 //
-// 7. BOTÃO "VOLTAR PARA A PLANILHA" (programacao.html)
+// 6. BOTÃO "VOLTAR AO TOPO" (todas as páginas)
 //    - Aparece depois de rolar a página, rola suavemente de volta
+//
+// 7. MENU HAMBÚRGUER (telas estreitas)
+//    - Abre/fecha o painel de navegação em telas abaixo de 768px
 //
 // ============================================
 
@@ -38,16 +38,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ==========================================
-    // SEÇÃO 1: CARROSSEL GENÉRICO (REUTILIZÁVEL)
+    // SEÇÃO 1: CARROSSEL DA HERO
     // ==========================================
     //
-    // A função initCarousel é o "coração" do sistema de carrosséis.
-    // Ela foi projetada para funcionar com QUALQUER estrutura de
-    // carrossel na página, desde que siga a convenção de classes.
-    //
-    // Isso evita código duplicado: em vez de ter uma função para
-    // o carrossel da hero, outra para os wrapped, outra para os
-    // cards... temos UMA ÚNICA função que serve para todos.
+    // initCarousel troca os slides automaticamente, com setas,
+    // indicadores (bolinhas) e legendas — usado hoje só pela hero
+    // de index.html (é a única página com carrossel), mas escrito
+    // de forma genérica (aceita qualquer seletor ou elemento) caso
+    // um segundo carrossel apareça no site no futuro.
     //
     // ==========================================
 
@@ -56,19 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // PARÂMETROS:
         //
         // containerOrSelector (string | Element)
-        //   - Se for string: um seletor CSS como '.hero' ou '#meu-carrossel'
+        //   - Se for string: um seletor CSS como '.hero'
         //   - Se for Element: um elemento DOM já selecionado
-        //   Isso dá flexibilidade: podemos passar tanto um seletor
-        //   quanto o elemento diretamente.
         //
         // options (objeto)
         //   Configurações opcionais:
         //   - autoPlayInterval: tempo entre slides em ms (padrão: 5000 = 5s)
         //   - transitionDuration: duração do fade em ms (padrão: 1000 = 1s)
-        //   - pauseOnHover: pausa o auto-play quando mouse entra (padrão: true)
-        //   - stopPropagation: evita que clique em setas/indicadores "suba"
-        //     para elementos pais (útil nos cards, para não expandir o card
-        //     ao clicar na seta do carrossel)
+        //   - pauseOnHover: pausa o auto-play quando o mouse entra (padrão: true)
         //
 
         // ----- PASSO 1: CONFIGURAÇÕES -----
@@ -82,8 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const config = Object.assign({
             autoPlayInterval: 5000,
             transitionDuration: 1000,
-            pauseOnHover: true,
-            stopPropagation: false
+            pauseOnHover: true
         }, options || {});
         //
         // O "|| {}" garante que se options for undefined/null, usamos
@@ -112,34 +104,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!container) return;
 
         // ----- PASSO 3: SELECIONAR ELEMENTOS INTERNOS -----
-        //
-        // querySelectorAll retorna uma NodeList (lista de nós) com
-        // TODOS os elementos que correspondem ao seletor, dentro
-        // do container especificado.
-        //
-        // A VÍRGULA no seletor funciona como "OU":
-        // '.a, .b' → seleciona elementos com classe A OU classe B
-        //
-        // Assim, um único querySelectorAll cobre TODAS as variações
-        // de classe usadas nos diferentes carrosséis do site.
-        //
-        const items = container.querySelectorAll(
-            '.carousel-item, .carousel-slide, .wrapped-carousel-img, .event-card-carousel-img'
-        );
-        const indicators = container.querySelectorAll(
-            '.indicator, .wrapped-indicator, .event-card-indicator'
-        );
-        const prevBtn = container.querySelector(
-            '.carousel-arrow-prev, .wrapped-arrow-prev, .event-card-arrow-prev'
-        );
-        const nextBtn = container.querySelector(
-            '.carousel-arrow-next, .wrapped-arrow-next, .event-card-arrow-next'
-        );
-        const captions = container.querySelectorAll(
-            '.slide-caption, .wrapped-carousel-caption'
-        );
+        const items = container.querySelectorAll('.carousel-slide');
+        const indicators = container.querySelectorAll('.indicator');
+        const prevBtn = container.querySelector('.carousel-arrow-prev');
+        const nextBtn = container.querySelector('.carousel-arrow-next');
+        const captions = container.querySelectorAll('.slide-caption');
 
-        
         // Se não houver slides, não há carrossel aqui.
         if (items.length === 0) return;
 
@@ -150,58 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
         //
         let currentIndex = 0;
         let autoPlayTimer = null;
-
-        // ==========================================
-        // BLUR LAYER — Efeito de desfoque nas bordas
-        // ==========================================
-        //
-        // Cria uma camada extra por cima das imagens do carrossel.
-        // Esta camada contém a MESMA imagem do slide ativo, mas
-        // aplicamos filter: blur(12px) e mask-image para mostrar
-        // o blur APENAS nas bordas (esquerda e direita).
-        //
-        // Resultado: centro nítido (camada 1, de baixo), bordas
-        // suavemente desfocadas (camada 2, de cima).
-        //
-        // SÓ cria o blur-layer se estivermos dentro de um card
-        // de evento (event-card-carousel), pois é lá que o CSS
-        // do blur-layer está definido.
-        //
-        const isEventCardCarousel = container.classList.contains('event-card-carousel');
-        let blurLayer = null;
-
-        if (isEventCardCarousel) {
-            blurLayer = document.createElement('div');
-            blurLayer.className = 'blur-layer';
-            // Insere o blur-layer DENTRO do container, como último filho
-            // (assim fica acima das imagens, que têm z-index menor)
-            container.appendChild(blurLayer);
-        }
-
-        // ==========================================
-        // FUNÇÃO: Atualizar o blur-layer
-        // ==========================================
-        //
-        // Sempre que mudamos de slide, atualizamos o background-image
-        // do blur-layer para a mesma imagem do novo slide ativo.
-        // Isso garante que o efeito de blur nas bordas sempre
-        // corresponda à imagem visível no centro.
-        //
-        function updateBlurLayer() {
-            if (!blurLayer) return;
-
-            // Pega o slide atualmente ativo
-            const activeItem = items[currentIndex];
-
-            // Verifica se é uma <img> (tag de imagem)
-            if (activeItem.tagName === 'IMG') {
-                // Atualiza o background do blur-layer com a mesma URL
-                blurLayer.style.backgroundImage = 'url("' + activeItem.src + '")';
-                // Torna visível (opacidade controlada pelo CSS transition)
-                blurLayer.style.opacity = '1';
-            }
-        }
-
 
         // ----- PASSO 5: FUNÇÃO goToItem -----
         //
@@ -286,13 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Seta "próximo" (→)
         if (nextBtn) {
-            nextBtn.addEventListener('click', function(e) {
-                // stopPropagation: impede que o evento de clique "suba"
-                // na hierarquia DOM. Útil nos cards: clica na seta do
-                // carrossel, mas NÃO expande o card.
-                if (config.stopPropagation) {
-                    e.stopPropagation();
-                }
+            nextBtn.addEventListener('click', function() {
                 stopAutoPlay();
                 nextItem();
                 startAutoPlay();
@@ -301,10 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Seta "anterior" (←)
         if (prevBtn) {
-            prevBtn.addEventListener('click', function(e) {
-                if (config.stopPropagation) {
-                    e.stopPropagation();
-                }
+            prevBtn.addEventListener('click', function() {
                 stopAutoPlay();
                 prevItem();
                 startAutoPlay();
@@ -315,10 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // forEach executa a função para CADA elemento da NodeList.
         // O segundo parâmetro da callback é o índice do elemento.
         indicators.forEach(function(indicator, index) {
-            indicator.addEventListener('click', function(e) {
-                if (config.stopPropagation) {
-                    e.stopPropagation();
-                }
+            indicator.addEventListener('click', function() {
                 stopAutoPlay();
                 goToItem(index);
                 startAutoPlay();
@@ -333,63 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
             container.addEventListener('mouseleave', startAutoPlay);
         }
 
-        // ----- PASSO 9: API PÚBLICA DO CARROSSEL -----
-        //
-        // O QUE É UMA API?
-        //
-        // API = Application Programming Interface (Interface de Programação
-        // de Aplicações). É um conjunto de funções/métodos que permitem
-        // que outros códigos interajam com este carrossel.
-        //
-        // Por que expor uma API?
-        //
-        // 1. CONTROLE EXTERNO: outras partes do código podem controlar
-        //    o carrossel programaticamente (ex: "vá para o slide 3")
-        //
-        // 2. INTEGRAÇÃO: o sistema de cards pode parar o carrossel
-        //    quando o card é fechado, economizando recursos
-        //
-        // 3. TESTES: facilita testar o carrossel isoladamente
-        //
-        // Como funciona:
-        //
-        // Criamos um objeto com métodos e o anexamos ao elemento DOM
-        // do container. Em JavaScript, podemos adicionar propriedades
-        // personalizadas a qualquer objeto, incluindo elementos HTML.
-        //
-        // container._carouselAPI = { ... }
-        //
-        // O underscore (_) no início do nome é uma convenção que diz:
-        // "esta propriedade é interna, não use diretamente a menos que
-        // saiba o que está fazendo". É como um "privado" informal.
-        //
-        container._carouselAPI = {
-            // Avança para o próximo slide
-            next: nextItem,
-            // Volta para o slide anterior
-            prev: prevItem,
-            // Vai para um slide específico pelo índice
-            goTo: goToItem,
-            // Inicia o auto-play
-            start: startAutoPlay,
-            // Para o auto-play
-            stop: stopAutoPlay,
-            // Retorna o índice do slide atual
-            getCurrentIndex: function() { return currentIndex; }
-        };
-
-        // ==========================================
-        // INICIALIZAÇÃO DO BLUR-LAYER
-        // ==========================================
-        //
-        // Na primeira vez que o carrossel é criado, já ativamos
-        // o blur-layer com a imagem do primeiro slide.
-        //
-        if (blurLayer) {
-            updateBlurLayer();
-        }
-
-        // ----- PASSO 10: INICIALIZAÇÃO -----
+        // ----- PASSO 9: INICIALIZAÇÃO -----
         //
         // Inicia o auto-play automaticamente quando o carrossel é criado.
         //
@@ -406,198 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ==========================================
-    // SEÇÃO 3: INICIALIZAR CARROSSEIS WRAPPED
-    // ==========================================
-    //
-    // querySelectorAll retorna TODOS os elementos com a classe.
-    // forEach itera sobre cada um, executando a função para cada.
-    //
-    const wrappedCarousels = document.querySelectorAll('.wrapped-carousel');
-    wrappedCarousels.forEach(function(carousel, index) {
-        // Se o carrossel não tiver ID, criamos um único para ele.
-        // IDs devem ser únicos na página (regra do HTML).
-        if (!carousel.id) {
-            carousel.id = 'wrapped-carousel-' + index;
-        }
-
-        // Passamos o seletor '#' + id para initCarousel
-        initCarousel('#' + carousel.id, {
-            autoPlayInterval: 4000,
-            transitionDuration: 500
-        });
-    });
-
-    // ==========================================
-    // SEÇÃO 4: CARDS DE EVENTOS PASSADOS
-    // ==========================================
-    //
-    // Estrutura de cada card:
-    //
-    // <div class="event-card">                    ← card
-    //   <div class="event-card-header">           ← cabeçalho clicável
-    //     <h3 class="event-card-title">...</h3>
-    //     <span class="event-card-year">...</span>
-    //     <button class="event-card-toggle">...</button>
-    //   </div>
-    //   <div class="event-card-body">             ← conteúdo expansível
-    //     <div class="event-card-carousel">       ← carrossel interno
-    //       ...
-    //     </div>
-    //     <div class="event-card-content">        ← texto
-    //       ...
-    //     </div>
-    //   </div>
-    // </div>
-    //
-
-    const eventCards = document.querySelectorAll('.event-card');
-
-    eventCards.forEach(function(card, index) {
-        initEventCard(card, index);
-    });
-
-    function initEventCard(card, cardIndex) {
-        // Seleciona elementos dentro DESTE card específico
-        const header = card.querySelector('.event-card-header');
-        const toggleBtn = card.querySelector('.event-card-toggle');
-        const carousel = card.querySelector('.event-card-carousel');
-
-        // ----- FUNÇÃO: Expandir/Colapsar -----
-        //
-        // classList.toggle('expanded') adiciona a classe se não existir,
-        // ou remove se já existir. É um "liga/desliga".
-        //
-        function toggleCard() {
-            const isExpanded = card.classList.contains('expanded');
-
-            // Apenas um card fica aberto por vez:
-            
-            if (!isExpanded) {
-                document.querySelectorAll('.event-card.expanded').forEach(function(otherCard) {
-                    if (otherCard !== card) {
-                        otherCard.classList.remove('expanded');
-                        const otherCarousel = otherCard.querySelector('.event-card-carousel');
-                        if (otherCarousel && otherCarousel._carouselAPI) {
-                            otherCarousel._carouselAPI.stop();
-                        }
-                    }
-                });
-            }
-
-            card.classList.toggle('expanded');
-
-            // Se acabou de expandir, rola suavemente até o card
-            if (!isExpanded) {
-                setTimeout(function() {
-                    card.scrollIntoView({ 
-                        behavior: 'smooth',  // Animação suave
-                        block: 'start'       // Alinha o topo do card com o topo da tela
-                    });
-                }, 100);
-            }
-        }
-
-        // ----- EVENTO: Clique no header -----
-        //
-        // O parâmetro 'e' (event) contém informações sobre o clique.
-        // e.target é o elemento EXATO que foi clicado.
-        // e.target.closest('.classe') sobe na árvore DOM procurando
-        // um ancestral com aquela classe. Retorna null se não achar.
-        //
-        header.addEventListener('click', function(e) {
-            // Se clicou em uma seta ou indicador do carrossel,
-            // NÃO expande/colapsa o card (só muda o slide).
-            if (e.target.closest('.event-card-arrow') || 
-                e.target.closest('.event-card-indicator')) {
-                return; // Sai da função sem fazer nada
-            }
-            toggleCard();
-        });
-
-        // ----- EVENTO: Clique no botão de toggle -----
-        //
-        // stopPropagation() impede que o clique no botão "suba"
-        // para o header, evitando que toggleCard seja chamado 2x.
-        //
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleCard();
-            });
-        }
-
-        // ----- INICIALIZAR CARROSSEL INTERNO -----
-        //
-        // Aqui está a MAGIA da reutilização: em vez de duplicar
-        // toda a lógica de carrossel, chamamos initCarousel passando
-        // o elemento do carrossel DIRETAMENTE (não um seletor string).
-        //
-        // Isso funciona porque initCarousel aceita tanto string
-        // quanto Element como primeiro parâmetro.
-        //
-        if (carousel) {
-            initCarousel(carousel, {
-                autoPlayInterval: 4000,
-                transitionDuration: 600,
-                pauseOnHover: true,
-                stopPropagation: true
-            });
-        }
-    }
-
-    // ==========================================
-    // SEÇÃO 5: API GLOBAL DOS CARDS
-    // ==========================================
-    //
-    // O QUE É window?
-    //
-    // window é o objeto global do navegador. Tudo que está em
-    // window pode ser acessado de QUALQUER lugar do código,
-    // inclusive do console do navegador (F12 → Console).
-    //
-    // Por que criar window.EventCards?
-    //
-    // 1. ACESSO GLOBAL: você pode digitar no console:
-    //    EventCards.collapseAll() → fecha todos os cards
-    //
-    // 2. INTEGRAÇÃO COM OUTROS SCRIPTS: se no futuro você
-    //    quiser adicionar um botão "Fechar todos os cards",
-    //    pode chamar EventCards.collapseAll() de qualquer lugar.
-    //
-    // 3. TESTES: facilita testar a funcionalidade manualmente.
-    //
-    // É como criar um "controle remoto" público para os cards.
-    //
-    window.EventCards = {
-        // Expande um card específico (passando o elemento DOM)
-        expand: function(cardElement) {
-            if (!cardElement.classList.contains('expanded')) {
-                cardElement.classList.add('expanded');
-                cardElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        },
-
-        // Colapsa um card específico
-        collapse: function(cardElement) {
-            if (cardElement.classList.contains('expanded')) {
-                cardElement.classList.remove('expanded');
-            }
-        },
-
-        // Colapsa TODOS os cards e para seus carrosséis
-        collapseAll: function() {
-            document.querySelectorAll('.event-card.expanded').forEach(function(card) {
-                card.classList.remove('expanded');
-                const carousel = card.querySelector('.event-card-carousel');
-                if (carousel && carousel._carouselAPI) {
-                    carousel._carouselAPI.stop();
-                }
-            });
-        }
-    };
-
-    // ==========================================
-    // SEÇÃO 6: NAVEGAÇÃO POR TECLADO
+    // SEÇÃO 3: NAVEGAÇÃO POR TECLADO
     // ==========================================
     //
     // Permite usar as setas ← → do teclado para navegar
@@ -636,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ==========================================
-    // SEÇÃO 7: NAVBAR — DETECÇÃO DE SCROLL
+    // SEÇÃO 4: NAVBAR — DETECÇÃO DE SCROLL
     // ==========================================
 
     const navbar = document.getElementById('navbar');
@@ -652,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // SEÇÃO 8: HIGHLIGHT DO ITEM ATIVO DO MENU
+    // SEÇÃO 5: HIGHLIGHT DO ITEM ATIVO DO MENU
     // ==========================================
     //
     // Verifica a URL atual e marca o item do menu correspondente
@@ -660,15 +319,15 @@ document.addEventListener('DOMContentLoaded', function() {
     //
 
     // window.location.pathname = caminho da URL após o domínio
-    // Ex: "/eventos/eureka.html"
+    // Ex: "/programacao.html"
     //
-    // .split('/') divide em partes: ["", "eventos", "eureka.html"]
-    // .pop() pega o último elemento: "eureka.html"
+    // .split('/') divide em partes: ["", "programacao.html"]
+    // .pop() pega o último elemento: "programacao.html"
     // || 'index.html' → se estiver vazio (página raiz), usa index.html
     //
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-    const navLinks = document.querySelectorAll('.nav-link, .dropdown-link');
+    const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(function(link) {
         const href = link.getAttribute('href');
@@ -687,49 +346,288 @@ document.addEventListener('DOMContentLoaded', function() {
             if (parentItem) {
                 parentItem.classList.add('active');
             }
-
-            // Se for um link dentro de dropdown, também marca o pai
-            if (link.classList.contains('dropdown-link')) {
-                const dropdownParent = link.closest('.dropdown');
-                if (dropdownParent) {
-                    dropdownParent.classList.add('active');
-                }
-            }
         }
     });
 
     // ==========================================
-    // SEÇÃO 9: CÍRCULOS DECORATIVOS — ROTAÇÃO NO SCROLL
+    // SEÇÃO 6: CÍRCULOS DECORATIVOS
     // ==========================================
     //
     // As .content-circles (definidas em main.css) são a "marca
-    // d'água" de anéis concêntricos atrás do texto do <main>. Para
-    // dar mais vida a elas, giramos os anéis conforme o usuário
-    // rola a página — como se fossem órbitas de um átomo em
-    // movimento, reforçando o tema científico da logo.
+    // d'água" de anéis concêntricos atrás do texto do <main>. Esta
+    // seção faz duas coisas: (A) MONTA os anéis — em quantidade,
+    // espessura e raio meio aleatórios, mais anéis em páginas mais
+    // compridas — e (B) GIRA o conjunto conforme o usuário rola a
+    // página.
     //
-    // Um detalhe importante: um círculo com anéis totalmente
-    // sólidos é SIMÉTRICO, então girá-lo não muda nada visualmente
-    // (todo ângulo parece igual ao anterior). Por isso, no CSS,
-    // os anéis são "tracejados" via mask-image (repeating-conic-
-    // -gradient) — isso quebra a simetria, e agora a rotação
-    // realmente aparece.
+    // Por que montar os anéis via JavaScript, e não deixar tudo
+    // pronto no CSS (como era antes)? Porque "quantos anéis" e "que
+    // tamanho eles têm" agora dependem de coisas que só o JS sabe
+    // em tempo de execução: a altura REAL da página (que muda de
+    // página para página, e pode crescer no futuro) e um elemento
+    // de aleatoriedade. CSS não tem como "sortear" um número nem
+    // reagir à altura do documento.
+
+    // ----- FUNÇÃO: CONSTRUIR OS ANÉIS DE UM GRUPO -----
     //
-    // A ideia é simples: a cada evento de scroll, lemos quantos
-    // pixels a página rolou (window.scrollY) e transformamos esse
-    // valor em um ângulo de rotação. Como scrollY pode chegar a
-    // milhares de pixels, multiplicamos por um fator bem pequeno
-    // para que a rotação seja lenta e suave, não uma coisa girando
-    // loucamente.
+    // Recebe as regras de um grupo (raio mínimo/máximo, se ganha o
+    // texto curvo) e devolve a LISTA de anéis (cada um com seu
+    // próprio raio e espessura) que esse grupo vai ter.
     //
-    // Cada um dos dois círculos gira com uma velocidade e um
-    // SENTIDO diferente (um multiplicador positivo, outro
-    // negativo) — como duas órbitas independentes, em vez de
-    // girarem sempre juntas e iguais. Isso dá uma sensação de
-    // profundidade/paralaxe ao rolar a página.
+    function buildRingsForGroup(minRadius, maxRadius, pageHeight) {
+        // ----- QUANTOS ANÉIS? -----
+        //
+        // Base de 3 + um extra a cada ~900px de altura da página
+        // (páginas mais compridas "ganham" mais anéis) + de 0 a 2
+        // extras aleatórios, com teto de 8 para não virar bagunça
+        // em páginas muito compridas.
+        const extraFromHeight = Math.floor(pageHeight / 900);
+        const extraRandom = Math.floor(Math.random() * 3);
+        const ringCount = Math.min(3 + extraFromHeight + extraRandom, 8);
+
+        // ----- RAIO E ESPESSURA DE CADA ANEL -----
+        //
+        // Começa perto do raio mínimo do grupo e cresce por um
+        // espaço ALEATÓRIO a cada anel (o "gap") — por isso nem o
+        // tamanho dos anéis nem a distância entre eles é uniforme.
+        const rings = [];
+        let radius = minRadius + Math.random() * 15;
+
+        for (let i = 0; i < ringCount; i++) {
+            const thickness = 3 + Math.random() * 9; // entre 3px e 12px
+            rings.push({ radius: radius, thickness: thickness });
+
+            const gap = 16 + Math.random() * 26; // vão de 16px a 42px até o próximo anel
+            radius += gap;
+        }
+
+        // O último anel pode ter passado do teto do grupo — reescala
+        // TODOS os raios (mantendo a proporção entre eles) para
+        // caberem dentro de maxRadius. É isso que garante que o
+        // grupo de cima (maxRadius menor) sempre termine menor que
+        // o de baixo, como pedido.
+        const outermost = rings[rings.length - 1].radius;
+        if (outermost > maxRadius) {
+            const scale = maxRadius / outermost;
+            rings.forEach(function(ring) { ring.radius *= scale; });
+        }
+
+        return rings;
+    }
+
+    // ----- FUNÇÃO: DESENHAR OS ANÉIS (E O TEXTO CURVO) EM SVG -----
+    //
+    // <svg> é a ferramenta certa aqui: permite desenhar círculos
+    // com raio/espessura exatos (via <circle>) e curvar texto ao
+    // longo de um caminho circular (via <textPath>) — nenhuma das
+    // duas coisas tem um jeito direto de ser feita só com CSS.
+    //
+    function renderRingsSVG(container, rings, textRingIndex) {
+        const ringColor = '#558383'; // mesmo verde-água da paleta
+
+        // O <svg> precisa ser grande o bastante para caber o maior
+        // anel MAIS sua espessura, com uma margenzinha de sobra.
+        const outer = rings[rings.length - 1];
+        const size = Math.ceil((outer.radius + outer.thickness / 2) * 2) + 20;
+        const center = size / 2;
+
+        let svgParts = [];
+
+        // Um <circle> por anel — fill="none" porque queremos só o
+        // CONTORNO (a "rosquinha"), não um disco cheio. O anel que
+        // vai levar o texto (ver abaixo) é pulado aqui: ele é
+        // desenhado por inteiro à parte, como um ARCO com um vão,
+        // não como um <circle> fechado.
+        rings.forEach(function(ring, index) {
+            if (index === textRingIndex) return;
+
+            svgParts.push(
+                '<circle cx="' + center + '" cy="' + center + '" r="' + ring.radius +
+                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '"></circle>'
+            );
+        });
+
+        // ----- O ANEL COM TEXTO: UM ARCO COM UM VÃO PARA "VIII SEAFís" -----
+        //
+        // Em vez de escrever o texto POR CIMA de um anel fechado, o
+        // próprio anel "para" onde o texto está — sobra um espaço
+        // em branco (com margem de cada lado) reservado só para o
+        // texto, como um selo/medalha que interrompe o próprio
+        // círculo para caber uma inscrição.
+        if (textRingIndex >= 0 && rings[textRingIndex]) {
+            const ring = rings[textRingIndex];
+            const r = ring.radius;
+            const text = 'VIII SEAFís';
+
+            // Fonte pequena, de propósito — um DETALHE dentro do
+            // anel, não um elemento chamativo. Proporcional ao raio
+            // (anéis maiores, em páginas mais compridas, ganham uma
+            // fonte ligeiramente maior), mas com um teto discreto.
+            const fontSize = Math.min(18, Math.max(9, Math.round(r * 0.055)));
+
+            // ----- QUANTO ESPAÇO (EM GRAUS) O VÃO PRECISA TER? -----
+            //
+            // Estimativa da largura do texto (não há como MEDIR o
+            // texto de verdade antes de ele existir na página, então
+            // aproximamos: ~0.58 × tamanho da fonte por caractere,
+            // uma média razoável para fontes em negrito). Depois
+            // somamos uma margem de cada lado (2.5x o tamanho da
+            // fonte) — é esse espaço a mais que sobra em branco no
+            // anel, ladeando o texto.
+            const estimatedTextWidth = text.length * fontSize * 0.58;
+            const marginWidth = fontSize * 2.5;
+            const gapArcLength = estimatedTextWidth + marginWidth * 2;
+
+            // Comprimento de arco = raio × ângulo (em radianos) — daí
+            // isolamos o ângulo e convertemos para graus. Limitado a
+            // 110° no máximo, pra um anel pequeno não acabar sendo
+            // "quase todo vão".
+            const gapAngleDeg = Math.min(110, (gapArcLength / r) * (180 / Math.PI));
+
+            // O vão fica centralizado no TOPO do círculo (270°, já
+            // que no SVG os ângulos crescem no sentido horário a
+            // partir da direita) — um lugar natural para uma
+            // "inscrição", como o topo de um selo.
+            const gapCenterDeg = 270;
+            const gapStartDeg = gapCenterDeg - gapAngleDeg / 2;
+            const gapEndDeg = gapCenterDeg + gapAngleDeg / 2;
+
+            // Converte um ângulo (em graus) num ponto x,y sobre o
+            // círculo de raio r centrado em (center, center).
+            function pointOnCircle(deg) {
+                const rad = deg * Math.PI / 180;
+                return {
+                    x: center + r * Math.cos(rad),
+                    y: center + r * Math.sin(rad)
+                };
+            }
+
+            // O ANEL vira um ARCO: começa logo depois do vão
+            // (gapEndDeg) e contorna quase todo o círculo (a volta
+            // LONGA, por isso o "1" de large-arc-flag) até chegar de
+            // novo em gapStartDeg pelo outro lado.
+            const arcStart = pointOnCircle(gapEndDeg);
+            const arcEnd = pointOnCircle(gapStartDeg + 360);
+            svgParts.push(
+                '<path d="M ' + arcStart.x + ',' + arcStart.y +
+                ' A ' + r + ',' + r + ' 0 1,1 ' + arcEnd.x + ',' + arcEnd.y +
+                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '"></path>'
+            );
+
+            // Caminho INVISÍVEL só dentro do vão (a volta CURTA,
+            // large-arc-flag "0"), por onde o texto vai "andar".
+            // text-anchor="middle" + startOffset="50%" centralizam o
+            // texto exatamente no meio desse vão.
+            const textPathId = 'content-circles-text-path-' + Math.round(Math.random() * 1000000);
+            const gapStartPoint = pointOnCircle(gapStartDeg);
+            const gapEndPoint = pointOnCircle(gapEndDeg);
+            svgParts.push(
+                '<path id="' + textPathId + '" d="M ' + gapStartPoint.x + ',' + gapStartPoint.y +
+                ' A ' + r + ',' + r + ' 0 0,1 ' + gapEndPoint.x + ',' + gapEndPoint.y +
+                '" fill="none"></path>'
+            );
+
+            // FILL + STROKE = a mesma "formatação de h1" usada no
+            // resto do site (color: #eeb97c + -webkit-text-stroke:
+            // 1.5px #564d46, em main.css) — só que aqui é texto de
+            // <svg>, então usamos os atributos nativos fill/stroke
+            // em vez de propriedades CSS.
+            svgParts.push(
+                '<text text-anchor="middle" font-family="Segoe UI, Tahoma, Geneva, Verdana, sans-serif" ' +
+                'font-weight="700" font-size="' + fontSize + '" fill="#eeb97c" ' +
+                'stroke="#564d46" stroke-width="' + Math.max(0.5, fontSize * 0.05) + '" ' +
+                'letter-spacing="1">' +
+                    '<textPath href="#' + textPathId + '" xlink:href="#' + textPathId + '" startOffset="50%">' +
+                        text +
+                    '</textPath>' +
+                '</text>'
+            );
+        }
+
+        container.innerHTML =
+            '<svg width="' + size + '" height="' + size + '" ' +
+            'viewBox="0 0 ' + size + ' ' + size + '" ' +
+            'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+            'aria-hidden="true">' +
+                svgParts.join('') +
+            '</svg>';
+    }
+
+    // ----- MONTAGEM DOS GRUPOS -----
+    //
+    // minRadius/maxRadius diferentes entre os grupos garantem que o
+    // de cima (top-right) SEMPRE nasça e termine menor que o de
+    // baixo (bottom-left), como pedido — os dois grupos do meio
+    // (mid-left/mid-right, só existem em programacao.html, mais
+    // comprida) ficam com tamanhos intermediários entre os dois.
+    //
+    // Só os grupos "âncora" (top-right e bottom-left, presentes em
+    // TODAS as páginas) recebem o texto curvo "VIII SEAFís" — os do
+    // meio são só anéis lisos, para o texto não se repetir demais
+    // numa página só. Cada grupo com texto escolhe seu próprio anel
+    // interno (a lógica de escolha do anel e do tamanho do vão, mais
+    // abaixo, já se adapta sozinha ao raio de cada grupo).
+    //
+    // .content-circles--mid-left/--mid-right simplesmente não
+    // existem no HTML de index.html/inscricao.html — o
+    // document.querySelector logo abaixo retorna null nesse caso, e
+    // o "if (!container) return;" pula esse grupo sem erro nenhum.
+    //
+    const decorativeGroups = [
+        { selector: '.content-circles--top-right', minRadius: 45, maxRadius: 190, withText: true },
+        { selector: '.content-circles--mid-left', minRadius: 55, maxRadius: 230, withText: false },
+        { selector: '.content-circles--mid-right', minRadius: 65, maxRadius: 260, withText: false },
+        { selector: '.content-circles--bottom-left', minRadius: 80, maxRadius: 340, withText: true }
+    ];
+
+    const pageHeight = document.body.scrollHeight;
+
+    decorativeGroups.forEach(function(group) {
+        const container = document.querySelector(group.selector);
+        if (!container) return;
+
+        const rings = buildRingsForGroup(group.minRadius, group.maxRadius, pageHeight);
+
+        let textRingIndex = -1;
+        if (group.withText) {
+            // NUNCA o anel mais externo (rings.length - 1) — o texto
+            // deve ficar em um dos anéis INTERNOS. A fórmula abaixo
+            // mira ~45% do caminho de dentro para fora (por exemplo,
+            // o 3º de 8 anéis, ou o do meio em um grupo de 3),
+            // sempre limitada a ficar entre o 2º anel (índice 1) e o
+            // penúltimo (rings.length - 2) — nunca o primeiro nem o
+            // último.
+            textRingIndex = Math.floor(rings.length * 0.45);
+            textRingIndex = Math.max(1, Math.min(textRingIndex, rings.length - 2));
+        }
+
+        renderRingsSVG(container, rings, textRingIndex);
+    });
+
+    // ----- ROTAÇÃO NO SCROLL -----
+    //
+    // Gira cada grupo (o <svg> inteiro — anéis e, quando houver,
+    // texto curvo, sempre juntos, como uma peça rígida só) conforme
+    // o usuário rola a página, como se fossem órbitas de um átomo
+    // em movimento. Um detalhe importante: um círculo com anéis
+    // totalmente sólidos é SIMÉTRICO — girar não mudaria nada
+    // visualmente. É o texto curvo (que não é simétrico) que torna
+    // a rotação dos grupos "âncora" (top-right/bottom-left)
+    // perceptível; os grupos do meio (mid-left/mid-right, sem
+    // texto) giram "de fé" (sem quebra de simetria própria), mas
+    // ainda assim contribuem para a sensação de profundidade —
+    // cada um dos quatro com uma velocidade e SENTIDO diferente.
+    //
+    // A cada evento de scroll, lemos quantos pixels a página rolou
+    // (window.scrollY) e transformamos esse valor em um ângulo de
+    // rotação. Como scrollY pode chegar a milhares de pixels,
+    // multiplicamos por um fator bem pequeno para a rotação ser
+    // lenta e suave.
     //
     const rotatingCircles = [
         { element: document.querySelector('.content-circles--top-right'), speed: 0.05 },
+        { element: document.querySelector('.content-circles--mid-left'), speed: -0.03 },
+        { element: document.querySelector('.content-circles--mid-right'), speed: 0.065 },
         { element: document.querySelector('.content-circles--bottom-left'), speed: -0.08 }
     ];
 
@@ -743,14 +641,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ==========================================
-    // SEÇÃO 10: BOTÃO "VOLTAR PARA A PLANILHA"
+    // SEÇÃO 7: BOTÃO "VOLTAR AO TOPO"
     // ==========================================
     //
-    // Só existe em programacao.html (o querySelector simplesmente
-    // não encontra nada nas outras páginas, e o "if" abaixo faz
-    // este bloco inteiro não fazer nada nesse caso — por isso dá
-    // pra manter este código aqui no main.js compartilhado, sem
-    // precisar de um arquivo .js separado só para esta página).
+    // Existe em TODAS as páginas (index.html, programacao.html,
+    // inscricao.html) — o querySelector simplesmente não encontra
+    // nada em páginas que não tiverem o botão no HTML, e o "if"
+    // abaixo faz este bloco inteiro não fazer nada nesse caso, mas
+    // hoje ele está presente nas três.
     //
 
     const backToTopButton = document.getElementById('back-to-top');
@@ -758,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backToTopButton) {
         // ----- MOSTRAR/ESCONDER CONFORME O SCROLL -----
         //
-        // Mesmo padrão já usado na Seção 7 (sombra do navbar):
+        // Mesmo padrão já usado na Seção 4 (sombra do navbar):
         // abaixo de 300px de scroll, o botão fica escondido (não
         // faz sentido oferecer "voltar" se o usuário já está perto
         // do topo da página).
@@ -771,16 +669,82 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // ----- CLIQUE: ROLAR SUAVEMENTE ATÉ A PLANILHA -----
+        // ----- CLIQUE: ROLAR SUAVEMENTE ATÉ O TOPO -----
         //
-        // scrollIntoView com behavior: 'smooth' anima o scroll,
-        // em vez de "pular" instantaneamente — mesma técnica já
-        // usada para abrir os cards de eventos (initEventCard).
+        // window.scrollTo com behavior: 'smooth' anima o scroll até
+        // o topo absoluto da página (top: 0), em vez de um ponto
+        // específico — funciona igual em qualquer página, não
+        // depende de nenhum id existir no HTML.
         //
         backToTopButton.addEventListener('click', function() {
-            const planilha = document.getElementById('planilha');
-            if (planilha) {
-                planilha.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // ==========================================
+    // SEÇÃO 8: MENU HAMBÚRGUER (TELAS ESTREITAS)
+    // ==========================================
+    //
+    // Abaixo de 768px de largura (ver main.css, seção de
+    // responsividade), o menu horizontal normal (.nav-list) vira
+    // um painel escondido, e o botão hambúrguer (#nav-toggle)
+    // abre/fecha esse painel.
+    //
+
+    const navToggle = document.getElementById('nav-toggle');
+    const navList = document.getElementById('nav-list');
+
+    if (navToggle && navList) {
+        // ----- FECHAR O MENU -----
+        //
+        // Função separada (em vez de só dentro do toggle) porque
+        // precisamos fechar o menu em MAIS de uma situação: ao
+        // clicar num link, ou ao redimensionar a tela — ver abaixo.
+        //
+        function closeNavMenu() {
+            navList.classList.remove('nav-list--open');
+
+            // aria-expanded "false" avisa leitores de tela que o
+            // menu está fechado — mesmo padrão de acessibilidade
+            // usado em menus hambúrguer por toda a web.
+            navToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        // ----- ABRIR/FECHAR AO CLICAR NO HAMBÚRGUER -----
+        //
+        // classList.toggle() retorna TRUE se a classe FICOU
+        // presente depois da chamada (ou seja, o menu abriu) e
+        // FALSE se ela foi removida (o menu fechou) — usamos esse
+        // valor direto para decidir o aria-expanded.
+        //
+        navToggle.addEventListener('click', function() {
+            const isOpen = navList.classList.toggle('nav-list--open');
+            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        // ----- FECHAR AO CLICAR EM UM LINK -----
+        //
+        // Sem isso, depois de tocar num link do menu (indo para
+        // outra página, ou rolando até uma âncora na mesma
+        // página), o painel continuaria "aberto" — o usuário só
+        // notaria isso ao voltar ou ao rolar a página.
+        //
+        navList.querySelectorAll('.nav-link').forEach(function(link) {
+            link.addEventListener('click', closeNavMenu);
+        });
+
+        // ----- FECHAR AO ALARGAR A TELA -----
+        //
+        // Se o usuário girar um tablet para paisagem, ou redimen-
+        // sionar a janela (ex: fechando o DevTools) para além de
+        // 768px — o mesmo breakpoint usado no CSS — o menu volta a
+        // ser o horizontal normal. Sem isso, se o painel estivesse
+        // aberto no momento da mudança, ele ficaria "preso" visível
+        // por cima do layout de tela larga.
+        //
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeNavMenu();
             }
         });
     }

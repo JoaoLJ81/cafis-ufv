@@ -263,7 +263,7 @@ body.page-interna main {
        IMPORTANTE: como o fundo agora é claro (principalmente
        à esquerda e no laranja da direita), o texto do menu
        precisou deixar de ser branco e virar escuro — veja
-       .nav-link, .dropdown-arrow e .nav-item.active mais abaixo.
+       .nav-link e .nav-item.active mais abaixo.
        
        O gradiente do navbar é diferente do hero:
        - Vai de esquerda para direita (to right)
@@ -419,25 +419,49 @@ body.page-interna main {
 .nav-list {
     /* Remove os bullets (marcadores) da lista */
     list-style: none;
-    
+
     /* Flexbox para alinhar os itens horizontalmente */
     display: flex;
-    
+
     /* Espaçamento entre os itens */
     gap: 15px;
-    
+
     /* Remove o padding padrão da ul */
     padding: 0;
     margin: 0;
 }
 
 /* ============================================
-   CADA ITEM DO MENU
+   BOTÃO HAMBÚRGUER
+   ============================================
+
+   Escondido por padrão (display: none) — só aparece em telas
+   estreitas, via media query (ver a seção "RESPONSIVIDADE", no
+   final deste arquivo), onde troca de lugar com o .nav-list
+   horizontal normal.
    ============================================ */
 
-.nav-item {
-    /* Posição relativa para o dropdown absolute funcionar */
-    position: relative;
+.nav-toggle {
+    display: none;
+
+    /* Remove estilos padrão de <button> (borda, fundo cinza) */
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    /* Área de toque confortável (recomendação comum: pelo menos
+       44x44px, para o dedo não errar o alvo em telas de toque) */
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+
+    /* Cor escura, igual ao resto do texto do navbar */
+    color: #3D2E22;
+}
+
+.nav-toggle svg {
+    width: 100%;
+    height: 100%;
 }
 
 /* ============================================
@@ -518,157 +542,6 @@ body.page-interna main {
     
     /* Borda de destaque embaixo, na cor laranja */
     border-bottom: 2px solid #B3651F;
-}
-
-/* ============================================
-   SETA DO DROPDOWN
-   ============================================
-   
-   Ícone SVG que indica que há submenu.
-   ============================================ */
-
-.dropdown-arrow {
-    /* Tamanho da seta */
-    width: 14px;
-    height: 14px;
-
-    /* Cor de destaque */
-    color: #B3651F;
-    
-    /* Transição suave para rotação */
-    transition: transform 0.3s ease;
-}
-
-/*
-   Quando o mouse está sobre o item com dropdown,
-   a seta gira 180 graus (aponta para cima).
-   
-   .dropdown:hover .dropdown-arrow = "quando o .dropdown
-   está com hover, aplique estilo no .dropdown-arrow dentro dele"
-*/
-.dropdown:hover .dropdown-arrow {
-    transform: rotate(180deg);
-}
-
-/* ============================================
-   DROPDOWN MENU (SUBMENU)
-   ============================================
-   
-   Menu que aparece ao passar o mouse sobre um item
-   com dropdown. Inicialmente invisível.
-   ============================================ */
-
-.dropdown-menu {
-    /*
-       POSITION: ABSOLUTE
-       
-       Posiciona o submenu em relação ao .nav-item (pai).
-       Fica logo abaixo do item do menu.
-    */
-
-     position: absolute;
-    top: 100%; /* Começa na base do item pai */
-    left: 0;
-    
-    /* Largura mínima para não ficar apertado */
-    min-width: 220px;
-    
-    /*
-       OPACITY: 0 e VISIBILITY: HIDDEN
-       
-       Esconde o submenu inicialmente.
-       Usamos visibility junto com opacity porque
-       visibility: hidden impede cliques acidentais.
-    */
-    opacity: 0;
-    visibility: hidden;
-
-     /*
-       TRANSFORM: TRANSLATEY(-10PX)
-       
-       Começa 10px acima da posição final.
-       Quando aparece, "desliza" para baixo.
-    */
-    transform: translateY(-10px);
-    
-    /* Transição suave para aparecer/desaparecer */
-    transition: all 0.3s ease;
-    
-    /* Remove bullets da lista */
-    list-style: none;
-
-     /* Espaçamento interno */
-    padding: 8px 0;
-    margin: 0;
-    
-    /* Fundo do submenu (gradiente mais escuro) */
-    background: linear-gradient(
-        to bottom,
-        #3D2E22 0%,
-        #3D3733 100%
-    );
-    
-    /* Bordas arredondadas */
-    border-radius: 8px;
-
-     /* Sombra para destacar o submenu */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    
-    /* Garante que fique acima de outros elementos */
-    z-index: 1001;
-}
-
-/*
-   MOSTRAR O DROPDOWN NO HOVER
-   
-   Quando o mouse está sobre o .nav-item.dropdown,
-   o .dropdown-menu dentro dele fica visível.
-*/
-.dropdown:hover .dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0); /* Volta para posição normal */
-}
-
-/* ============================================
-   LINKS DO SUBMENU
-   ============================================ */
-
-.dropdown-link {
-    /* Remove sublinhado */
-    text-decoration: none;
-    
-    /* Cor branca */
-    color: #ffffff;
-    
-    /* 
-       FONT-WEIGHT: 400
-       
-       Peso normal (não negrito).
-       Diferencia visualmente dos itens principais.
-    */
-    font-weight: 400;
-    
-    /* Tamanho da fonte ligeiramente menor */
-    font-size: 0.9rem;
-
-     /* Display block para ocupar toda a largura */
-    display: block;
-    
-    /* Espaçamento interno */
-    padding: 10px 20px;
-    
-    /* Transição suave */
-    transition: all 0.2s ease;
-}
-
-/* Hover nos links do submenu */
-.dropdown-link:hover {
-    /* Fundo branco semi-transparente */
-    background: rgba(255, 255, 255, 0.1);
-    
-    /* Padding-left maior = efeito de "deslizar" */
-    padding-left: 25px;
 }
 
 /* ============================================
@@ -798,48 +671,116 @@ body.page-interna main {
    IMAGENS DENTRO DOS SLIDES
    ============================================ */
 
+/*
+   POR QUE DUAS IMAGENS POR SLIDE (BG + FG)?
+
+   A faixa do carrossel é bem LARGA e BAIXA (quase a tela
+   inteira de largura, só ~50% da altura) — uma proporção bem
+   "esticada" (widescreen). Fotos QUADRADAS ou mais "altas"
+   (como recepcao.jpg e IVseafis.jpg, ambas 1:1) não têm essa
+   mesma proporção.
+
+   Com object-fit: cover (usado antes) sozinho, o navegador é
+   OBRIGADO a ampliar a imagem até ela cobrir a faixa larga
+   inteira, cortando a maior parte dela para os lados — quanto
+   mais diferente a proporção da imagem for da faixa, maior o
+   zoom/corte. Para fotos quadradas nesta faixa bem larga, o
+   resultado é uma imagem bem mais ampliada e cortada do que o
+   pretendido.
+
+   A técnica usada agora (comum em apps como Instagram/Spotify
+   para preencher banners com fotos de qualquer proporção) usa
+   DUAS cópias da MESMA imagem, uma atrás da outra dentro do
+   slide:
+
+   1) .carousel-slide-bg: preenche a faixa INTEIRA com
+      object-fit: cover (pode cortar bastante, mas tudo bem —
+      ela é só um fundo), bem desfocada e escurecida. Existe
+      só para não deixar barras vazias/lisas nas laterais.
+
+   2) .carousel-slide-fg: mostra a MESMA foto por cima, mas com
+      object-fit: contain — a foto INTEIRA aparece, sem cortar
+      nada, nem ampliar além do necessário, não importa a
+      proporção dela. As laterais que sobrarem (quando a foto
+      não preenche a faixa toda) mostram a versão desfocada de
+      fundo por trás, em vez de barras vazias.
+
+   No HTML, cada slide agora tem os dois <img> com o MESMO src
+   — o de fundo com aria-hidden="true" e alt="" (é decorativo,
+   puramente visual, uma cópia da mesma foto que já tem alt
+   no primeiro plano).
+*/
 .carousel-slide img {
-    /* A imagem ocupa toda a largura do slide */
+    /* As duas camadas (bg e fg) ocupam o slide inteiro e se
+       sobrepõem — por isso position: absolute nas duas, em
+       vez de simplesmente width/height: 100% como antes (que
+       só funcionava bem com uma única imagem por slide) */
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    
-    /* A imagem ocupa toda a altura do slide */
     height: 100%;
-    
-    /* 
-       OBJECT-FIT: COVER
-       
-       Faz a imagem preencher todo o espaço disponível,
-       mantendo a proporção original (não distorce).
-       
-       Se a proporção da imagem for diferente do container,
-       ela será CORTADA (zoom) para caber.
-    */
+}
+
+/* CAMADA DE FUNDO: desfocada, só para preencher espaço */
+.carousel-slide-bg {
     object-fit: cover;
-    
-    /* 
-       OBJECT-POSITION: 75% CENTER
-       
-       Controla QUAL PARTE da imagem fica visível quando
-       há corte (por causa do object-fit: cover).
-       
-       75% = foca no ponto que está a 75% da largura
-              (mais para a direita da imagem)
-       50% = centraliza verticalmente
-       
-       Isso faz o "assunto principal" da imagem aparecer
-       no lado direito, onde está a área transparente
-       do gradiente.
+    object-position: center;
+
+    /*
+       FILTER: BLUR(30PX) BRIGHTNESS(0.55)
+
+       Desfoca bastante (não precisa mostrar detalhe nenhum,
+       é só uma "cor ambiente") e escurece mais que a camada
+       da frente, para não competir visualmente com a foto
+       nítida por cima nem com o texto do overlay.
     */
-    object-position: 75% 50%;
-    
-    /* 
-       FILTER: BRIGHTNESS(0.7)
-       
-       Escurece a imagem para 70% do brilho original.
-       Isso melhora o contraste do texto branco sobre
-       a imagem, deixando mais legível.
+    filter: blur(30px) brightness(0.55);
+
+    /*
+       TRANSFORM: SCALE(1.15)
+
+       O blur "puxa" um pouco da borda da imagem para dentro
+       (fica meio transparente/esbranquiçada na borda do
+       elemento). Aumentar a imagem 15% além do necessário
+       empurra essa borda borrada para fora da área visível.
     */
-    filter: brightness(0.7);
+    transform: scale(1.15);
+}
+
+/* CAMADA DA FRENTE: a foto de verdade, inteira, sem cortes */
+.carousel-slide-fg {
+    /*
+       OBJECT-FIT: CONTAIN
+
+       Mostra a imagem INTEIRA dentro do espaço disponível,
+       mantendo a proporção original — o oposto do "cover" (que
+       corta o que não cabe). Não importa se a foto é quadrada,
+       vertical ou horizontal: ela nunca fica cortada nem
+       ampliada além do tamanho real de exibição.
+    */
+    object-fit: contain;
+
+    /*
+       OBJECT-POSITION: 67.5% CENTER
+
+       Por padrão, "contain" centraliza a imagem no espaço
+       disponível (50% 50%). Em vez disso, alinhamos o centro da
+       foto ao mesmo ponto horizontal das bolinhas indicadoras
+       (.carousel-indicators usa left: 67.5% — ver mais abaixo
+       neste arquivo), para a imagem ficar visualmente centrada
+       COM elas, e não simplesmente colada na borda direita.
+    */
+    object-position: 67.5% center;
+
+    /*
+       FILTER: BRIGHTNESS(0.85)
+
+       Um escurecimento mais leve que o da camada de fundo — só
+       o suficiente para manter alguma consistência com o clima
+       escuro do overlay, sem esconder o assunto da foto nítida.
+    */
+    filter: brightness(0.85);
 }
 
 /* ============================================
@@ -989,41 +930,6 @@ body.page-interna main {
     filter: brightness(0) invert(1) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
-/* Título principal do logo, quando não há imagem (CAFIS) */
-.logo-text {
-    /* Tamanho da fonte: 3.5x o tamanho padrão do root */
-    font-size: 3.5rem;
-    
-    /* Peso da fonte: 700 = negrito */
-    font-weight: 700;
-    
-    /* Cor branca para contrastar com o fundo escuro */
-    color: #ffffff;
-    
-    /* Espaçamento entre as letras */
-    letter-spacing: 2px;
-    
-    /* 
-       TEXT-SHADOW: sombra no texto
-       
-       2px 2px = deslocamento horizontal e vertical
-       4px = quanto a sombra é "borrada" (blur)
-       rgba(0,0,0,0.5) = cor preta com 50% de opacidade
-       
-       Ajuda a legibilidade do texto sobre imagens.
-    */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* Subtítulo do logo */
-.logo-subtitle {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #e0e0e0; /* Cinza claro */
-    margin-top: 8px; /* Espaço acima do subtítulo */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
 /* ============================================
    LEGENDAS DOS SLIDES (lado direito)
    ============================================ */
@@ -1038,22 +944,33 @@ body.page-interna main {
     */
     flex: 1;
     
-    /* Espaçamento interno nas laterais */
-    padding: 0 80px;
-    
+    /*
+       PADDING: MAIS ESPAÇO À DIREITA E EMBAIXO
+
+       O padding-right (140px, mais que o esquerdo) empurra a
+       legenda para mais longe das bolinhas indicadoras (que
+       ficam perto do canto inferior direito) — sem isso, um
+       título mais longo tinha espaço para crescer até quase
+       encostar nelas. O padding-bottom (70px) levanta a legenda
+       para ela não ficar exatamente na mesma faixa vertical dos
+       indicadores.
+    */
+    padding: 250px 140px 70px 80px;
+
     /* Flexbox para centralizar o conteúdo */
     display: flex;
-    
-    /* 
-       ALIGN-ITEMS: BOTTOM
-       
-       Alinha os itens na parte inferior do container.
-       (Nota: o valor correto seria 'flex-end', 'bottom'
-       pode não funcionar em todos os navegadores, mas
-       funciona como alias em alguns. ARRUMAR DEPOIS)
+
+    /*
+       ALIGN-ITEMS: FLEX-END
+
+       Alinha os itens na parte inferior do container. (Antes
+       estava escrito "bottom", que não é um valor válido de
+       align-items — o navegador ignora a declaração inválida
+       e usa o padrão, então a legenda não ficava de fato
+       "grudada" embaixo como o comentário original pretendia.)
     */
-    align-items: bottom;
-    
+    align-items: flex-end;
+
     /* Centraliza horizontalmente */
     justify-content: center;
 }
@@ -1092,9 +1009,18 @@ body.page-interna main {
     
     /* Alinha o texto à esquerda */
     text-align: left;
-    
-    /* Largura máxima para não ficar muito largo */
-    max-width: 500px;
+
+    /*
+       MAX-WIDTH: 620PX
+
+       Aumentado de 500px — títulos mais longos (como "VII
+       Semana Acadêmica de Física") precisavam de mais espaço
+       horizontal para não quebrar linha. O padding extra à
+       direita do .captions-container (ver acima) garante que
+       essa largura maior não empurre o texto até em cima das
+       bolinhas indicadoras.
+    */
+    max-width: 620px;
 }
 
 /* Legenda do slide atualmente ativo */
@@ -1383,29 +1309,29 @@ main {
    CÍRCULOS DECORATIVOS DO CONTEÚDO
    ============================================
 
-   Duas "árvores" de elementos puramente decorativas (sem
-   texto, sem função), inseridas dentro do <main> no
-   index.html:
+   Dois grupos, puramente decorativos, inseridos dentro do
+   <main> de cada página (vazios no HTML — o conteúdo deles é
+   gerado por JavaScript, ver main.js, Seção 9):
 
-     <div class="content-circles content-circles--top-right" aria-hidden="true">
-         <span class="content-circles-ring content-circles-ring--1"></span>
-         <span class="content-circles-ring content-circles-ring--2"></span>
-         <span class="content-circles-ring content-circles-ring--3"></span>
-     </div>
-     <div class="content-circles content-circles--bottom-left" aria-hidden="true">
-         ... (mesma estrutura interna) ...
-     </div>
+     <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
+     <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
+
+   POR QUE VIA JAVASCRIPT (E NÃO CSS PURO)?
+
+   Cada grupo precisa de um número de anéis DIFERENTE (que
+   ainda por cima depende da altura da página — páginas mais
+   compridas ganham mais anéis), cada anel com sua própria
+   espessura e raio meio aleatórios, e um dos anéis carrega um
+   texto curvado ("VIII SEAFís", seguindo a curvatura do
+   anel). Nada disso é possível de calcular ou "sortear" só
+   com CSS — main.js monta um <svg> com um <circle> por anel
+   (raio e espessura calculados ali) mais um <text> com
+   <textPath> para o texto curvo, e insere esse <svg> dentro
+   de cada .content-circles.
 
    .content-circles é só o "grupo": cuida da posição geral
    (--top-right / --bottom-left) e gira como um bloco só
-   (ver main.js). Cada anel de dentro é um elemento
-   INDEPENDENTE (.content-circles-ring--1/2/3), cada um com
-   seu próprio tamanho de "tracejado" e seu próprio ângulo
-   inicial — de propósito DIFERENTES entre si, para não
-   ficarem alinhados nem do mesmo tamanho (um anel com
-   falhas idênticas e alinhadas às dos outros pareceria
-   "mecânico demais"; variando os três, o resultado lembra
-   mais órbitas reais, meio irregulares).
+   (o <svg> inteiro, anéis + texto, sempre juntos).
 
    Ficam ATRÁS de todo o texto do conteúdo (graças ao
    z-index negativo), como uma "marca d'água" temática — os
@@ -1414,21 +1340,20 @@ main {
 
    aria-hidden="true" no HTML avisa leitores de tela para
    ignorar estes elementos, já que não carregam informação
-   nenhuma (são só decoração visual).
+   nenhuma (são só decoração visual) — o <svg> gerado também
+   sai com aria-hidden, por segurança.
    ============================================ */
 
 .content-circles {
     /* Tira o elemento do fluxo normal; a posição exata de
        cada instância vem dos modificadores mais abaixo.
        Como esta regra também tem position != static, ela
-       vira o "ponto de referência" para os anéis internos
-       (position: absolute neles se orienta por AQUI, não
-       pela página toda). */
+       vira o "ponto de referência" do <svg> gerado dentro
+       dela. SEM width/height fixos aqui: o tamanho do
+       quadro varia a cada carregamento (depende de quantos
+       anéis main.js decidir criar), então quem manda no
+       tamanho é o próprio <svg>, não este container. */
     position: absolute;
-
-    /* Tamanho do "quadro" que contém os três anéis */
-    width: 800px;
-    height: 800px;
 
     /* 30% de opacidade, como pedido — mantém os anéis como
        um detalhe bem sutil, sem competir com o texto */
@@ -1447,11 +1372,18 @@ main {
        TRANSITION suave caso o navegador precise reajustar
        o transform (o giro em si é feito via JavaScript, em
        main.js, a cada evento de scroll). Aplicado aqui no
-       grupo inteiro: os 3 anéis giram sempre JUNTOS, como
-       uma peça rígida só — só o padrão de tracejado de
-       cada um é que é diferente.
+       grupo inteiro: todos os anéis e o texto giram sempre
+       JUNTOS, como uma peça rígida só.
     */
     transition: transform 0.05s linear;
+}
+
+/* O <svg> gerado por main.js. display: block remove aquele
+   espaço fantasma que elementos "inline" (o padrão de <svg>)
+   ganham por baixo, mesmo problema que <img> tem e que já
+   resolvemos assim antes no .nav-logo-image */
+.content-circles svg {
+    display: block;
 }
 
 /* Instância de cima: mais para a direita, perto do topo
@@ -1497,106 +1429,32 @@ body.page-interna .content-circles--bottom-left {
 }
 
 /*
-   CADA ANEL, INDIVIDUALMENTE
+   DOIS GRUPOS EXTRAS, SÓ EM PROGRAMACAO.HTML
 
-   Em vez de um único radial-gradient desenhando os 3 anéis
-   de uma vez (a versão anterior), agora cada anel é o seu
-   próprio elemento: um círculo OCO, feito com border-radius:
-   50% + border colorida (o miolo fica transparente porque
-   não há background). Isso permite dar a CADA um seu próprio
-   mask-image (ver os modificadores --1/--2/--3 abaixo), que
-   é o que não era possível quando os 3 dividiam um só
-   elemento.
+   .content-circles--mid-left e --mid-right existem apenas no
+   HTML de programacao.html (não em index.html nem
+   inscricao.html) — a página é bem mais comprida que as
+   outras (planilha + lista de palestrantes crescendo), então
+   dois grupos a mais preenchem esse espaço extra com mais
+   detalhe.
+
+   Junto com --top-right (perto do topo) e --bottom-left
+   (perto do fim), os quatro formam um "zigue-zague" descendo
+   a página: direita → esquerda → direita → esquerda.
+
+   Assim como --bottom-left, usamos porcentagem de "top" — o
+   <main> desta página é bem mais alto que a tela, então uma
+   porcentagem do total garante que cada grupo fique
+   aproximadamente na faixa vertical pretendida.
 */
-.content-circles-ring {
-    /* Centraliza o anel dentro do .content-circles
-       (que tem 600x600px), não importa o tamanho dele */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    border-radius: 50%;
-    border-style: solid;
-    border-color: #558383;
-
-    /*
-       MASK-IMAGE: TRANSFORMA O ANEL EM "TRACEJADO"
-
-       Um anel perfeitamente redondo é simétrico: girar ele
-       não muda NADA visualmente, porque cada ângulo é
-       idêntico ao anterior. Para a rotação no scroll (ver
-       main.js) ficar visível, precisamos quebrar essa
-       simetria.
-
-       repeating-conic-gradient cria fatias alternadas (como
-       ponteiros de relógio) em vez de uma borda sólida:
-       preto (opaco, "mostra o anel" naquele trecho) por um
-       tanto de graus, depois transparente ("esconde o anel")
-       por outro tanto, repetindo até completar a volta toda.
-       Cada modificador (--1, --2, --3) usa um tamanho de
-       fatia e um ângulo inicial ("from") diferente, então as
-       falhas de um anel não coincidem com as dos outros.
-    */
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
+.content-circles--mid-left {
+    top: 38%;
+    left: 2%;
 }
 
-/* Anel mais interno: fatias curtas e vão curto — um
-   tracejado "miudinho" */
-.content-circles-ring--1 {
-    width: 186px;
-    height: 186px;
-    border-width: 9px;
-
-    -webkit-mask-image: repeating-conic-gradient(
-        from 0deg,
-        black 0deg 10deg,
-        transparent 10deg 24deg
-    );
-    mask-image: repeating-conic-gradient(
-        from 0deg,
-        black 0deg 10deg,
-        transparent 10deg 24deg
-    );
-}
-
-/* Anel do meio: fatias mais longas, ângulo inicial deslocado
-   (35deg) para não alinhar com o anel de dentro */
-.content-circles-ring--2 {
-    width: 282px;
-    height: 282px;
-    border-width: 9px;
-
-    -webkit-mask-image: repeating-conic-gradient(
-        from 35deg,
-        black 0deg 18deg,
-        transparent 18deg 40deg
-    );
-    mask-image: repeating-conic-gradient(
-        from 35deg,
-        black 0deg 18deg,
-        transparent 18deg 40deg
-    );
-}
-
-/* Anel mais externo: fatias curtas mas vãos bem largos
-   (mais "espaçado"), outro ângulo inicial (70deg) */
-.content-circles-ring--3 {
-    width: 378px;
-    height: 378px;
-    border-width: 9px;
-
-    -webkit-mask-image: repeating-conic-gradient(
-        from 40deg,
-        black 0deg 8deg,
-        transparent 8deg 38deg
-    );
-    mask-image: repeating-conic-gradient(
-        from 40deg,
-        black 0deg 8deg,
-        transparent 8deg 38deg
-    );
+.content-circles--mid-right {
+    top: 66%;
+    right: 2%;
 }
 
 /* ============================================
@@ -2058,369 +1916,6 @@ main hr {
 }
 
 /* ============================================
-   CARROSSEL WRAPPED (FLOTADO NO TEXTO)
-   ============================================
-   
-   Carrossel de imagens que flutua à esquerda ou
-   direita do texto, permitindo que o conteúdo
-   "envelope" (wrap) o carrossel.
-   
-   Baseado no mesmo princípio das .wrapped-image-left
-   e .wrapped-image-right que você já tem.
-   ============================================ */
-
-/* 
-   ========================================
-   CONTAINER PRINCIPAL DO CARROSSEL
-   ========================================
-*/
-
-.wrapped-carousel {
-    /*
-       POSITION: RELATIVE
-       
-       Ponto de referência para os elementos absolutos
-       dentro do carrossel (setas, indicadores).
-    */
-    position: relative;
-    
-    /* 
-       LARGURA E ALTURA FIXAS
-       
-       Essencial para o float funcionar! O navegador
-       precisa saber exatamente quanto espaço reservar.
-    */
-    width: 400px;
-    height: 300px;
-    
-    /* Bordas arredondadas para elegância */
-    border-radius: 12px;
-    
-    overflow: hidden; 
-
-    margin-top: 0px;
-    
-    /* 
-       BACKGROUND COM GRADIENTE ANIMADO
-       
-       Cria uma "moldura" viva ao redor do carrossel.
-       O padding revela o gradiente nas bordas.
-    */
-    padding: 6px;
-    background: linear-gradient(
-        135deg,
-        #3D2E22 0%,
-        #EFBA7B 50%,
-        #558383 100%
-    );
-    background-size: 200% 200%;
-    
-    /* 
-       SOMBRA INICIAL
-       
-       Sombra média para destacar do texto.
-    */
-    box-shadow: 
-        0 8px 16px rgba(0, 0, 0, 0.15),
-        0 16px 32px rgba(61, 46, 34, 0.2);
-    
-    /* Transição suave para todas as propriedades */
-    transition: all 0.4s ease;
-}
-
-/*
-   EFEITO HOVER: LEVANTA, BRILHA E ANIMA O GRADIENTE
-   
-   Quando o mouse passa sobre o carrossel:
-   - Sobe 4px (levitação)
-   - Sombra fica mais forte (mais próxima do "chão")
-   - Gradiente começa a "respirar" (animação)
-*/
-.wrapped-carousel:hover {
-    
-    /*
-       SOMBRA MAIS FORTE NO HOVER
-       
-       - Sombra próxima mais escura (contato com chão)
-       - Sombra média maior (elevação)
-       - Aura colorida mais intensa
-    */
-    box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.2),
-        0 12px 24px rgba(0, 0, 0, 0.15),
-        0 24px 48px rgba(85, 131, 131, 0.3);
-    
-    /*
-       ANIMAÇÃO DO GRADIENTE
-       
-       Ativa a animação "gradientShift" definida abaixo.
-       O gradiente "respira" movendo a posição do background.
-    */
-    animation: gradientShift 3s ease infinite;
-}
-
-/*
-   DEFINIÇÃO DA ANIMAÇÃO DO GRADIENTE
-   
-   Move a posição do background do gradiente,
-   criando um efeito de luz fluida.
-*/
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* 
-   ========================================
-   CONTAINER INTERNO DAS IMAGENS
-   ========================================
-*/
-
-.wrapped-carousel-inner {
-    /* Ocupa todo o espaço disponível (descontando padding) */
-    width: 100%;
-    height: 100%;
-    
-    /* Fundo escuro para transições suaves entre imagens */
-    background: #1a1a1a;
-    
-    /*
-       BORDER-RADIUS: 8PX
-       
-       Cantos arredondados internos, ligeiramente menores
-       que os do container externo (12px) para criar um
-       efeito de "moldura" consistente.
-    */
-    border-radius: 8px;
-   
-    overflow: hidden;
-    
-     /*
-       POSITION: RELATIVE
-       
-       Ponto de referência para a legenda, que agora
-       será posicionada em relação a este container,
-       não ao .wrapped-carousel.
-    */
-    position: relative;
-}
-
-/* 
-   ========================================
-   VARIANTES DE FLOTACAO
-   ========================================
-*/
-
-.wrapped-carousel-left {
-    float: left;
-    margin: 0 20px 15px 0;
-}
-
-.wrapped-carousel-right {
-    float: right;
-    margin: 0 0 15px 20px;
-}
-
-/* 
-   ========================================
-   CADA IMAGEM DO CARROSSEL
-   ========================================
-*/
-
-.wrapped-carousel-img {
-    /*
-       POSITION: ABSOLUTE
-       
-       Todas as imagens ocupam o mesmo espaço,
-       uma sobrepondo a outra.
-    */
-    position: absolute;
-    top: 0;
-    left: 0;
-    
-    /* Preenche todo o container */
-    width: 100%;
-    height: 100%;
-    
-    /* Mantém proporção, corta o excesso */
-    object-fit: cover;
-    
-    /* Começa invisível (apenas a .active é visível) */
-    opacity: 0;
-    
-    /* Transição suave de fade */
-    transition: opacity 0.5s ease-in-out;
-}
-
-/* Imagem atualmente visível */
-.wrapped-carousel-img.active {
-    opacity: 1;
-}
-
-/* 
-   ========================================
-   LEGENDA DA FOTO
-   ========================================
-*/
-
-.wrapped-carousel-caption {
-    /*
-       POSITION: ABSOLUTE
-       
-       Fica na parte inferior do carrossel,
-       sobrepondo a imagem.
-    */
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    
-    /* Largura total */
-    width: 100%;
-    
-    /* Espaçamento interno */
-    padding: 8px 12px;
-    
-     /*
-       BACKGROUND COM GRADIENTE SUTIL
-       
-       Gradiente que combina com o frame externo.
-    */
-    background: linear-gradient(
-        to top,
-        rgba(61, 46, 34, 0.85) 0%,
-        rgba(61, 46, 34, 0.4) 60%,
-        transparent 100%
-    );
-    
-    color: #ffffff;
-    font-size: 0.85rem;
-    text-align: center;
-    margin: 0;
-    
-    /* Z-index acima das imagens */
-    z-index: 5;
-
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.wrapped-carousel-caption.active {
-    opacity: 1;
-}
-
-/* 
-   ========================================
-   INDICADORES (BOLINHAS MINI)
-   ========================================
-*/
-
-.wrapped-carousel-indicators {
-    position: absolute;
-    bottom: 45px; /* Acima da legenda */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 6;
-    
-    /* Flexbox para alinhar bolinhas */
-    display: flex;
-    gap: 6px;
-}
-
-.wrapped-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(255, 255, 255, 0.7);
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.2s ease;
-}
-
-.wrapped-indicator.active {
-    background: #ffffff;
-    border-color: #ffffff;
-    transform: scale(1.2);
-}
-
-/* 
-   ========================================
-   SETAS DE NAVEGAÇÃO (MINI)
-   ========================================
-*/
-
-.wrapped-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 6;
-    
-    /* Botões menores que os da hero */
-    width: 28px;
-    height: 28px;
-    
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(2px);
-    cursor: pointer;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    opacity: 0; /* Invisível até hover */
-    transition: all 0.2s ease;
-}
-
-/* Aparecem no hover do carrossel */
-.wrapped-carousel:hover .wrapped-arrow {
-    opacity: 1;
-}
-
-.wrapped-arrow:hover {
-    background: rgba(255, 255, 255, 0.45);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.wrapped-arrow-prev {
-    left: 10px;
-}
-
-.wrapped-arrow-next {
-    right: 10px;
-}
-
-/* Ícone SVG dentro da seta */
-.wrapped-arrow svg {
-    width: 14px;
-    height: 14px;
-    color: #ffffff;
-}
-
-/* 
-   ========================================
-   LIMPEZA DE FLOAT
-   ========================================
-   
-   Se você precisar que um elemento NÃO flutue
-   ao lado do carrossel (ex: um h2 que deve
-   começar abaixo), use esta classe.
-*/
-
-.clear-float {
-    /*
-       CLEAR: BOTH
-       
-       "Não permita elementos flutuantes dos dois
-       lados." O elemento começa em uma nova linha,
-       abaixo de qualquer float.
-    */
-    clear: both;
-}
-
-/* ============================================
    FOOTER (RODAPÉ)
    ============================================
    
@@ -2826,784 +2321,6 @@ main hr {
     margin: 0;
 }
 
-/* ============================================
-   CARDS DE EVENTOS PASSADOS (EXPANSÍVEIS)
-   ============================================
-
-   Cards clicáveis que se expandem para mostrar
-   um carrossel de imagens e conteúdo detalhado.
-
-   Estrutura HTML esperada:
-   <div class="event-cards-container">
-     <div class="event-card">
-       <div class="event-card-header">
-         <h3 class="event-card-title">Título da Edição</h3>
-         <span class="event-card-year">2025</span>
-         <button class="event-card-toggle" aria-label="Expandir card">
-           <svg>...</svg>
-         </button>
-       </div>
-       <div class="event-card-body">
-         <div class="event-card-carousel">
-           <div class="event-card-carousel-inner">
-             <img src="..." class="event-card-carousel-img active">
-             <img src="..." class="event-card-carousel-img">
-             ...
-           </div>
-           <div class="event-card-carousel-indicators">
-             <button class="event-card-indicator active" data-slide="0"></button>
-             ...
-           </div>
-           <button class="event-card-arrow event-card-arrow-prev">...</button>
-           <button class="event-card-arrow event-card-arrow-next">...</button>
-         </div>
-         <div class="event-card-content">
-           <h1>...</h1>
-           <h2>...</h2>
-           <p>...</p>
-         </div>
-       </div>
-     </div>
-   </div>
-   ============================================ */
-
-/* ============================================
-   CONTAINER DOS CARDS
-   ============================================ */
-
-.event-cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 20px;
-}
-
-/* ============================================
-   CARD BASE (COLAPSADO)
-   ============================================
-
-   O card tem uma "moldura" de gradiente animado criada pelo
-   padding. O fundo branco do header e body cobre o centro,
-   deixando apenas as bordas com o gradiente visível.
-
-   Isso é um truque CSS: padding + background no pai + 
-   background branco nos filhos = borda gradiente.
-   ============================================ */
-
-.event-card {
-    /* Fundo = gradiente que será a "moldura" */
-    background: linear-gradient(
-        135deg,
-        #3D2E22 0%,
-        #EFBA7B 50%,
-        #558383 100%
-    );
-    background-size: 200% 200%;
-
-    /* O padding cria a espessura da borda gradiente */
-    padding: 3px;
-
-    /* Bordas arredondadas */
-    border-radius: 16px;
-
-    /* Sombra inicial */
-    box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.1),
-        0 8px 24px rgba(61, 46, 34, 0.15);
-
-    /* Transição suave para hover e expansão */
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Cursor de clique quando colapsado */
-    cursor: pointer;
-
-    /* Esconde o que transborda (importante para o gradiente) */
-    overflow: hidden;
-}
-
-/* 
-   EFEITO HOVER NO CARD COLAPSADO
-   - Levanta 4px (translateY)
-   - Sombra fica mais forte
-   - Gradiente começa a animar (gradientShift)
-*/
-.event-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.15),
-        0 16px 40px rgba(61, 46, 34, 0.25);
-    animation: gradientShift 3s ease infinite;
-}
-
-/* 
-   DEFINIÇÃO DA ANIMAÇÃO DO GRADIENTE
-
-   Move a posição do background do gradiente,
-   criando um efeito de luz fluida nas bordas.
-
-   background-position controla onde o gradiente começa:
-   - 0% 50% = começo
-   - 100% 50% = meio (inverte as cores)
-   - volta para 0% 50%
-*/
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* 
-   CARD EXPANDIDO
-   - Mantém a sombra forte
-   - Remove cursor pointer (não precisa mais clicar)
-   - Continua com gradiente animado
-*/
-.event-card.expanded {
-    cursor: default;
-    transform: translateY(-4px);
-    box-shadow: 
-        0 12px 30px rgba(0, 0, 0, 0.2),
-        0 24px 60px rgba(61, 46, 34, 0.3);
-    animation: gradientShift 3s ease infinite;
-}
-
-/* ============================================
-   CABEÇALHO DO CARD
-   ============================================
-
-   Sempre visível. Quando o card está colapsado,
-   o header tem bordas arredondadas em todos os lados.
-   Quando expandido, as bordas inferiores ficam retas
-   para fazer a "costura" com o body.
-   ============================================ */
-
-.event-card-header {
-    /* Fundo branco por cima do gradiente do pai */
-    background: #ffffff;
-    border-radius: 12px;
-
-    /* Flexbox: alinha título, ano e botão em linha */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-
-    /* Espaçamento interno */
-    padding: 16px 24px;
-
-    /* Transição suave das bordas */
-    transition: border-radius 0.4s ease;
-}
-
-/* Quando expandido: remove bordas arredondadas inferiores */
-.event-card.expanded .event-card-header {
-    border-radius: 12px 12px 0 0;
-}
-
-/* Título da edição */
-.event-card-title {
-    /* Ocupa o espaço disponível (empurra o resto para a direita) */
-    flex: 1;
-
-    /* Estilos de texto */
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #3D2E22;
-    margin: 0;
-
-    /* Trunca texto longo com reticências */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Botão de expandir/colapsar (seta) */
-.event-card-toggle {
-    /* Remove estilos padrão de botão */
-    background: none;
-    border: none;
-    padding: 4px;
-
-    /* Dimensões */
-    width: 32px;
-    height: 32px;
-
-    /* Centraliza o ícone */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Cursor de clique */
-    cursor: pointer;
-
-    /* Círculo para hover */
-    border-radius: 50%;
-
-    /* Transição suave */
-    transition: all 0.3s ease;
-}
-
-.event-card-toggle:hover {
-    background: rgba(61, 46, 34, 0.1);
-}
-
-/* Ícone SVG da seta */
-.event-card-toggle svg {
-    width: 20px;
-    height: 20px;
-    color: #3D2E22;
-
-    /* Transição de rotação suave */
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Quando expandido: seta gira 180° (aponta para cima) */
-.event-card.expanded .event-card-toggle svg {
-    transform: rotate(180deg);
-}
-
-/* ============================================
-   CORPO DO CARD (CONTEÚDO EXPANDIDO)
-   ============================================
-
-   Começa com max-height: 0 (invisível) e padding: 0.
-   Quando o card recebe a classe .expanded, max-height
-   aumenta para um valor grande e o padding aparece.
-
-   A transição de max-height cria a animação de "abrir".
-   ============================================ */
-
-.event-card-body {
-    /* Fundo branco */
-    background: #ffffff;
-
-    /* Bordas arredondadas inferiores */
-    border-radius: 0 0 12px 12px;
-
-    /* 
-       max-height: 0 = colapsado (invisível)
-       overflow: hidden = esconde o conteúdo que transborda
-    */
-    max-height: 0;
-    overflow: hidden;
-
-    /* 
-       Transição de max-height cria a animação de abertura.
-       cubic-bezier(0.4, 0, 0.2, 1) = curva de aceleração suave
-       (começa rápido, desacelera no final).
-    */
-    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                padding 0.4s ease;
-
-    /* Sem padding quando colapsado */
-    padding: 0 24px;
-}
-
-/* Quando o card está expandido */
-.event-card.expanded .event-card-body {
-    /* 
-       max-height alto o suficiente para caber o conteúdo.
-       Se o conteúdo for maior que 2000px, aumente este valor.
-    */
-    max-height: 2000px;
-
-    /* Padding quando expandido */
-    padding: 20px 24px 30px 24px;
-}
-
-/* ============================================
-   CARROSSEL INTERNO DO CARD
-   ============================================
-
-   O carrossel dentro do card tem:
-   - Imagens com efeito de blur nas laterais
-   - Indicadores (bolinhas) na parte inferior
-   - Setas de navegação nos lados
-   - Auto-play via JavaScript
-   ============================================ */
-
-.event-card-carousel {
-    /* Position relative para posicionar setas e indicadores */
-    position: relative;
-
-    /* Largura total do card */
-    width: 100%;
-
-    /* Altura fixa para o carrossel */
-    height: 320px;
-
-    /* Bordas arredondadas */
-    border-radius: 12px;
-
-    /* Esconde o que transborda (importante para as imagens) */
-    overflow: hidden;
-
-    /* Fundo escuro enquanto imagens carregam */
-    background: #1a1a1a;
-
-    /* Margem inferior antes do conteúdo de texto */
-    margin-bottom: 24px;
-
-    z-index: 1; /* Garante que o carrossel fique abaixo da blur layer */
-}
-
-/* Container das imagens */
-.event-card-carousel-inner {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-/* ============================================
-   EFEITO DE BLUR NAS LATERAIS DO CARROSSEL
-   ============================================
-   
-   TÉCNICA: "Blur Layer" (Camada de Desfoque)
-   
-   Em vez de aplicar máscara na imagem principal (que apenas
-   esconde as bordas), criamos uma CAMADA EXTRA por cima:
-   
-   - Camada 1 (z-index 1): imagem original NÍTIDA em 100%
-   - Camada 2 (z-index 2): mesma imagem com filter: blur(),
-     mostrando APENAS nas bordas via mask-image
-   
-   RESULTADO: centro nítido, bordas suavemente desfocadas.
-   ============================================ */
-
-/* 
-   ========================================
-   CAMADA 1: IMAGEM ORIGINAL (NÍTIDA)
-   ========================================
-   
-   Fica em z-index 1, visível em 100% do container.
-   É a base sobre a qual aplicamos o blur nas bordas.
-*/
-.event-card-carousel-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-    z-index: 1; /* Camada de baixo */
-}
-
-
-/* Imagem ativa (visível) */
-.event-card-carousel-img.active {
-    opacity: 1;
-}
-
-/* 
-   ========================================
-   CAMADA 2: BLUR LAYER (DESFOQUE NAS BORDAS)
-   ========================================
-   
-   Elemento criado dinamicamente via JavaScript.
-   Contém a MESMA imagem do slide ativo, mas borrada.
-   
-   - filter: blur(12px) → desfoque real
-   - mask-image → mostra apenas 25% das bordas
-   - z-index 2 → fica POR CIMA da imagem nítida
-   
-   Nas bordas: vemos a imagem BORRADA (camada 2)
-   No centro: vemos a imagem NÍTIDA (camada 1, atrás)
-*/
-.blur-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2; /* Por cima da imagem original */
-    
-    /* Permite cliques passarem para as setas/indicadores abaixo */
-    pointer-events: none;
-    
-    /* Invisível por padrão, JS ativa quando há slide */
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-    
-    /* Background definido via JS (mesma imagem do slide ativo) */
-    background-size: cover;
-    background-position: center;
-    
-    /* 
-       FILTER: BLUR(15PX) — O SEGREDO DO EFEITO!
-       
-       Aplica desfoque gaussiano real na imagem.
-       Quanto maior o valor, mais borrada.
-       15px é um bom equilíbrio para 400px de largura.
-    */
-    filter: blur(15px);
-    -webkit-filter: blur(15px); /* Prefixo Safari */
-    
-    /* 
-       MASK-IMAGE: GRADIENTE HORIZONTAL
-       
-       Controla ONDE a camada borrada aparece:
-       
-       black (0%-15%)   → borda esquerda VISÍVEL (borrada)
-       transparent      → centro INVISÍVEL (mostra nítida de baixo)
-       black (85%-100%) → borda direita VISÍVEL (borrada)
-       
-       A transição black → transparent é suave (gradiente),
-       criando o efeito de "suavização" do blur.
-    */
-    -webkit-mask-image: linear-gradient(
-        to right,
-        black 0%,
-        black 8%,      /* Borda esquerda: blur total */
-        transparent 30%, /* Começa a suavizar */
-        transparent 70%, /* Centro: totalmente transparente */
-        black 92%,      /* Borda direita: começa blur */
-        black 100%
-    );
-    mask-image: linear-gradient(
-        to right,
-        black 0%,
-        black 8%,
-        transparent 30%,
-        transparent 70%,
-        black 92%,
-        black 100%
-    );
-}
-
-/* 
-   ========================================
-   VARIAÇÃO: BLUR MAIS FORTE (OPCIONAL)
-   ========================================
-   
-   Descomente esta regra se quiser bordas MAIS borradas.
-   Ideal para imagens com muitos detalhes nas bordas.
-*/
-/*
-.blur-layer.strong-blur {
-    filter: blur(20px);
-    -webkit-filter: blur(20px);
-    -webkit-mask-image: linear-gradient(
-        to right,
-        black 0%,
-        black 8%,
-        transparent 30%,
-        transparent 70%,
-        black 92%,
-        black 100%
-    );
-    mask-image: linear-gradient(
-        to right,
-        black 0%,
-        black 8%,
-        transparent 30%,
-        transparent 70%,
-        black 92%,
-        black 100%
-    );
-}
-*/
-
-/* ============================================
-   INDICADORES DO CARROSSEL DO CARD (BOLINHAS)
-   ============================================ */
-
-.event-card-carousel-indicators {
-    /* Posicionamento na parte inferior, centralizado */
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    /* Acima das imagens */
-    z-index: 10;
-
-    /* Flexbox para alinhar em linha */
-    display: flex;
-    gap: 10px;
-}
-
-/* Cada bolinha */
-.event-card-indicator {
-    /* Dimensões */
-    width: 10px;
-    height: 10px;
-
-    /* Círculo */
-    border-radius: 50%;
-
-    /* Borda branca semi-transparente */
-    border: 2px solid rgba(255, 255, 255, 0.7);
-
-    /* Fundo transparente */
-    background: transparent;
-
-    /* Cursor de clique */
-    cursor: pointer;
-
-    /* Remove padding padrão de botão */
-    padding: 0;
-
-    /* Transição suave */
-    transition: all 0.3s ease;
-}
-
-/* Bolinha do slide ativo */
-.event-card-indicator.active {
-    background: #ffffff;
-    border-color: #ffffff;
-    transform: scale(1.3);
-}
-
-/* Hover em bolinhas inativas */
-.event-card-indicator:not(.active):hover {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-/* ============================================
-   SETAS DE NAVEGAÇÃO DO CARROSSEL DO CARD
-   ============================================ */
-
-.event-card-arrow {
-    /* Posicionamento vertical central */
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-
-    /* Acima das imagens */
-    z-index: 10;
-
-    /* Dimensões */
-    width: 40px;
-    height: 40px;
-
-    /* Remove bordas padrão de botão */
-    border: none;
-
-    /* Círculo */
-    border-radius: 50%;
-
-    /* Fundo semi-transparente com efeito de vidro */
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-
-    /* Cursor de clique */
-    cursor: pointer;
-
-    /* Centraliza o ícone SVG */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    /* Começa invisível (aparece no hover do carrossel) */
-    opacity: 0;
-
-    /* Transição suave */
-    transition: all 0.3s ease;
-}
-
-/* 
-   APARECEM NO HOVER DO CARROSSEL
-
-   .event-card-carousel:hover .event-card-arrow
-   = "quando o mouse está sobre o carrossel, 
-      as setas dentro dele ficam visíveis"
-*/
-.event-card-carousel:hover .event-card-arrow {
-    opacity: 1;
-}
-
-/* Hover nas setas */
-.event-card-arrow:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: translateY(-50%) scale(1.1);
-}
-
-/* Seta anterior (esquerda) */
-.event-card-arrow-prev {
-    left: 16px;
-}
-
-/* Seta próximo (direita) */
-.event-card-arrow-next {
-    right: 16px;
-}
-
-/* Ícone SVG dentro da seta */
-.event-card-arrow svg {
-    width: 20px;
-    height: 20px;
-    color: #ffffff;
-}
-
-/* ============================================
-   CONTEÚDO DE TEXTO DO CARD EXPANDIDO
-   ============================================
-
-   NOTA SOBRE ESTILOS DE TEXTO:
-
-   Os estilos de h1, h2, p, etc. dentro de .event-card-content
-   HERDAM as propriedades definidas em main.css (como font-family,
-   line-height, color), mas SOBRESCREVEM algumas propriedades
-   específicas como font-size e margin.
-
-   Isso é necessário porque o espaço dentro do card é mais
-   compacto que o main geral. Os títulos precisam ser menores
-   para não dominarem visualmente o card.
-
-   Se você remover estas regras, os elementos usarão os estilos
-   de main.css, que têm fontes maiores (h1: 2rem, h2: 1.3rem)
-   e padding-right generoso. No card, isso pode ficar desproporcional.
-
-   Você pode ajustar os valores abaixo conforme preferir,
-   ou removê-los se quiser usar os estilos padrão do main.
-   ============================================ */
-
-.event-card-content {
-    /* Espaçamento interno nas laterais */
-    padding: 0 8px;
-}
-
-/* Títulos dentro do card — menores que os do main */
-.event-card-content h1 {
-    color: #3D2E22;
-    font-size: 1.5rem;      /* menor que o 2rem do main */
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-    padding-right: 0;       /* remove o padding-right do main */
-    text-align: left;
-    line-height: 1.2;
-}
-
-.event-card-content h2 {
-    color: #B3651F;
-    font-size: 1.15rem;     /* menor que o 1.3rem do main */
-    font-weight: 600;
-    margin-top: 1.2rem;
-    margin-bottom: 0.6rem;
-    padding-right: 0;
-    text-align: left;
-    line-height: 1.3;
-}
-
-/* Parágrafos dentro do card */
-.event-card-content p {
-    color: #333;
-    font-size: 0.95rem;     /* ligeiramente menor */
-    line-height: 1.7;
-    margin-bottom: 0.8rem;
-    text-align: justify;
-}
-
-/* Negrito dentro do card */
-.event-card-content strong,
-.event-card-content b {
-    font-weight: 700;
-    color: #3D2E22;
-}
-
-/* Links dentro do card */
-.event-card-content a {
-    color: #B3651F;
-    text-decoration: underline;
-    text-decoration-color: rgba(179, 101, 31, 0.4);
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.event-card-content a:hover {
-    color: #558383;
-}
-
-/* Listas dentro do card */
-.event-card-content ul,
-.event-card-content ol {
-    padding-left: 1.5rem;
-    margin-bottom: 0.8rem;
-}
-
-.event-card-content li {
-    margin-bottom: 0.4rem;
-    line-height: 1.6;
-    color: #333;
-}
-
-/* Separadores dentro do card */
-.event-card-content hr {
-    border: none;
-    height: 2px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        #EFBA7B,
-        transparent
-    );
-    margin: 1.5rem 0;
-}
-
-/* ============================================
-   FOTO DOS VENCEDORES
-   ============================================
-
-   Use esta classe para mostrar uma foto centralizada
-   com legenda abaixo (nomes dos vencedores).
-
-   Estrutura HTML:
-   <figure class="winners-photo">
-     <img src="foto-vencedores.jpg" alt="Vencedores do Eureka 2025">
-     <figcaption>
-       <strong>1º Lugar:</strong> João Silva e Maria Oliveira<br>
-       <strong>2º Lugar:</strong> Pedro Santos<br>
-       <strong>3º Lugar:</strong> Ana Costa
-     </figcaption>
-   </figure>
-   ============================================ */
-
-.winners-photo {
-    /* Centraliza o conteúdo */
-    text-align: center;
-
-    /* Margens */
-    margin: 1.5rem auto;
-
-    /* Largura máxima */
-    max-width: 700px;
-}
-
-/* Imagem dos vencedores */
-.winners-photo img {
-    /* Largura total do container */
-    width: 100%;
-
-    /* Altura automática (mantém proporção) */
-    height: auto;
-
-    /* Bordas arredondadas */
-    border-radius: 12px;
-
-    /* Sombra suave */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-}
-
-/* Legenda da foto (nomes dos vencedores) */
-.winners-photo figcaption {
-    /* Espaço acima da legenda */
-    margin-top: 12px;
-
-    /* Estilos de texto */
-    font-size: 0.9rem;
-    color: #555;
-    line-height: 1.6;
-
-    /* Espaçamento interno */
-    padding: 0 8px;
-}
-
 /* ================================================================
    PÁGINA: PROGRAMAÇÃO (programacao.html)
    ================================================================
@@ -3628,8 +2345,11 @@ main hr {
       Cerimônia de Abertura, Encerramento) — fundo branco, texto
       no degradê escuro (--gradient-readable).
 
-   Há ainda .schedule-cell--empty para horários sem nenhum evento
-   naquele dia específico.
+   (A planilha atual não tem mais horários vazios — todo slot tem
+   algum evento —, então a classe .schedule-cell--empty que
+   existia para esse caso foi removida. Se algum dia um horário
+   ficar sem evento em algum dia específico, é só recriar essa
+   classe: background: transparent + border tracejada.)
    ================================================================ */
 
 /*
@@ -3644,12 +2364,11 @@ main hr {
     /*
        SCROLL-MARGIN-TOP
 
-       Sem isso, ao pular para #planilha (seja pelo botão de
-       voltar ao topo, seja por um link com #planilha na URL),
-       o navbar fixo (70px) ficaria SOBRE o início da seção,
-       cobrindo o título. scroll-margin-top cria uma "folga"
-       antes do alvo do scroll, exatamente como o
-       --navbar-safe-area já faz para as páginas internas.
+       Sem isso, ao pular para #planilha (por exemplo, um link
+       com #planilha na URL), o navbar fixo (70px) ficaria SOBRE
+       o início da seção, cobrindo o título. scroll-margin-top
+       cria uma "folga" antes do alvo do scroll, exatamente como
+       o --navbar-safe-area já faz para as páginas internas.
     */
     scroll-margin-top: var(--navbar-safe-area);
 }
@@ -3962,15 +2681,6 @@ main hr {
 }
 
 /*
-   HORÁRIO SEM EVENTO NAQUELE DIA
-*/
-.schedule-cell--empty {
-    background: transparent;
-    border: 2px dashed rgba(61, 46, 34, 0.15);
-    border-image: none;
-}
-
-/*
    PREPARO PARA QUANDO A PLANILHA FICAR INTERATIVA
 
    Hoje, NENHUMA célula tem esta classe (ainda não há
@@ -4052,13 +2762,14 @@ main hr {
 }
 
 /* ================================================================
-   BOTÃO "VOLTAR PARA A PLANILHA"
+   BOTÃO "VOLTAR AO TOPO"
    ================================================================
 
    Botão circular flutuante, fixo no canto inferior direito da
-   tela. Fica invisível até o usuário rolar a página um pouco
-   (ver main.js, Seção 10) — não faz sentido oferecer "voltar
-   para cima" quando já se está no topo.
+   tela, presente em TODAS as páginas do site. Fica invisível até
+   o usuário rolar a página um pouco (ver main.js, Seção 10) — não
+   faz sentido oferecer "voltar para cima" quando já se está no
+   topo.
    ================================================================ */
 
 .back-to-top-button {
@@ -4086,8 +2797,7 @@ main hr {
 
        opacity + visibility (não só opacity) para que o botão,
        quando invisível, também não capture cliques nem fique
-       "no caminho" do teclado (Tab) — mesmo motivo pelo qual
-       .dropdown-menu no navbar usa essa dupla.
+       "no caminho" do teclado (Tab).
     */
     opacity: 0;
     visibility: hidden;
@@ -4113,4 +2823,621 @@ main hr {
     width: 22px;
     height: 22px;
     color: #ffffff;
+}
+
+/* ================================================================
+   PÁGINA: INSCRIÇÃO (inscricao.html)
+   ================================================================
+
+   Tudo abaixo é usado exclusivamente em inscricao.html: a
+   "planilha" de valores de inscrição e o espaço para o link do
+   formulário.
+   ================================================================ */
+
+/*
+   CONTAINER COM ROLAGEM HORIZONTAL
+
+   Mesmo motivo do .schedule-table-wrapper em programacao.html:
+   uma tabela mais larga pode não caber em janelas mais estreitas.
+*/
+.pricing-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/*
+   A TABELA DE VALORES
+
+   Mesma técnica de "planilha" da página de Programação: table de
+   verdade + border-spacing (em vez de border normal) para cada
+   célula parecer um "card" próprio, com um respiro entre elas.
+*/
+.pricing-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 8px;
+    text-align: center;
+}
+
+.pricing-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #3D2E22;
+    margin-bottom: 14px;
+}
+
+/*
+   CABEÇALHO ("Categoria" / "Valor")
+
+   Mesmo tratamento visual do cabeçalho de dia da planilha de
+   horários (--color-highlight-text sólido, sem degradê) — pela
+   mesma razão: destacar a linha de cabeçalho como uma "faixa"
+   própria, diferente das células de dado logo abaixo.
+*/
+.pricing-header {
+    background: var(--color-highlight-text);
+    color: #ffffff;
+    padding: 12px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/*
+   CÉLULAS DE DADO (nome da categoria)
+*/
+.pricing-cell {
+    background: #ffffff;
+    color: #3D2E22;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: left;
+    vertical-align: middle;
+
+    /* Mesma "borda no degradê" (border-image) usada na planilha
+       de horários — ver .schedule-cell, em main.css, para a
+       explicação completa de por que border-image e não
+       box-shadow */
+    border: 3px solid transparent;
+    border-image: var(--gradient-soft) 1;
+}
+
+/* Nota pequena dentro da célula "Inscrição Social", explicando
+   quem se qualifica — mais discreta que o nome da categoria */
+.pricing-cell-note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #555;
+}
+
+/*
+   CÉLULA DE VALOR (ex: "R$ 40")
+
+   O valor em si é a informação que mais importa nesta tabela —
+   destacamos com texto no degradê (mesma técnica de
+   .schedule-cell-label--gradient, na planilha de horários):
+   background-clip: text usa o degradê como "tinta" só dentro do
+   contorno das letras, deixando o resto do texto transparente.
+*/
+.pricing-cell--price {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+
+    background: var(--gradient-readable);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* ================================================================
+   CHAMADA PARA O FORMULÁRIO DE INSCRIÇÃO
+   ================================================================ */
+
+.inscricao-cta {
+    text-align: center;
+    padding: 20px 0 40px;
+}
+
+.inscricao-cta p {
+    /* Sobrescreve o text-align: justify padrão dos parágrafos do
+       <main> — aqui é só uma frase curta e centralizada, não um
+       texto corrido */
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/*
+   BOTÃO DE INSCRIÇÃO
+
+   Um link estilizado como botão — mesmo princípio de "elevação
+   no hover" já usado em .back-to-top-button e
+   .schedule-cell--clickable (translateY + sombra mais forte).
+*/
+.inscricao-cta-button {
+    display: inline-block;
+    background: var(--color-highlight-text);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 16px 40px;
+    border-radius: 30px;
+    box-shadow: 0 4px 14px rgba(61, 46, 34, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inscricao-cta-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(61, 46, 34, 0.4);
+}
+
+/* ================================================================
+   RESPONSIVIDADE
+   ================================================================
+
+   Tudo daqui pra baixo é MEDIA QUERY — regras que só valem
+   dentro de uma faixa de largura de tela. Até agora, todo o
+   resto deste arquivo foi escrito "desktop-first": as regras
+   normais (sem media query) valem para telas largas, e as
+   media queries abaixo vão progressivamente AJUSTANDO/
+   SOBRESCREVENDO essas regras para telas mais estreitas.
+
+   TRÊS FAIXAS (breakpoints):
+
+   1) até 1024px — TABLETS (e notebooks pequenos): reduz espaços
+      e tamanhos, mas mantém a mesma estrutura de layout do
+      desktop (menu horizontal, hero com logo ao lado das
+      legendas, imagens flutuantes ao lado do texto).
+
+   2) até 768px — CELULARES E TABLETS EM PÉ: aqui a estrutura
+      muda de verdade — o menu horizontal vira um menu
+      hambúrguer, a hero empilha o logo sobre as legendas em vez
+      de lado a lado, imagens que antes flutuavam ao lado do
+      texto passam a ficar centralizadas ACIMA dele, e o rodapé
+      empilha as 3 colunas em vez de dividir em três.
+
+   3) até 480px — CELULARES PEQUENOS: últimos ajustes finos de
+      tamanho de fonte e espaçamento para telas bem estreitas.
+
+   Por que "max-width" (não "min-width")? Como o CSS acima foi
+   escrito pensando em desktop primeiro, faz mais sentido group
+   ir "vou aplicar isso quando a tela for MENOR que X" do que
+   reescrever tudo do zero no sentido contrário.
+   ================================================================ */
+
+/* ================================================================
+   NÍVEL 1: TABLETS (até 1024px)
+   ================================================================ */
+
+@media (max-width: 1024px) {
+
+    /* ----- NAVBAR ----- */
+
+    .nav-container {
+        padding: 0 24px;
+    }
+
+    .nav-logo-image {
+        height: 50px;
+    }
+
+    .nav-list {
+        gap: 6px;
+    }
+
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* ----- HERO ----- */
+
+    .logo-container {
+        padding: 0 40px;
+        max-width: 280px;
+    }
+
+    .logo-container-image {
+        height: 200px;
+        width: 146px;
+    }
+
+    .captions-container {
+        padding: 140px 60px 50px 40px;
+    }
+
+    .slide-caption {
+        max-width: 440px;
+    }
+
+    .caption-title {
+        font-size: 1.8rem;
+    }
+
+    .caption-subtitle {
+        font-size: 1rem;
+    }
+
+    /* ----- TIPOGRAFIA DO CONTEÚDO PRINCIPAL -----
+       O padding-right grande (40%/35%) existe para criar uma
+       linha de leitura mais curta em telas BEM largas — em
+       telas de tablet, isso só espremeria o texto numa coluna
+       estreita demais. Reduzido bastante aqui. */
+
+    main {
+        padding: 32px 40px;
+    }
+
+    main h1 {
+        font-size: 1.8rem;
+        padding-right: 15%;
+    }
+
+    main h2 {
+        padding-right: 12%;
+    }
+
+    /* ----- IMAGENS FLUTUANTES (História / palestrantes) ----- */
+
+    .wrapped-image-left,
+    .wrapped-image-right {
+        width: 220px;
+    }
+
+    .speaker-photo-left,
+    .speaker-photo-right {
+        width: 160px;
+    }
+
+    /* ----- RODAPÉ -----
+       Ainda em 3 colunas (cabe), só com menos espaço entre elas. */
+
+    .footer-container {
+        padding: 0 24px;
+        gap: 20px;
+    }
+}
+
+/* ================================================================
+   NÍVEL 2: CELULARES E TABLETS EM PÉ (até 768px)
+   ================================================================
+
+   A partir daqui a ESTRUTURA muda, não só o tamanho.
+   ================================================================ */
+
+@media (max-width: 768px) {
+
+    /* ----- NAVBAR: MENU HAMBÚRGUER -----
+
+       .nav-list deixa de ser uma linha horizontal e vira um
+       painel que fica ESCONDIDO por padrão (display: none),
+       abrindo como um menu solto abaixo do navbar quando o
+       usuário toca no hambúrguer (.nav-toggle, que troca de
+       "escondido" para visível aqui). A classe
+       .nav-list--open é adicionada/removida pelo JavaScript
+       (main.js, Seção 11) a cada clique no hambúrguer.
+    */
+
+    .nav-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-list {
+        /* Tira o menu do fluxo normal e o transforma num painel
+           solto, ancorado embaixo do navbar */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+
+        /* Empilha os itens verticalmente em vez de lado a lado */
+        flex-direction: column;
+        gap: 0;
+
+        /* Mesmo degradê do navbar, para o painel parecer uma
+           "extensão" dele, não um elemento à parte */
+        background: linear-gradient(to bottom, #B3DEFA 0%, #66A2C1 100%);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+
+        /* Escondido por padrão */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    /* Classe adicionada pelo JS ao clicar no hambúrguer — abre
+       o painel. max-height (em vez de display) permite a
+       transição suave definida acima; 400px é só um teto alto
+       o bastante para caber os itens do menu, mesmo que cresça
+       um pouco no futuro. */
+    .nav-list.nav-list--open {
+        max-height: 400px;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .nav-link {
+        /* Preenche a largura toda do painel — área de toque
+           maior, mais fácil de acertar num celular */
+        width: 100%;
+        border-radius: 0;
+        padding: 14px 24px;
+    }
+
+    /* O hover com scale() não faz sentido em telas de toque
+       (não existe "passar o mouse" — o dedo já toca direto) */
+    .nav-link:hover {
+        transform: none;
+    }
+
+    /* ----- HERO: SÓ IMAGEM + LEGENDA, TUDO CENTRALIZADO -----
+
+       Sem o logo nem o degradê "revelador" (os dois pensados
+       para a composição larga do desktop, com o logo à
+       esquerda e a foto "aparecendo" à direita) — numa tela
+       estreita isso não sobra espaço para funcionar bem. Aqui
+       o carrossel fica só com a foto de fundo e a legenda,
+       centralizada por cima dela; a legibilidade do texto vem
+       do text-shadow que .caption-title/.caption-subtitle já
+       têm, mais o brightness() reduzido já aplicado nas fotos
+       do carrossel (.carousel-slide-bg/-fg).
+    */
+
+    .hero {
+        height: 60vh;
+    }
+
+    .hero-overlay {
+        /* Remove o degradê — só a foto do carrossel aparece
+           por trás da legenda agora */
+        background: none;
+
+        /* Com o logo escondido (ver .logo-container abaixo),
+           .captions-container passa a ser o ÚNICO filho do
+           overlay — center/center o centraliza tanto na
+           horizontal quanto na vertical dentro da hero inteira */
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Esconde o logo (a div inteira, não só a imagem) — o
+       nome/marca da SEAFís já aparece no navbar logo acima,
+       não precisa se repetir aqui também */
+    .logo-container {
+        display: none;
+    }
+
+    .captions-container {
+        flex: none;
+        width: 100%;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /*
+       LEGENDA CENTRALIZADA NOS DOIS EIXOS
+
+       A legenda ativa/inativa continua usando position: absolute
+       (ver .slide-caption no CSS "de desktop") para o efeito de
+       fade entre elas continuar funcionando. Diferente da versão
+       de desktop (que só define a posição horizontal e deixa a
+       vertical "flutuar" conforme o flex do container pai — o
+       que fazia sentido ao lado do logo, não aqui), aqui
+       fixamos os DOIS eixos (top: 50% + left: 50%), garantindo
+       que a legenda fique sempre no centro exato do carrossel,
+       não importa o tamanho do texto.
+    */
+    .slide-caption {
+        top: 50%;
+        left: 50%;
+        max-width: 90vw;
+        text-align: center;
+        transform: translate(-50%, calc(-50% + 20px));
+    }
+
+    .slide-caption.active {
+        transform: translate(-50%, -50%);
+    }
+
+    .caption-title {
+        font-size: 1.4rem;
+    }
+
+    .caption-subtitle {
+        font-size: 0.85rem;
+    }
+
+    /*
+       SETAS: VOLTAM A FICAR CENTRALIZADAS NA VERTICAL
+
+       No desktop, as setas só aparecem no :hover da .hero — mas
+       telas de toque não têm "hover" de verdade, então
+       ficariam PERMANENTEMENTE invisíveis num celular; por
+       isso opacity: 1 fixo aqui. Também as reposicionamos:
+       top: 50% + translateY(-50%) as centraliza na ALTURA do
+       carrossel (a mesma técnica clássica de setas
+       anterior/próximo), uma de cada lado — em vez de ficarem
+       espremidas embaixo, junto com as bolinhas indicadoras.
+    */
+    .carousel-arrow {
+        opacity: 1;
+        width: 40px;
+        height: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .carousel-arrow-prev {
+        left: 12px;
+    }
+
+    .carousel-arrow-next {
+        right: 12px;
+    }
+
+    /* Indicadores: centralizados na horizontal, perto da borda
+       inferior — já não competem mais por espaço com as setas,
+       que agora ficam no meio da altura do carrossel */
+    .carousel-indicators {
+        left: 50%;
+        bottom: 16px;
+    }
+
+    /* ----- CÍRCULOS DECORATIVOS: ESCONDIDOS -----
+
+       São só um detalhe de fundo — em telas estreitas, onde o
+       espaço já é apertado, eles atrapalhariam mais do que
+       ajudariam. main.js continua rodando e montando o <svg>
+       normalmente (não vale a pena complicar o JS só para não
+       gerar algo que o CSS já esconde de qualquer forma) — só
+       não aparece na tela.
+    */
+    .content-circles {
+        display: none;
+    }
+
+    /* ----- TIPOGRAFIA DO CONTEÚDO PRINCIPAL ----- */
+
+    main {
+        padding: 24px 20px;
+    }
+
+    main h1 {
+        font-size: 1.5rem;
+        padding-right: 0;
+    }
+
+    main h2 {
+        font-size: 1.15rem;
+        padding-right: 0;
+    }
+
+    /* Texto justificado cria "rios" feios de espaço em branco
+       em colunas estreitas — em telas largas isso quase não
+       aparece, mas num celular fica bem visível */
+    main p {
+        text-align: left;
+    }
+
+    /* ----- IMAGENS FLUTUANTES: EMPILHADAS, NÃO MAIS FLUTUANDO -----
+
+       Numa tela estreita, uma imagem de 200-300px flutuando ao
+       lado do texto deixaria pouquíssimo espaço pro texto
+       "abraçar" — em vez disso, a imagem fica centralizada
+       ACIMA do parágrafo, ocupando a largura toda (até um
+       teto), e o texto flui normalmente embaixo.
+    */
+    .wrapped-image-left,
+    .wrapped-image-right,
+    .speaker-photo-left,
+    .speaker-photo-right {
+        float: none;
+        display: block;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto 16px;
+    }
+
+    main blockquote.left,
+    main blockquote.right {
+        padding: 0.8rem 1rem;
+    }
+
+    /* ----- RODAPÉ: 3 COLUNAS VIRAM 1 ----- */
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 0 24px;
+    }
+
+    /* ----- PLANILHAS (horários e valores) -----
+       overflow-x: auto (já definido no CSS de desktop) permite
+       rolar a tabela horizontalmente se ela não couber — aqui
+       só reduzimos um pouco o "peso" de cada célula, pra
+       precisar rolar menos. */
+
+    .schedule-cell,
+    .pricing-cell,
+    .schedule-time,
+    .pricing-header,
+    .schedule-day-header,
+    .schedule-corner {
+        padding: 8px 6px;
+        font-size: 0.8rem;
+    }
+
+    .schedule-table caption,
+    .pricing-table caption {
+        font-size: 1.15rem;
+    }
+
+    /* ----- BOTÃO "VOLTAR AO TOPO" ----- */
+
+    .back-to-top-button {
+        width: 44px;
+        height: 44px;
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
+/* ================================================================
+   NÍVEL 3: CELULARES PEQUENOS (até 480px)
+   ================================================================
+
+   Ajustes finos por cima do que o nível 2 já definiu — a
+   estrutura já está toda "empilhada", aqui só encolhemos um
+   pouco mais fontes e espaçamentos para caber em telas bem
+   estreitas (ex: 360-400px de largura, comuns em celulares).
+   ================================================================ */
+
+@media (max-width: 480px) {
+
+    .nav-logo-image {
+        height: 42px;
+    }
+
+    .hero {
+        height: 55vh;
+    }
+
+    .logo-container-image {
+        height: 70px;
+    }
+
+    .caption-title {
+        font-size: 1.2rem;
+    }
+
+    main h1 {
+        font-size: 1.3rem;
+    }
+
+    main h2 {
+        font-size: 1.05rem;
+    }
+
+    .wrapped-image-left,
+    .wrapped-image-right,
+    .speaker-photo-left,
+    .speaker-photo-right {
+        max-width: 100%;
+    }
+
+    .pricing-cell--price {
+        font-size: 1.1rem;
+    }
 }

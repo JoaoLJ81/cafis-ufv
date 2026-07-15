@@ -67,33 +67,56 @@
                     <img src="imagens/Titulo_SF_2.png" alt="Logo inteira SEAFís" class="nav-logo-image">
                 </a>
 
-                <!-- 
+                <!--
+                   BOTÃO HAMBÚRGUER (SÓ APARECE EM TELAS ESTREITAS)
+
+                   Em telas largas fica escondido via CSS
+                   (.nav-toggle, em main.css) — o menu horizontal
+                   normal (.nav-list) é usado. Abaixo de 768px de
+                   largura, é ele que aparece, e o .nav-list vira um
+                   painel escondido que ele abre/fecha.
+
+                   aria-expanded começa "false" e o JavaScript
+                   (main.js) atualiza para "true"/"false" a cada
+                   clique — informa leitores de tela se o menu está
+                   aberto ou fechado. aria-controls aponta para o id
+                   do elemento que o botão controla (nav-list).
+                -->
+                <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="nav-list">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+
+                <!--
                    LISTA PRINCIPAL DE NAVEGAÇÃO
-                   
+
                    UL.NAV-LIST = container dos itens do menu
                 -->
-                <ul class="nav-list">
-                    
-                    <!-- 
+                <ul class="nav-list" id="nav-list">
+
+                    <!--
                        ITEM SIMPLES (sem dropdown)
-                       
+
                        A classe "active" indica a página atual.
                        Por enquanto deixei no "Início".
                     -->
                     <li class="nav-item active">
                         <a href="index.html" class="nav-link">Início</a>
                     </li>
-                    
-                    <!-- 
+
+                    <!--
                        Item simples
                     -->
                     <li class="nav-item">
                         <a href="programacao.html" class="nav-link">Programação</a>
                     </li>
-                
+
                     <!-- Itens simples -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Inscrições</a>
+                        <a href="inscricao.html" class="nav-link">Inscrições</a>
                     </li>
                 </ul>
             </div>
@@ -110,34 +133,31 @@
                CÍRCULOS DECORATIVOS (fundo temático, sem conteúdo)
 
                Puramente visual — emulam os anéis concêntricos da logo
-               (imagens/Titulo_SF_2.png) atrás do texto. Dois grupos,
-               para cobrir mais da página: um mais acima/à direita,
-               outro mais abaixo/à esquerda. Dentro de cada grupo, 3
-               anéis independentes (cada um com seu próprio tracejado,
-               de propósito diferente entre si). Estilizados em
-               main.css, nas regras .content-circles(-ring) e seus
+               (imagens/Titulo_SF_2.png) atrás do texto. QUATRO grupos
+               nesta página (as outras têm só dois) — como esta página
+               é bem mais comprida (planilha + lista de palestrantes),
+               dois grupos extras (--mid-left/--mid-right) preenchem
+               esse espaço a mais, formando um "zigue-zague" descendo
+               a página: direita → esquerda → direita → esquerda.
+               Ficam VAZIOS aqui de propósito: o JavaScript (main.js,
+               Seção 9) monta um <svg> com um número de anéis,
+               espessura e raio meio aleatórios (e que crescem
+               conforme a página é mais comprida) e insere dentro de
+               cada um — inclusive o texto curvo "VIII SEAFís", só nos
+               dois grupos "âncora" (top-right e bottom-left).
+               Estilizados em main.css, na regra .content-circles e
                modificadores. aria-hidden="true" diz a leitores de
                tela para ignorar estes elementos.
             -->
-            <div class="content-circles content-circles--top-right" aria-hidden="true">
-                <span class="content-circles-ring content-circles-ring--1"></span>
-                <span class="content-circles-ring content-circles-ring--2"></span>
-                <span class="content-circles-ring content-circles-ring--3"></span>
-            </div>
-            <div class="content-circles content-circles--bottom-left" aria-hidden="true">
-                <span class="content-circles-ring content-circles-ring--1"></span>
-                <span class="content-circles-ring content-circles-ring--2"></span>
-                <span class="content-circles-ring content-circles-ring--3"></span>
-            </div>
+            <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
+            <div class="content-circles content-circles--mid-left" aria-hidden="true"></div>
+            <div class="content-circles content-circles--mid-right" aria-hidden="true"></div>
+            <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
 
             <!--
                ========================================
                PLANILHA DE HORÁRIOS
                ========================================
-
-               id="planilha" é o alvo do botão "voltar para a
-               planilha" lá no fim da página (ver
-               .back-to-top-button e main.js, Seção 10).
 
                Dividida em DUAS tabelas (manhã / tarde e noite)
                em vez de uma só, cortando exatamente no horário
@@ -458,6 +478,7 @@
                 </div>
                 -->
 
+                <!--POUYA-->
                 <div class="speaker-entry" id="pouya">
                     <span class="speaker-kicker">PALESTRA</span>
                     <h1>Teoria do Caos e suas Aplicações para a Física</h1>
@@ -466,6 +487,70 @@
                         <div class="container">
                             <img src="imagens/palestrantes/pouya.gif" alt="Foto de Pouya Mehdipour" class="speaker-photo-right">
                             <p>Mestre em Mathematica pelo Instituto de Estudos Avançados e Ciências Básicas (2009) e doutor em Matemática pela Universidade de São Paulo (2014). Tem experiência na área de Matemática, com ênfase em Sistemas Dinâmicos e Teoria do Caos, atuando principalmente nos seguintes temas: Dinâmica Hiperbólica Suave, Teoria Ergódica, Hiperbolicidade Não Uniforme, Dinâmica Simbólica e Autômatos Celulares.</p>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <!--JOANA-->
+                <div class="speaker-entry" id="joana">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Novo Ensino Médio no Brasil: impactos na vida acadêmica</h1>
+                    <h2>Joana D'Arc Germano Hollerbach</h2>
+                    <blockquote class="right">
+                        <div class="container">
+                            <img src="imagens/palestrantes/joana.gif" alt="Foto de Joana D'Arc Germano Hollerbach" class="speaker-photo-right">
+                            <p>Possui graduação em Administração pela Faculdade de Administração de Governador Valadares (1986), Licenciatura em História pela Universidade Vale do Rio Doce (2003), Mestrado em Educação pela Universidade Federal de Minas Gerais (2007) e Doutorado em Educação pela Universidade Federal de São Carlos (2016). Atualmente é professora do magistério superior, Associado I, da Universidade Federal de Viçosa. Tem experiência na área de Educação, atuando principalmente nos seguintes temas: história da educação, ensino de história, políticas públicas para a educação básica, Ensino Médio, trabalho e educação.</p>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <!--CEZAR-->
+                <div class="speaker-entry" id="cezar">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Filosofia da ciência como veículo de formação humana nos âmbitos político e social</h1>
+                    <h2>Cezar Luiz De Mari</h2>
+                    <blockquote class="left">
+                        <div class="container">
+                            <img src="imagens/palestrantes/cezar.jfif" alt="Foto de Cezar Luiz De Mari" class="speaker-photo-left">
+                            <p>Possui graduação em Filosofia, mestrado e doutorado pela Universidade Federal de Santa Catarina (1993/1998/2006); pós-doutorado pela Universidade Federal de Minas Gerais (2019/2020) . Atualmente é docente titular da Universidade Federal de Viçosa - UFV. Atua no Programa de Pós-Graduação em Educação - PPGE/DPE/UFV. Membro da International Gramsci Society (Seção BR - 2015/RJ), e da RED Latinoamericana para el cambio social (desde 2020). Líder do Grupo de Pesquisa Educação, Conhecimento e Processos Educativos e do Grupo de Estudos dos Clássicos Contemporâneos em Educação - GECCE (2010-atual). Membro fundador da Cátedra Paulo Freire (DPE/UFV). Temas de pesquisa: educação superior, internacionalização, epistemologia, sociedade civil e formação estudantil. Dentre outros escritos organizou as obras Educação e Formação Humana: múltiplos olhares sobre a práxis educativa (2021); Diálogos interdisciplinares: questões sobre a práxis universitária (2014) e Da Escola Básica à Universidade: o trabalho docente e a educação sob pressões (2021) 10 Lições sobre Gramsci (2023); Educação Emancipadora na atualidade: novas perspectivas na América Latina e no sul da europa (2025); Educação crítica, formação humana, políticas e práxis sociais (2026). Tem experiência na área de Educação, com ênfase em Filosofia da Educação, políticas educacionais atuando principalmente nos seguintes temas: educação, conhecimento, universidade, sociedade do conhecimento, política educacional, temas de fronteira e pensamento gramsciano.</p>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <!--VINICIUS-->
+                <div class="speaker-entry" id="vinicius">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Neurociências como ferramenta no ensino de ciências</h1>
+                    <h2>Vinícius Catão de Assis Souza</h2>
+                    <blockquote class="right">
+                        <div class="container">
+                            <img src="imagens/palestrantes/vinicius.jpg" alt="Foto de Vinícius Catão de Assis Souza" class="speaker-photo-right">
+                            <p>Licenciado em Química pela Universidade Federal de Minas Gerais (UFMG), especialista em Educação Inclusiva pela Escola de Governo da Fundação João Pinheiro (MG), mestre e doutor em Educação (Ensino de Ciências) pela Faculdade de Educação da UFMG. Realizei estágio de pós-doutorado na Faculdade de Educação da USP, em parceria com o Centro de Formação de Escolas António Sérgio (Portugal). Professor no Departamento de Química da Universidade Federal de Viçosa, onde atuo no setor de Educação em Química. Tenho experiência profissional com temas relacionados ao ensino de Ciências/Química em espaços não formais de educação, formação inicial e continuada de professores/as, inclusão de surdos/as, educação bilíngue para surdos/as e diversidade na Escola, com trabalhos voltadas à educação sociocientífica e socioambiental, educação e cidadania, História da Ciência aplicada ao ensino, alfabetização científica e processos de ensino e aprendizagem em contextos inclusivos.</p>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <!--RENATA-->
+                <div class="speaker-entry" id="renata">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Tema surpresa</h1>
+                    <h2>Renata Pereira Lopes Moreira</h2>
+                    <blockquote class="left">
+                        <div class="container">
+                            <img src="imagens/palestrantes/renata.gif" alt="Foto de Renata Pereira Lopes Moreira" class="speaker-photo-left">
+                            <p>Possui formação Técnica em Química pelo CEFET-MG (1998), Licenciatura em Química pela UFMG (2005), Mestrado em Química Analítica pela UFMG (2008), Doutorado em Ciências/Química (2012), com estágio sanduíche na Universidade de Almería (Centro de Excelência Agro-alimentar), e Pós-doutorado na Université de Bordeaux sob a supervisão do Prof. Didier Astruc. Tem experiência na área de Química, com ênfase em Química Ambiental e Análise de Alimentos. Desenvolve pesquisas nos seguintes temas: remoção de poluentes emergentes por processos de adsorção, processos oxidativos avançados (POAs), processos redutivos avançados envolvendo metais de valência zero, processos redutivos com nano-redutores bimetálicos, síntese de materiais a partir de resíduos eletrônicos, síntese e funcionalização de biochar, evolução de hidrogênio a partir de NaBH4 e ácido fórmico, uso de biomassa para produção de biochar como suporte de catalisadores, suspensões de nanopartículas de prata como nanosensores, síntese de carbon-dots, além do desenvolvimento e validação de métodos analíticos.Possui experiência no desenvolvimento e validação de métodos de análise de resíduos de contaminantes em alimentos e domínio das técnicas analíticas de espectrofotometria de absorção molecular UV-Vis, cromatografia e espectrometria de massas. Tem interesse em inovação e tecnologia, possuindo cinco registros de patente e duas cartas-patente. Participou do Programa de Aceleração de Tecnologia Programa Escale-se Summit Fase de Diagnóstico, avançando para a segunda fase. É Professora Associada III de Química Analítica no Departamento de Química da Universidade Federal de Viçosa. Em 2024, recebeu o prêmio Destaque Jovem Pesquisador no Encontro Regional da Sociedade Brasileira de Química de Minas Gerais (ERSBQ-MG). É membro da Comissão Permanente de Propriedade Intelectual (CPPI) e membro suplente do Conselho Universitário da UFV. É mãe de duas filhas, Rebeca e Sarah.</p>
+                        </div>
+                    </blockquote>
+                </div>
+
+                <!--ANESIA-->
+                <div class="speaker-entry" id="anesia">
+                    <span class="speaker-kicker">PALESTRA</span>
+                    <h1>Tema surpresa</h1>
+                    <h2>Anésia Aparecida dos Santos</h2>
+                    <blockquote class="right">
+                        <div class="container">
+                            <p>Possui graduação (bacharelado e licenciatura) em Ciências Biológicas pela Universidade Federal de Viçosa (1994) e mestrado em Medicina Veterinária pela Universidade Federal de Viçosa (2000). Tem experiência na área de Ciências Biológicas, com ênfase em Anatomia Patológica e Patologia Clínica, atuando principalmente nos seguintes temas: ciclo reprodutivo de oligosarcus argenteus e biologia celular e estudo da fase de transição de células tumorais e normais em cultura. Doutoramento no curso de Genética e Melhoramento atuando na área de Genética Vegetal sub-área de Biologia Molecular. Atualmente atua na área de genômica funcional no projeto Análise funcional de proteínas cinases LRRII-RLK do hospedeiro que interagem com proteínas de movimento núcleo-citoplasma de geminivirus bem como na área de física biológica avaliando os efeitos de compostos derivados de fármacos e de drogas que interagem com a molécula de DNA na morte celular para aplicações quimioterápicas.</p>
                         </div>
                     </blockquote>
                 </div>
@@ -703,20 +788,20 @@
         </footer>
 
         <!--
-           BOTÃO "VOLTAR PARA A PLANILHA"
+           BOTÃO "VOLTAR AO TOPO"
 
-           Fica escondido até o usuário rolar a página (ver
+           Presente em TODAS as páginas do site (mesmo HTML nas
+           três). Fica escondido até o usuário rolar a página (ver
            main.js, Seção 10, que adiciona/remove a classe
            "visible" conforme o scroll). Ao clicar, rola
-           suavemente até #planilha (o início da seção de
-           programação, lá em cima).
+           suavemente até o topo (top: 0).
 
            Fica fora do <footer> e do <main> de propósito: é um
            elemento "flutuante" (position: fixed em main.css),
            então sua posição no HTML não importa para o layout —
            só precisa existir em algum lugar do <body>.
         -->
-        <button id="back-to-top" class="back-to-top-button" aria-label="Voltar para a planilha de horários">
+        <button id="back-to-top" class="back-to-top-button" aria-label="Voltar ao topo da página">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="18 15 12 9 6 15"></polyline>
             </svg>

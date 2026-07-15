@@ -36,7 +36,7 @@
         <title>VIII Semana Acadêmica de Física</title>
 
     </head>
-    <body>
+    <body class="page-interna">
 
         <!-- 
            ========================================
@@ -122,160 +122,6 @@
             </div>
         </nav>
 
-        <!-- 
-           ========================================
-           HERO SECTION
-           ========================================
-           
-           A <section> é um elemento semântico que agrupa
-           conteúdo relacionado. A classe "hero" identifica
-           esta seção específica para o CSS.
-        -->
-        <section class="hero">
-
-            <!-- 
-               =====================================
-               CARROSSEL DE IMAGENS
-               =====================================
-            -->
-            <div class="carousel">
-                
-                <!-- 
-                   SLIDE 1 (ativo por padrão)
-                   
-                   CLASS="CAROUSEL-SLIDE ACTIVE"
-                   - carousel-slide: estilos comuns a todos os slides
-                   - active: indica que este slide está visível agora
-                   
-                   O JavaScript remove/adiciona a classe "active"
-                   para trocar os slides.
-                -->
-                <div class="carousel-slide active">
-                    <!--
-                       DUAS CAMADAS (bg + fg) — ver comentário completo
-                       em main.css, na regra ".carousel-slide img". A de
-                       fundo é decorativa (mesma foto, desfocada), por
-                       isso aria-hidden + alt vazio; a da frente carrega
-                       o alt de verdade.
-                    -->
-                    <img src="imagens/IVseafis.jpg" alt="" class="carousel-slide-bg" aria-hidden="true">
-                    <img src="imagens/IVseafis.jpg" alt="Membros e ex-membros do CAFís durante a realização da IV SEAFís." class="carousel-slide-fg">
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="carousel-slide">
-                    <img src="imagens/recepcao.jpg" alt="" class="carousel-slide-bg" aria-hidden="true">
-                    <img src="imagens/recepcao.jpg" alt="Estudantes do curso de Física reunidos." class="carousel-slide-fg">
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="carousel-slide">
-                    <img src="imagens/VIseafis.jpg" alt="" class="carousel-slide-bg" aria-hidden="true">
-                    <img src="imagens/VIseafis.jpg" alt="Mesa redonda durante a VI SEAFís." class="carousel-slide-fg">
-                </div>
-            </div>
-
-            <!-- 
-               =====================================
-               OVERLAY COM GRADIENTE
-               =====================================
-               
-               Esta div fica POR CIMA das imagens do carrossel.
-               Contém o gradiente azul, o logo e as legendas.
-            -->
-            <div class="hero-overlay">
-                
-                <!-- 
-                   LOGO DO CAFÍS
-
-                   Quando tiver a imagem do logo substituir o h1 por img
-                -->
-                <div class="logo-container">
-                    <!--
-                       Voltamos a ser um <img> comum. O ícone é recolorido
-                       de preto para branco via CSS (filter: brightness(0)
-                       invert(1) — veja main.css, regra .logo-container-image).
-                    -->
-                    <img src="imagens/SemTextoSemFundo.png" alt="Logo simplificado SEAFís" class="logo-container-image">
-
-                </div>
-
-                <!-- 
-                   =====================================
-                   LEGENDAS DOS SLIDES
-                   =====================================
-                -->
-                <div class="captions-container">
-                    
-                    <!-- Legenda do Slide 1 (ativa por padrão) -->
-                    <div class="slide-caption active" data-slide="0">
-                        <h2 class="caption-title">VIII SEAFís</h2>
-                        <p class="caption-subtitle">Participe das palestras, minicursos e muito mais. De 19 a 21 de agosto!</p>
-                    </div>
-                    
-                    <!-- Legenda do Slide 2 -->
-                    <div class="slide-caption" data-slide="1">
-                        <h2 class="caption-title">Mais de 10 anos de tradição</h2>
-                        <p class="caption-subtitle">Centro Acadêmico de Física celebra 11 anos de história.</p>
-                    </div>
-                    
-                    <!-- Legenda do Slide 3 -->
-                    <div class="slide-caption" data-slide="2">
-                        <h2 class="caption-title">Parceria DPF e CAFís</h2>
-                        <p class="caption-subtitle">Juntos na construção de uma universidade de excelência.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 
-               =====================================
-               SETAS DE NAVEGAÇÃO
-               =====================================
-            -->
-            
-            <!-- Seta "anterior" (←) -->
-            <button class="carousel-arrow carousel-arrow-prev" aria-label="Slide anterior">
-                <!-- 
-                   SVG = Scalable Vector Graphics
-                   Imagem vetorial que não perde qualidade ao redimensionar.
-                   
-                   VIEWBOX = define a área de coordenadas do desenho
-                   FILL="NONE" = não preenche o interior
-                   STROKE = cor e espessura da linha
-                   POLYLINE = desenha linhas conectando pontos
-                -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <!-- Desenha uma seta para a esquerda -->
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-            
-            <!-- Seta "próximo" (→) -->
-            <button class="carousel-arrow carousel-arrow-next" aria-label="Próximo slide">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <!-- Desenha uma seta para a direita -->
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
-
-            <!-- 
-               =====================================
-               INDICADORES DE SLIDE (bolinhas)
-               =====================================
-               
-               Botões circulares na parte inferior.
-               
-               DATA-SLIDE = atributo personalizado usado pelo
-               JavaScript para saber qual slide cada bolinha
-               representa.
-            -->
-            <div class="carousel-indicators">
-                <button class="indicator active" data-slide="0" aria-label="Ir para slide 1"></button>
-                <button class="indicator" data-slide="1" aria-label="Ir para slide 2"></button>
-                <button class="indicator" data-slide="2" aria-label="Ir para slide 3"></button>
-            </div>
-
-        </section>
         
         <!-- 
            ========================================
@@ -302,46 +148,90 @@
             <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
             <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
 
-            <h1>VII SEAFís - Física: A ciência mãe</h1>
+            <!--
+               ========================================
+               PLANILHA DE VALORES
+               ========================================
 
-            <div class="container">
-                <img src="imagens/primeira_chapa.JPG" alt="Primeira chapa do CAFís durante a realização do Dia Acadêmico." class="wrapped-image-right">
-                <p>O ano de 2015 marcou o retorno das atividades do Centro Acadêmico de Física após um período de inatividade que, infelizmente, não sabemos nem quanto tempo durou. Com um empurrão do professor Orlando e com a vontade de fazer a diferença, o corpo estudantil iniciou um novo capítulo para o CAFís.</p>
+               Mesma ideia da planilha de horários (programacao.html):
+               uma <table> de verdade (não uma grade de <div>s), pelo
+               mesmo motivo — é dado tabular de verdade (categoria ×
+               valor), e <table> dá de graça a leitura correta por
+               leitores de tela.
+            -->
+            <section id="valores">
+                <h1>Inscrições</h1>
 
-                <p>Um grande marco desse retorno foi a realização do <b>Dia Acadêmico da Física</b>, que futuramente iria se tornar a <b>Semana Acadêmica de Física</b>. O evento foi um sucesso, e a partir dele, o CAFís começou a se consolidar como uma entidade representativa dos estudantes do curso.</p>
+                <p>
+                    O valor da inscrição varia conforme a categoria do
+                    participante. Confira abaixo qual se aplica ao seu
+                    caso antes de preencher o formulário.
+                </p>
 
-                <p>Desde o <b>Dia Acadêmico</b> muita coisa mudou, de lá para cá aconteceram 7 Semanas Acadêmicas, eventos de integração e atividades que fortaleceram a comunidade estudantil, eventos de apoio acadêmico para calouros, além da presença política do CAFís e de seus representados em todas as instâncias da universidade.</p>
+                <div class="pricing-table-wrapper">
+                    <table class="pricing-table">
+                        <caption>Valores de Inscrição</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="pricing-header">Categoria</th>
+                                <th scope="col" class="pricing-header">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pricing-cell">Estudantes de Graduação</td>
+                                <td class="pricing-cell pricing-cell--price">R$ 40</td>
+                            </tr>
+                            <tr>
+                                <td class="pricing-cell">Estudantes de Pós-Graduação</td>
+                                <td class="pricing-cell pricing-cell--price">R$ 65</td>
+                            </tr>
+                            <tr>
+                                <td class="pricing-cell">Professores</td>
+                                <td class="pricing-cell pricing-cell--price">R$ 85</td>
+                            </tr>
+                            <tr>
+                                <td class="pricing-cell">
+                                    Inscrição Social
+                                    <!-- Nota explicando quem se qualifica para
+                                         esta categoria, menor e mais discreta
+                                         que o nome da categoria em si -->
+                                    <span class="pricing-cell-note">
+                                        Estudantes de graduação que recebem
+                                        apoio da universidade
+                                    </span>
+                                </td>
+                                <td class="pricing-cell pricing-cell--price">R$ 15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-                <p>Agora, em 2026, após 11 anos de contribuição para a comunidade estudantil, o CAFís retorna a seu principal evento para celebrar essa trajetória de alegrias, tristezas, aprendizados e muita luta. Celebraremos essa trajetória discutindo a Física e seu papel nas diferentes áreas do conhecimento, entendendo que a Física é a ciência mãe, capaz de dialogar com outras áreas para compreender o mundo e seus fenômenos.</p>
-                
-            </div>
-
-            <div class="container">
-                <img src="imagens/Iseafis.jpg" alt="Membros do CAFís fazendo a inscrição da primeira Semana Acadêmica" class="wrapped-image-left">
-                <p>A Oitava Edição da Semana Acadêmica de Física tem como tema principal “Física: A Ciência-mãe”, que busca demonstrar o papel da física em diversas áreas do conhecimento, desde os princípios epistemológicos basais da Ciência Natural e sua história. Além disso, pretende-se apresentar as possibilidades de imersão do físico e engenheiro físico no mercado de trabalho através das apresentações de aplicações da física nas Engenharias, na Matemática, Biologia e outras áreas. Há de ser um evento especial para a Física - UFV, marcando seu retorno no ano em que comemoraremos mais de 10 anos de Centro Acadêmico de Física, juntamente aos 100 anos da Universidade Federal de Viçosa.</p>
-
-                <p>O evento acontecerá dos dias <b>19 a 21 de agosto</b>, no <b>auditório da engenharia florestal UFV campus Viçosa</b>, conforme a <a href="programacao.html">programação</a>.</p>
-            </div>
-
+            <!-- Separador já usado entre seções em programacao.html —
+                 mesmo <hr> com degradê definido em "main hr", no
+                 início de main.css -->
             <hr>
 
-            <blockquote class="left">
-                <div class="container">
-                    <img src="imagens/henrique_perfil.jpeg" alt="Henrique Mota" class="wrapped-image-left">
-                        <p>Certa vez, ouvi de uma colega que parte da graça de se viver era, ao atravessar um lugar, mudar ao menos uma pedra de posição. A frase me marcou bastante.</p>
+            <!--
+               ========================================
+               LINK PARA O FORMULÁRIO DE INSCRIÇÃO
+               ========================================
 
-                        <p>Na minha memória, o ano de 2014 foi bem difícil. Era meu primeiro ano de faculdade e eu sentia dificuldade em praticamente todas as matérias - nunca fui nenhum gênio, mas sempre tive boas notas na escola - ter ido mal em TODAS P1’s, mesmo estudando cerca de 8 horas por dia, era definitivamente algo novo. Para além de estar longe da família, todo o processo de se fazer novas amizades, de ser relembrado quase diariamente por colegas e professores que eu não era tão bom quanto acreditava, era exaustivo. Me aproximei de algumas pessoas rapidamente (algumas que mantenho contato até hoje, inclusive), mas eu sempre tinha esse sentimento de estar isolado num mar, onde cada um estava em sua própria bolha. Não sabia o que esperar dos próximos 2 ou 3 anos, quem diria dos próximos 5. Não conhecia ninguém que tivesse trilhado um caminho parecido com o meu, e só tinha contato com alguns poucos veteranos que haviam sido calouros no ano anterior. Todo esse mar de incertezas me deixava meio perdido.</p>
+               href="#" É UM PLACEHOLDER — troque pelo link real do
+               Google Forms (ou equivalente) assim que ele existir.
+            -->
+            <section class="inscricao-cta">
+                <p>
+                    Pronto para se inscrever? Preencha o formulário
+                    abaixo com seus dados:
+                </p>
 
-                        <p>No ano de 2015, recebi "meus" calouros diretos - pessoas que definitivamente marcaram minha vida. Eles tinham as mesmas inquietações que eu (e muitos outros), mas diferente dos que antecederam eles, decidiram se movimentar. Ouvi falar de um grupo de astronomia amador e, algumas semanas depois, da possível formação de uma entidade para representar todos os alunos de física. A ideia me interessava. A possibilidade de poder engajar com todos estudantes que eu já conhecia, e com os que eu não conhecia, era muito interessante - imagina se um grupo de pessoas se juntassem para evitar que calouros (e veteranos) não se sentissem tão desamparados num curso que, por si só, já te desampara? Parecia ótimo.</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvraxbOJoSYq032WKnPc1v_9bw8mMloQlw15pOljXljzVmXg/viewform?usp=preview" target="_blank" rel="noopener noreferrer" class="inscricao-cta-button">
+                    Inscreva-se pelo Formulário
+                </a>
+            </section>
 
-                        <p>Não só parecia, como foi. Após um pequeno evento de 2 dias, a qual intitulamos <b>DIA ACADÊMICO DA FÍSICA</b> (sim, no singular - mesmo sendo dois!), criamos engajamento que, nos próximos anos, formou algo que realmente impactou a vida de todos aqueles que presenciaram. Não era só sobre organizar a Semana Acadêmica e integração entre alunos e professores, mas era também sobre zelar pelos interesses e demandas de todos os estudantes. Era, de alguma forma, tentar amortecer aquele sentimento de solidão e desespero que muitos de nós sentimos em nossos primeiros dias como universitários.</p>
-
-                        <p>Fizemos festas na casa de professores, convidamos professores de diferentes partes do Brasil para palestrar, mas principalmente, conseguimos aproximar os estudantes de física - um calouro tinha acesso a estudantes do mestrado no dia a dia. Ocupamos espaços nunca antes ocupados, como cadeira no colegiado e na comissão coordenadora do curso, e fizemos diferença na história do departamento.</p>
-
-                        <p>Sou muito grato por essa experiência, e sempre fico feliz e cheio de orgulho quando lembro de quantas coisas bacanas fizemos. Esse é um sentimento que encorajo todos a ter.</p>
-                </div>
-                <cite>— Henrique Mota (Presidente do CAFís 2015-2017)</cite>
-            </blockquote>
         </main>
 
         <!-- 
@@ -485,7 +375,7 @@
 
                        Flexbox para alinhar os logos lado a lado.
                     -->
-                    <div class="support-logos">
+                    <div class="support-logos">                    
                         <a href="https://www.instagram.com/cafis.ufv/" class="support-link" aria-label="CAFís">
                             <img src="imagens/patrocinio/cafis.png" alt="Logo do CAFís" class="support-logo">
                         </a>
