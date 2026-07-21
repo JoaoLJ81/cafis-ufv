@@ -2260,22 +2260,31 @@ main hr {
     gap: 20px 24px;
 
     /*
-       MAX-WIDTH: 432PX
+       MAX-WIDTH: 575PX
 
-       Esse valor não é arbitrário: é exatamente a largura dos
-       4 primeiros logos (UFV/CCB/CCE/PEC, 90px cada, tamanho
-       padrão) mais os 3 espaços entre eles (4×90 + 3×24 =
-       432px). Isso garante que a quebra de linha aconteça
-       SEMPRE depois do 4º logo (o 5º, maior — Thorlabs — não
-       cabe mais nessa largura e "empurra" os 3 últimos para a
-       fileira de baixo), e é o que permite controlar quais
-       logos ficam em qual fileira só pela ORDEM deles no HTML
-       (ver comentário em index.html/programacao.html).
+       Esse valor não é arbitrário — precisa satisfazer DUAS
+       contas ao mesmo tempo (recalculado em 2026-07-21, ao
+       adicionar o FUNARBE como 8º logo):
 
-       Se um dia adicionar/remover logos desta lista, pode
-       precisar recalcular este valor.
+       1) A 1ª fileira (UFV/CCB/CCE/PEC, 90px cada) soma
+          4×90 + 3×24 = 432px. Pra ela SEMPRE quebrar depois do
+          4º item, o max-width tem que ser MENOR que 432 + 24
+          (gap) + 130 (Thorlabs, o 5º item) = 586px.
+       2) A 2ª fileira (Thorlabs 130 + Quantum Design 146 + Nova
+          ND 90 + FUNARBE 130, todas maiores que o padrão) soma
+          130+146+90+130 + 3×24 (gaps) = 568px. Pra ela caber
+          INTEIRA numa fileira só (sem "sobrar" o último item pra
+          uma 3ª fileira), o max-width precisa ser MAIOR OU IGUAL
+          a 568px.
+
+       575px fica bem no meio dessas duas condições (568 ≤ 575 <
+       586) — garante 4 logos na 1ª fileira e os 4 restantes
+       inteiros na 2ª, sem uma 3ª fileira com um logo sozinho.
+
+       Se um dia adicionar/remover/redimensionar algum logo desta
+       lista, as DUAS contas acima precisam ser refeitas.
     */
-    max-width: 432px;
+    max-width: 575px;
 
     /*
        MARGIN: 0 AUTO
@@ -2359,6 +2368,20 @@ main hr {
 .support-logo--large {
     width: 130px;
     height: 100px;
+}
+
+/*
+   AINDA MAIOR (Quantum Design)
+
+   Mesma ideia de .support-logo--large acima — Quantum Design
+   ficou pedindo um pouco mais de destaque mesmo já usando
+   --large. MESMA proporção (1,3:1), só ~12% maior. Também usada
+   JUNTO com .support-logo no HTML (é ela quem dá object-fit:
+   contain, evitando distorção).
+*/
+.support-logo--xl {
+    width: 146px;
+    height: 112px;
 }
 
 
