@@ -33,7 +33,69 @@
 
         <link href="main.css" rel="stylesheet">
 
-        <title>VIII Semana Acadêmica de Física</title>
+        <title>Programação - VIII SEAFís | CAFís UFV</title>
+
+        <!--
+           FAVICON
+
+           O iconezinho que aparece na aba do navegador (e nos
+           favoritos). rel="icon" é o padrão atual — não precisa
+           mais do antigo "shortcut icon". Usamos o ícone isolado
+           da marca (o átomo com raízes, sem o texto "SEAFís" do
+           lado, que ficaria ilegível nesse tamanho pequeno).
+        -->
+        <link rel="icon" type="image/png" href="imagens/SemTextoSemFundo.png">
+
+        <!--
+           LINK CANONICAL
+
+           Diz ao Google "esta é a URL OFICIAL desta página" —
+           evita problemas de conteúdo "duplicado" aos olhos do
+           buscador (ver comentário completo em index.html).
+        -->
+        <link rel="canonical" href="https://seafisufv.netlify.app/programacao.html">
+
+        <!--
+           META DESCRIPTION
+
+           O resumo que aparece embaixo do título quando o Google
+           (ou outro buscador) lista esta página numa busca. Não
+           afeta o RANKING diretamente, mas afeta se a pessoa
+           clica ou não no resultado.
+        -->
+        <meta name="description" content="Confira a programação completa da VIII SEAFís: palestras, mesas redondas e minicursos de 19 a 21 de agosto de 2026, na Universidade Federal de Viçosa.">
+
+        <!--
+           OPEN GRAPH
+
+           Um conjunto de tags que outros sites (WhatsApp, Instagram,
+           Facebook, Discord, etc.) leem para montar o "preview" do
+           link quando alguém cola/compartilha a URL desta página —
+           sem elas, a maioria dos apps mostra só o link cru, sem
+           imagem nem descrição. og:url e og:image PRECISAM ser
+           endereços completos (com https://…), não caminhos
+           relativos — os robôs desses sites não sabem "de onde"
+           completar um caminho relativo como sabe o navegador.
+        -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Programação - VIII SEAFís">
+        <meta property="og:description" content="Confira a programação completa da VIII SEAFís: palestras, mesas redondas e minicursos de 19 a 21 de agosto de 2026.">
+        <meta property="og:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
+        <meta property="og:url" content="https://seafisufv.netlify.app/programacao.html">
+        <meta property="og:locale" content="pt_BR">
+
+        <!--
+           TWITTER CARD
+
+           Mesma ideia do Open Graph acima, mas é o formato
+           específico que o Twitter/X lê (ele ignora as tags
+           og:* para montar o preview, por isso duplicamos aqui).
+           summary_large_image = preview com imagem grande.
+        -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Programação - VIII SEAFís">
+        <meta name="twitter:description" content="Confira a programação completa da VIII SEAFís: palestras, mesas redondas e minicursos de 19 a 21 de agosto de 2026.">
+        <meta name="twitter:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
 
     </head>
     <body class="page-interna">
@@ -114,6 +176,11 @@
                         <a href="programacao.html" class="nav-link">Programação</a>
                     </li>
 
+                    <!-- Item simples -->
+                    <li class="nav-item">
+                        <a href="comissao.html" class="nav-link">Comissão</a>
+                    </li>
+
                     <!-- Itens simples -->
                     <li class="nav-item">
                         <a href="inscricao.html" class="nav-link">Inscrições</a>
@@ -136,23 +203,54 @@
                (imagens/Titulo_SF_2.png) atrás do texto. QUATRO grupos
                nesta página (as outras têm só dois) — como esta página
                é bem mais comprida (planilha + lista de palestrantes),
-               dois grupos extras (--mid-left/--mid-right) preenchem
-               esse espaço a mais, formando um "zigue-zague" descendo
-               a página: direita → esquerda → direita → esquerda.
-               Ficam VAZIOS aqui de propósito: o JavaScript (main.js,
-               Seção 9) monta um <svg> com um número de anéis,
-               espessura e raio meio aleatórios (e que crescem
-               conforme a página é mais comprida) e insere dentro de
-               cada um — inclusive o texto curvo "VIII SEAFís", só nos
-               dois grupos "âncora" (top-right e bottom-left).
-               Estilizados em main.css, na regra .content-circles e
-               modificadores. aria-hidden="true" diz a leitores de
-               tela para ignorar estes elementos.
+               dois grupos extras preenchem esse espaço a mais,
+               formando um "zigue-zague" descendo a página: direita →
+               esquerda → direita → esquerda (repare no data-right/
+               data-left de cada um, abaixo). Ficam VAZIOS de conteúdo
+               de propósito: o JavaScript (main.js, Seção 6) lê os
+               atributos data-* de cada um (posição, raio, texto,
+               velocidade — lista completa no comentário de
+               .content-circles, em main.css) e monta um <svg> dentro.
+               Quer adicionar, remover ou reposicionar um grupo? É só
+               mexer aqui, sem tocar no CSS/JS. aria-hidden="true" diz
+               a leitores de tela para ignorar estes elementos.
+
+               Os dois do meio (2º e 3º abaixo) usam data-bottom/
+               data-top como PORCENTAGEM do <main> — como esta página
+               é comprida e cresce (mais palestrantes = mais altura),
+               uma porcentagem os mantém aproximadamente na mesma
+               faixa vertical relativa. Já o último usa data-bottom
+               em PX (ancorado pelo fim do <main>) em vez de uma
+               porcentagem de "top" — evita cair em cima de um título
+               se a lista de palestrantes crescer (já aconteceu antes
+               com uma porcentagem fixa).
             -->
-            <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
-            <div class="content-circles content-circles--mid-left" aria-hidden="true"></div>
-            <div class="content-circles content-circles--mid-right" aria-hidden="true"></div>
-            <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="20px" data-right="2%"
+                 data-min-radius="45" data-max-radius="190"
+                 data-text="true" data-speed="0.45"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="38%" data-left="2%"
+                 data-min-radius="55" data-max-radius="230"
+                 data-text="true" data-speed="-0.35"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="66%" data-right="2%"
+                 data-min-radius="65" data-max-radius="260"
+                 data-text="true" data-speed="0.5"></div>
+            <!--
+               data-hide-if-collapsed: este grupo some enquanto os
+               3 cards de palestrantes (mais abaixo) estiverem
+               fechados — sem isso, a página fica curta demais (os
+               cards escondem a maior parte do conteúdo) e este
+               grupo aparece colado no de cima. Volta a aparecer
+               sozinho assim que qualquer card for aberto (main.js,
+               Seção 9; estilo em main.css, perto de .content-circles).
+            -->
+            <div class="content-circles" aria-hidden="true"
+                 data-bottom="40px" data-left="2%"
+                 data-min-radius="80" data-max-radius="340"
+                 data-text="true" data-speed="-0.4"
+                 data-hide-if-collapsed="true"></div>
 
             <!--
                ========================================
@@ -192,8 +290,13 @@
 
                 <!--
                    ========================================
-                   TABELA 1: MANHÃ (08h00 – 12h30)
+                   TABELA 1: MANHÃ (08h00 – 12h00)
                    ========================================
+
+                   Horários atualizados a partir da planilha do Google
+                   Sheets (cronograma - Página1.csv). Essa nova versão
+                   usa blocos de 30 minutos em vez de 1 hora — por
+                   isso a tabela ficou com mais linhas que antes.
                 -->
                 <div class="schedule-table-wrapper">
                     <table class="schedule-table">
@@ -217,27 +320,30 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row" class="schedule-time">08h00 – 09h00</th>
+                                <th scope="row" class="schedule-time">08h00 – 08h30</th>
                                 <td class="schedule-cell schedule-cell--revealed">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">CREDENCIAMENTO</span>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                    <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">09h00 – 09h30</th>
-                                <!-- rowspan="2": esta célula representa 09h00–10h00 (2 horários
-                                     da tabela), então a linha de baixo (09h30–10h00) NÃO tem
-                                     uma célula própria nesta coluna — ela é "coberta" por esta. -->
+                                <th scope="row" class="schedule-time">08h30 – 09h30</th>
+                                <!-- rowspan="2": a Cerimônia de Abertura ocupa esta linha
+                                     E a de baixo (08h30–10h00), então a linha seguinte NÃO
+                                     tem célula própria de quarta-feira — coberta por esta. -->
                                 <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">CERIMÔNIA DE ABERTURA</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#pouya" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Pouya Mehdipour</span>
+                                        <span class="schedule-cell-theme">Teoria do Caos e suas Aplicações para a Física</span>
+                                    </a>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
@@ -255,28 +361,52 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">10h00 – 11h00</th>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MESA REDONDA</span>
-                                </td>
+                                <th scope="row" class="schedule-time">10h00 – 10h30</th>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <!-- rowspan="2": Cezar (quinta) e a palestra a definir (sexta)
+                                     ocupam esta linha e a de baixo (10h00–11h00). -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#cezar" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Cezar Luiz De Mari</span>
+                                        <span class="schedule-cell-theme">Filosofia da ciência como veículo de formação humana nos âmbitos político e social</span>
+                                    </a>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#filipe" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Filipe Menezes (UaiFísica)</span>
+                                        <span class="schedule-cell-theme">Relatividade Geral e Gravitação Quântica: uma introdução à Física Teórica</span>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">11h00 – 12h30</th>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MESA REDONDA</span>
-                                    <span class="schedule-cell-theme">Comemoração 10 anos de CAFís</span>
-                                </td>
+                                <th scope="row" class="schedule-time">10h30 – 11h00</th>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <!-- Sem <td> de quinta/sexta aqui de propósito — cobertas
+                                     pelos rowspans da linha de cima. -->
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">11h00 – 12h00</th>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#cafis10" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">MESA REDONDA</span>
+                                        <span class="schedule-cell-theme">10 anos de Centro Acadêmico de Física: Olhar o passado é pensar o futuro</span>
+                                    </a>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#renata" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Renata Moreira</span>
+                                        <span class="schedule-cell-theme">Materiais Avançados e Tecnologias Sustentáveis para a Produção de Hidrogênio</span>
+                                    </a>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#vinicius" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Vinícius Catão</span>
+                                        <span class="schedule-cell-theme">Neurociências como ferramenta no ensino de ciências</span>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -289,7 +419,7 @@
 
                 <!--
                    ========================================
-                   TABELA 2: TARDE E NOITE (14h00 – 19h30)
+                   TABELA 2: TARDE E NOITE (14h00 – 20h30)
                    ========================================
                 -->
                 <div class="schedule-table-wrapper">
@@ -314,15 +444,37 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row" class="schedule-time">14h00 – 15h00</th>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <th scope="row" class="schedule-time">14h00 – 14h30</th>
+                                <!-- rowspan="2": Joana (quarta) e a palestra a definir
+                                     (quinta) ocupam esta linha e a de baixo (14h00–15h00). -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#joana" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Joana D'Arc Hollerbach</span>
+                                        <span class="schedule-cell-theme">Novo Ensino Médio no Brasil: impactos na vida acadêmica</span>
+                                    </a>
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#carmem" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Carmem Maia Gilardoni</span>
+                                        <span class="schedule-cell-theme">Tema surpresa</span>
+                                    </a>                                    
                                 </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#andreza" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Andreza Subtil</span>
+                                        <span class="schedule-cell-theme">Síntese de pontos quânticos</span>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">14h30 – 15h00</th>
+                                <!-- Sem <td> de quarta/quinta aqui de propósito — cobertas
+                                     pelos rowspans da linha de cima. -->
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#mariana" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Mariana Brandão</span>
+                                        <span class="schedule-cell-theme">Aplicações de pontos quânticos</span>
+                                    </a>                                    
                                 </td>
                             </tr>
                             <tr>
@@ -363,30 +515,69 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">16h30 – 17h30</th>
+                                <th scope="row" class="schedule-time">16h30 – 17h00</th>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MESA REDONDA</span>
+                                    <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
+                                <!-- Sem palestrante/mesa vinculado ainda — a planilha não
+                                     trouxe nomes para esta mesa redonda, por isso a célula
+                                     fica "revelada" (temos o tema), mas SEM link clicável
+                                     (não há para onde rolar até ter os participantes). -->
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">MESA REDONDA</span>
-                                    <span class="schedule-cell-theme">Ciência, Brasil e Educação</span>
+                                    <span class="schedule-cell-theme">Física como ciência-mãe</span>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">17h30 – 19h30</th>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MINICURSO</span>
-                                </td>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
-                                </td>
+                                <th scope="row" class="schedule-time">17h00 – 17h30</th>
                                 <td class="schedule-cell schedule-cell--revealed">
-                                    <span class="schedule-cell-label--gradient schedule-cell-category">ENCERRAMENTO</span>
-                                    <span class="schedule-cell-theme">19h00 – 19h30</span>
+                                    <a href="#orlando" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Orlando Fonseca</span>
+                                        <span class="schedule-cell-theme">Tema surpresa</span>
+                                    </a>
                                 </td>
+                                <!-- rowspan="2": Anésia ocupa esta linha e a de baixo
+                                     (17h00–18h00) — uma única palestra de 1h nesse
+                                     horário, não duas de 30min como antes. -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#anesia" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Anésia Santos</span>
+                                        <span class="schedule-cell-theme">Física em sistemas biológicos</span>
+                                    </a>
+                                </td>
+                                <!-- rowspan="2": Encerramento ocupa esta linha e a de baixo
+                                     (17h00–18h00). -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">ENCERRAMENTO</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">17h30 – 18h00</th>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#mariana-historia" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Mariana Brandão</span>
+                                        <span class="schedule-cell-theme">Uma breve história do Departamento de Física</span>
+                                    </a>
+                                </td>
+                                <!-- Sem <td> de quinta-feira aqui de propósito — coberta pelo
+                                     rowspan="2" da Anésia, na linha de cima. -->
+                                <!-- Sem <td> de sexta-feira aqui de propósito — coberta pelo
+                                     rowspan="2" do Encerramento, na linha de cima. -->
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">18h30 – 20h30</th>
+                                <!-- Quarta e sexta não têm atividade neste horário na
+                                     planilha — célula deixada em branco de propósito. -->
+                                <td class="schedule-cell"></td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#minicursos" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">MINICURSOS</span>
+                                    </a>
+                                </td>
+                                <td class="schedule-cell"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -409,7 +600,7 @@
                blockquote (mesmo estilo já usado na página
                inicial), <h1> com o tema e <h2> com o(s) nome(s).
             -->
-            <section class="speakers-section" id="palestrantes">
+            <section id="palestrantes">
                 <h1>Palestrantes e Mesas Reveladas</h1>
 
                 <p>
@@ -417,149 +608,574 @@
                 </p>
 
                 <!--
-                   MODELO — DUPLIQUE PARA CADA PALESTRANTE REVELADO
+                   CARDS EXPANSÍVEIS
 
-                   Passo a passo, quando uma palestra/mesa for confirmada:
+                   Os palestrantes/mesas ficam agrupados em 3 cards
+                   (Palestras / Mesas Redondas / Minicursos) que abrem e
+                   fecham independentemente — o JavaScript (main.js)
+                   alterna aria-expanded no <button> e a classe
+                   "program-card-content--open" no <div> logo abaixo
+                   dele, a cada clique. Começam todos FECHADOS.
 
-                   1) Copie um dos dois blocos comentados abaixo (o da
-                      esquerda ou o da direita — ALTERNE a cada nova
-                      entrada, para o texto ir "serpenteando" entre as
-                      fotos, em vez de todas do mesmo lado). Note que
-                      o lado da foto (speaker-photo-left/right) e o
-                      lado da borda do blockquote (class="left"/"right")
-                      andam juntos nos dois modelos abaixo — mantenha
-                      esse par ao criar uma nova entrada.
-                   2) Remova os marcadores de comentário HTML
-                      ao redor do bloco copiado.
-                   3) Troque o id, a foto, o tema (h1), o(s) nome(s) (h2)
-                      e a biografia.
-                   4) Na planilha acima, troque a célula correspondente
-                      de "schedule-cell--pending" para "schedule-cell--revealed"
-                      e envolva o conteúdo dela em um link para o id que
-                      você criou aqui (veja o comentário completo na
-                      regra .schedule-cell--clickable, em main.css).
-
-                <div class="speaker-entry" id="exemplo-mesa-redonda">
-                    <span class="speaker-kicker">MESA REDONDA</span>
-                    <h1>Tema da mesa redonda ou palestra</h1>
-                    <h2>Nome do(s) Palestrante(s)</h2>
-                    <blockquote class="left">
-                        <div class="container">
-                            <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="speaker-photo-left">
-                            <p>
-                                Breve biografia e trajetória acadêmica/profissional
-                                do(a) palestrante, destacando a relação com o tema
-                                da palestra ou mesa redonda.
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
-
-                <div class="speaker-entry" id="exemplo-palestra">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Outro tema de palestra</h1>
-                    <h2>Nome do(a) Palestrante</h2>
-                    <blockquote class="right">
-                        <div class="container">
-                            <img src="https://placehold.co/300" alt="Foto do(a) palestrante" class="speaker-photo-right">
-                            <p>
-                                Breve biografia e trajetória acadêmica/profissional
-                                do(a) palestrante, destacando a relação com o tema
-                                da palestra.
-                            </p>
-                        </div>
-                    </blockquote>
-                </div>
+                   Quando uma célula clicável da planilha aponta pra
+                   dentro de um card fechado, o mesmo JavaScript abre o
+                   card automaticamente antes de rolar até o
+                   palestrante — por isso não precisa nada especial
+                   aqui além de colocar cada entrada dentro do card
+                   certo.
                 -->
+                <div class="program-card">
+                    <button type="button" class="program-card-toggle" aria-expanded="false" aria-controls="card-palestras">
+                        <span class="program-card-title">Palestras</span>
+                        <svg class="program-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="program-card-content" id="card-palestras">
+                        <div class="program-card-content-inner">
+                            <!--AFRANIO-->
+                            <div class="speaker-entry" id="afranio">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Física da Matéria Condensada: uma introdução</h1>
+                                <h2>Afranio Rodrigues Pereira</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/afranio.gif" alt="Foto de Afranio Rodrigues Pereira" class="speaker-photo-left">
+                                        <p>Possui graduação em Física pela Universidade Federal de Viçosa (1988) e doutorado em Física pela Universidade Federal de Minas Gerais (1995). Pós Doutorados na: Universidade Federal de Minas Gerais (1996); Bologna University, Bolonha, Itália (2006); e Visiting Scientist (Pesquisador visitante) no Max Planck Institute for the Physics of Complex Systems, em Dresden, Alemanha (2010 e 2014). Atualmente é professor Titular do Departamento de Física da Universidade Federal de Viçosa (UFV). Foi um dos idealizadores e criadores do Programa de Pós-Graduação (a nível de Mestrado e Doutorado) do Departamento de Física da UFV. Participou também como membro da câmara CEX (Ciências Exatas e Materiais) da FAPEMIG (Fundação de Amparo a Pesquisa do Estado de Minas Gerais) no período de 2012 a 2015 (quatro anos). Tem experiência na área de Física, com ênfase em Teorias em Física da matéria condensada, em geral com o uso de técnicas de teorias de campos e simulações computacionais, atuando principalmente nos seguintes temas: a) Sistemas de spins ''clássicos'' em baixas dimensões; b) Excitações topológicas em física da matéria condensada tais como vórtices, skyrmions, solitons; c) Magnetismo ''quântico'' em baixas dimensões: spin chains, spin ladders e sistemas de camadas; d) Nanomagnetismo; e) Transições de fase; f) Frustrações Geométricas em sistemas magnéticos naturais e artificiais (liquidos e gelos de spin); g) Monopolos Magnéticos e strings em gelos de spin bidimensionais;h) Novos materiais como grapheno e isolantes topológicos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
-                <!--POUYA-->
-                <div class="speaker-entry" id="pouya">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Teoria do Caos e suas Aplicações para a Física</h1>
-                    <h2>Pouya Mehdipour</h2>
-                    <blockquote class="right">
-                        <div class="container">
-                            <img src="imagens/palestrantes/pouya.gif" alt="Foto de Pouya Mehdipour" class="speaker-photo-right">
-                            <p>Mestre em Mathematica pelo Instituto de Estudos Avançados e Ciências Básicas (2009) e doutor em Matemática pela Universidade de São Paulo (2014). Tem experiência na área de Matemática, com ênfase em Sistemas Dinâmicos e Teoria do Caos, atuando principalmente nos seguintes temas: Dinâmica Hiperbólica Suave, Teoria Ergódica, Hiperbolicidade Não Uniforme, Dinâmica Simbólica e Autômatos Celulares.</p>
+                            <!--ANDREZA-->
+                            <div class="speaker-entry" id="andreza">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Síntese de pontos quânticos</h1>
+                                <h2>Andreza Germana da Silva Subtil</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/andreza.gif" alt="Foto de Andreza Germana da Silva Subtil" class="speaker-photo-right">
+                                        <p>Possui graduação em Bacharelado e Licenciatura em Física pela Universidade Federal de Viçosa (2003), mestrado em Fisica Aplicada pela Universidade Federal de Viçosa (2004), e adquiriu o título de Doutor em Ciências pelo Departamento de Física da Universidade Federal de Minas Gerais (2008). Possui formação na área de Física Experimental, atuando nos seguintes temas: transporte eletrônico em nanoestruturas semicondutoras e propriedades ópticas de dispositivos e materiais semicondutores de baixa dimensionalidade. Atualmente tem trabalhado com produção e caracterização óptica de pontos quânticos coloidais, pontos de carbono, nanopartículas de polímeros conjugados e nanocompósitos. Mãe das gêmeas Júlia e Jéssica.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--ANESIA-->
+                            <div class="speaker-entry" id="anesia">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Física em sistemas biológicos</h1>
+                                <h2>Anésia Aparecida dos Santos</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <p>Possui graduação (bacharelado e licenciatura) em Ciências Biológicas pela Universidade Federal de Viçosa (1994) e mestrado em Medicina Veterinária pela Universidade Federal de Viçosa (2000). Tem experiência na área de Ciências Biológicas, com ênfase em Anatomia Patológica e Patologia Clínica, atuando principalmente nos seguintes temas: ciclo reprodutivo de oligosarcus argenteus e biologia celular e estudo da fase de transição de células tumorais e normais em cultura. Doutoramento no curso de Genética e Melhoramento atuando na área de Genética Vegetal sub-área de Biologia Molecular. Atualmente atua na área de genômica funcional no projeto Análise funcional de proteínas cinases LRRII-RLK do hospedeiro que interagem com proteínas de movimento núcleo-citoplasma de geminivirus bem como na área de física biológica avaliando os efeitos de compostos derivados de fármacos e de drogas que interagem com a molécula de DNA na morte celular para aplicações quimioterápicas.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--CARMEM-->
+                            <div class="speaker-entry" id="carmem">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Tema surpresa</h1>
+                                <h2>Carmem Maia Gilardoni</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/carmem.gif" alt="Foto de Carmem Maia Gilardoni" class="speaker-photo-right">
+                                        <p>Sou Pesquisadora C-I no Centro Brasileiro de Pesquisas Físicas, uma unidade de pesquisa para o progresso da pesquisa em Física sob o Ministério de Ciência, Tecnologia e Inovação no Rio de Janeiro. Aqui, eu realizo pesquisa focada em interações entre fótons e sistemas quânticos em materiais, e em como utilizar e desenhar simetrias espaciais em escala atômica para ganhar funcionalidades para aplicações quânticas.Antes disso, passei dois anos como pesquisadora de pós doutorado no grupo do Prof. Mete Atature no Laboratório Cavendish, Universidade de Cambridge, financiada pelo Conselho de Pesquisa Holandês por meio de um projeto Rubicon. Neste período, investiguei defeitos atômicos e excitons em materiais 2D. Completei minha tese de doutorado na Universidade de Groningen sob supervisão do Prof. Caspar van der Wal. Minha tese recebeu o prêmio 2022 Ehrenfest-Afanassjewa thesis prize do Conselho de Física Holandês. Também recebi o prêmio para jovens pesquisadores 2022 New Journal of Physics Early Career Award, e uma menção honrosa no 2022 For Women In Science Rising Talent Prize da LOréal Netherlands e Netherlands Commission for Unesco. <a href="https://www.carmemgilardoni.com" target="_blank">Página pessoal</a>.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--CEZAR-->
+                            <div class="speaker-entry" id="cezar">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Filosofia da ciência como veículo de formação humana nos âmbitos político e social</h1>
+                                <h2>Cezar Luiz De Mari</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/cezar.jfif" alt="Foto de Cezar Luiz De Mari" class="speaker-photo-left">
+                                        <p>Possui graduação em Filosofia, mestrado e doutorado pela Universidade Federal de Santa Catarina (1993/1998/2006); pós-doutorado pela Universidade Federal de Minas Gerais (2019/2020) . Atualmente é docente titular da Universidade Federal de Viçosa - UFV. Atua no Programa de Pós-Graduação em Educação - PPGE/DPE/UFV. Membro da International Gramsci Society (Seção BR - 2015/RJ), e da RED Latinoamericana para el cambio social (desde 2020). Líder do Grupo de Pesquisa Educação, Conhecimento e Processos Educativos e do Grupo de Estudos dos Clássicos Contemporâneos em Educação - GECCE (2010-atual). Membro fundador da Cátedra Paulo Freire (DPE/UFV). Temas de pesquisa: educação superior, internacionalização, epistemologia, sociedade civil e formação estudantil. Dentre outros escritos organizou as obras Educação e Formação Humana: múltiplos olhares sobre a práxis educativa (2021); Diálogos interdisciplinares: questões sobre a práxis universitária (2014) e Da Escola Básica à Universidade: o trabalho docente e a educação sob pressões (2021) 10 Lições sobre Gramsci (2023); Educação Emancipadora na atualidade: novas perspectivas na América Latina e no sul da europa (2025); Educação crítica, formação humana, políticas e práxis sociais (2026). Tem experiência na área de Educação, com ênfase em Filosofia da Educação, políticas educacionais atuando principalmente nos seguintes temas: educação, conhecimento, universidade, sociedade do conhecimento, política educacional, temas de fronteira e pensamento gramsciano.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--FILIPE-->
+                            <div class="speaker-entry" id="filipe">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Relatividade Geral e Gravitação Quântica: uma introdução à Física Teórica</h1>
+                                <h2>Filipe Henrique de Castro Menezes (UaiFísica)</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/filipe.gif" alt="Foto de Filipe Henrique de Castro Menezes" class="speaker-photo-right">
+                                        <p>Bacharel, mestre e doutor em física pela Universidade Federal de Minas Gerais. Faz parte do grupo GFT (Grupo de Física Teórica Fundamental), trabalhando nas áreas de relatividade geral e gravitação quântica de laços. Fundador do canal no YouTube "UaiFísica".</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--ISMAEL-->
+                            <div class="speaker-entry" id="ismael">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Modelagem de deposição de filmes finos</h1>
+                                <h2>Ismael Segundo da Silva Carrasco</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/ismael.jpg" alt="Foto de Ismael Segundo da Silva Carrasco" class="speaker-photo-left">
+                                        <p>Sou bacharel em Física pela Universidade Federal de Viçosa (2012), onde desenvolvi atividades de pesquisa em Física Biológica. Nesse período, investiguei como o comprimento de persistência e o comprimento de contorno do DNA são alterados pela interação com Espermidina e Ciclodextrina, adquirindo experiência em Microscopia de Força Atômica e Pinças Ópticas. Também concluo o mestrado (2014) e o doutorado (2018) em Física pela mesma instituição. A partir do mestrado, meus estudos se concentraram em simulações de dinâmica de interfaces usando modelos de deposição de filmes finos, com ênfase na classificação de universalidade e em possíveis subdivisões associadas à geometria global da interface. Entre 2018 e 2021, fui bolsista FAPERJ Nota 10 na Universidade Federal Fluminense, onde apliquei métodos da Física Estatística a problemas de Geociências, incluindo simulações de dissolução mineral e transporte reativo em rochas e meios porosos por meio do método de Monte Carlo Cinético. Atuei como professor de Física na Universidade de Brasília entre 2021 e 2025, sendo redistribuído para a Universidade Federal de Viçosa em dezembro de 2025. Me interesso por fenômenos críticos fora do equilíbrio de forma geral.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--JOANA-->
+                            <div class="speaker-entry" id="joana">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Novo Ensino Médio no Brasil: impactos na vida acadêmica</h1>
+                                <h2>Joana D'Arc Germano Hollerbach</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/joana.gif" alt="Foto de Joana D'Arc Germano Hollerbach" class="speaker-photo-right">
+                                        <p>Possui graduação em Administração pela Faculdade de Administração de Governador Valadares (1986), Licenciatura em História pela Universidade Vale do Rio Doce (2003), Mestrado em Educação pela Universidade Federal de Minas Gerais (2007) e Doutorado em Educação pela Universidade Federal de São Carlos (2016). Atualmente é professora do magistério superior, Associado I, da Universidade Federal de Viçosa. Tem experiência na área de Educação, atuando principalmente nos seguintes temas: história da educação, ensino de história, políticas públicas para a educação básica, Ensino Médio, trabalho e educação.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--KAIRON-->
+                            <div class="speaker-entry" id="kairon">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Polímeros e sensores eletroquímicos</h1>
+                                <h2>Kairon Márcio de Oliveira</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/kairon.jpg" alt="Foto de Kairon Márcio de Oliveira" class="speaker-photo-left">
+                                        <p>Doutorado em Física pelo Departamento de Física da Universidade Federal de Viçosa (UFV), no Laboratório de Microfluídica e Fluidos Complexos (LMFFC), com período sanduíche de 10 meses no departamento de polímeros condutores do Institute of Macromolecular Chemistry (IMC) - Czech Academy of Science, Praga - Republica Tcheca. Bacharel em Física pela Universidade Federal de Viçosa (2020). Possui experiência na área da Física da Matéria Mole, com ênfase na síntese e caracterização de soluções coloidais, como géis poliméricos, surfactantes, polímeros condutores, cossolutos e estruturas supramoleculares de polianilina (tais como partículas, bastões, tubos e placas), bem como a sua aplicação em sensores eletroquímicos e supercapacitores. Possui capacitação em diversas técnicas experimentais tais como: Espalhamento Dinâmico e Estático de Luz, Espectroscopia Raman, Espectroscopia de Infravermelho por Transformada de Fourier, Difração de Raios-X, Pinça ótica, Microscopia Eletrônica de Varredura e Análises Eletroquímicas.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--LUCIANO-->
+                            <div class="speaker-entry" id="luciano">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>A luz como Sonda: Princípios e Aplicações da Espectroscopia Raman</h1>
+                                <h2>Luciano de Moura Guimarães</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/luciano.gif" alt="Foto de Luciano de Moura Guimarães" class="speaker-photo-right">
+                                        <p>Professor associado do Departamento de Física da Universidade Federal de Viçosa (UFV). Doutor em Ciências (2011) pela Universidade Federal de Minas Gerais (UFMG), com enfoque em espectroscopia Raman ressonante aplicada ao estudo de nanomateriais de carbono, como nanotubos, grafeno e poliinas. Pós-doutorado (2012) no Laboratório de Espectroscopia Raman da UFMG, com ênfase em investigações sobre o efeito Raman intensificado por superfícies (SERS). Mestre em Física Aplicada (2006) e bacharel e licenciado em Física (2004) pela Universidade Federal de Viçosa. Durante a graduação e o mestrado, foram desenvolvidas pesquisas baseadas em espectroscopia no infravermelho próximo aplicada à tecnologia da madeira, eletrodeposição e caracterização de filmes semicondutores, respectivamente. Atualmente, minhas atividades de pesquisa envolvem estudos em espectroscopia Raman e fotoeletroquímica, com foco na caracterização e investigação de propriedades físico-químicas de materiais. Além disso, desenvolvo projetos nas áreas de eletrônica e instrumentação científica, utilizando plataformas de prototipagem e sistemas embarcados, como Arduíno e ESP32.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--LOBATO-->
+                            <div class="speaker-entry" id="lobato">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Física Biológica</h1>
+                                <h2>Marcelo Lobato Martins</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/marcelolobato.jpg" alt="Foto de Marcelo Lobato Martins" class="speaker-photo-left">
+                                        <p>Graduado em Física pela Universidade Federal de Minas Gerais (1983), mestre em Física pela Universidade Federal de Minas Gerais (1986) e doutor em Física pelo Centro Brasileiro de Pesquisas Físicas (1994). Atualmente, sou professor Titular da Universidade Federal de Viçosa e realizo pesquisas nas áreas de Sistemas Complexos e Física Biológica. Especificamente, buscamos caracterizar experimentalmente e construir modelos teóricos baseados em agentes e de múltiplas escalas para a formação de padrões em sistemas biológicos, matéria ativa, fenômenoa sociais e econômicos. Em física biológica, nosso trabalho está concentrado na carcinogênese e progressão do câncer, invasão biológica e em biofísica celular, como a dinâmica de migração, agregação e atividade de membrana de células em cultura. Nas áreas de sociofísica e econpfísica , temos investigado a dinâmica de formação de opiniões, a propagação de rumores e a dinâmica da distribuição de riqueza em sistemas sociais modelados como redes complexas adaptativas.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--MARIANA-->
+                            <div class="speaker-entry" id="mariana">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Aplicações de pontos quânticos</h1>
+                                <h2>Mariana da Costa Novo Pimenta Brandão</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="speaker-photo-right">
+                                        <p>Possui graduação em Física pela Universidade Federal de Juiz de Fora (Brasil), mestrado em física pela Universidade Federal de Juiz de Fora (Brasil) e doutorado em Ciências Física pela Pontifícia Universidade Católica do Rio de Janeiro. Possui pós-doutorado na Universidade de São Paulo no projeto de Caracterização Ótica de Tecidos da Tireoide e Paratireoide e pós-doutorado na Universidade Federal de Juiz de Fora no projeto Novas Metodologias para Caracterizar Produtos Lácteos e Detectar Fraudes ou Adulterações. Atualmente é Professora Adjunto A da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part., atuando principalmente nos seguintes temas: espectroscopia, luminescência, microscopia, biofísica, física aplicada a biologia, medicina e farmácia, física aplicada a ciências de alimentos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--ORLANDO-->
+                            <div class="speaker-entry" id="orlando">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Tema surpresa</h1>
+                                <h2>Orlando Pinheiro da Fonseca Rodrigues</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/orlando.jpg" alt="Foto de Orlando Pinheiro da Fonseca Rodrigues" class="speaker-photo-left">
+                                        <p>Professor Titular do Departamento de Física da Universidade Federal de Viçosa. Graduado (Bacharel) em Fisica pela Universidade Federal de Minas Gerais (1985); Mestre em Física/Astrofísica pela Universidade Federal de Minas Gerais (1987); Doutor em Astrofísica pelo Observatório Nacional (1995). Tem experiência na área de Física, com ênfase em Ensino de Física, História da Física e Astronomia. Coordenador do Núcleo de Ensino Integrado de Ciẽncias e Matemática (1994-1996); Chefe do Departamento de Física de 1996 a 2000; Coordenador do Cursos de Especialização (Lato-Senso) em Ensino de Física (2000-2004); Coordenador Técnico da Comissão Permanente de Vestibular e Exames (2001 a 2009); Diretor de Vestibular e Exames (2009 a 2011); Coordenador do Curso de Licenciatura em Física (2011-2013); Coordenador de Área (Física) do Programa Institucional de Bolsas de Iniciação à Docência (PIBID/CAPES/UFV) 2011-2018; Coordenador do Programa de Licenciaturas Internacionais UFV-Universidade de Coimbra 2013/2015 (Física, Matemática e Química); Membro do Mestrado Nacional Profissionalizante em Ensino de Física (2013-); Chefe do Departamento de Física (2013-2019).</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--POUYA-->
+                            <div class="speaker-entry" id="pouya">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Teoria do Caos e suas Aplicações para a Física</h1>
+                                <h2>Pouya Mehdipour</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/pouya.gif" alt="Foto de Pouya Mehdipour" class="speaker-photo-right">
+                                        <p>Mestre em Mathematica pelo Instituto de Estudos Avançados e Ciências Básicas (2009) e doutor em Matemática pela Universidade de São Paulo (2014). Tem experiência na área de Matemática, com ênfase em Sistemas Dinâmicos e Teoria do Caos, atuando principalmente nos seguintes temas: Dinâmica Hiperbólica Suave, Teoria Ergódica, Hiperbolicidade Não Uniforme, Dinâmica Simbólica e Autômatos Celulares.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--RENATA-->
+                            <div class="speaker-entry" id="renata">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Materiais Avançados e Tecnologias Sustentáveis para a Produção de Hidrogênio</h1>
+                                <h2>Renata Pereira Lopes Moreira</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/renata.gif" alt="Foto de Renata Pereira Lopes Moreira" class="speaker-photo-left">
+                                        <p>Possui formação Técnica em Química pelo CEFET-MG (1998), Licenciatura em Química pela UFMG (2005), Mestrado em Química Analítica pela UFMG (2008), Doutorado em Ciências/Química (2012), com estágio sanduíche na Universidade de Almería (Centro de Excelência Agro-alimentar), e Pós-doutorado na Université de Bordeaux sob a supervisão do Prof. Didier Astruc. Tem experiência na área de Química, com ênfase em Química Ambiental e Análise de Alimentos. Desenvolve pesquisas nos seguintes temas: remoção de poluentes emergentes por processos de adsorção, processos oxidativos avançados (POAs), processos redutivos avançados envolvendo metais de valência zero, processos redutivos com nano-redutores bimetálicos, síntese de materiais a partir de resíduos eletrônicos, síntese e funcionalização de biochar, evolução de hidrogênio a partir de NaBH4 e ácido fórmico, uso de biomassa para produção de biochar como suporte de catalisadores, suspensões de nanopartículas de prata como nanosensores, síntese de carbon-dots, além do desenvolvimento e validação de métodos analíticos.Possui experiência no desenvolvimento e validação de métodos de análise de resíduos de contaminantes em alimentos e domínio das técnicas analíticas de espectrofotometria de absorção molecular UV-Vis, cromatografia e espectrometria de massas. Tem interesse em inovação e tecnologia, possuindo cinco registros de patente e duas cartas-patente. Participou do Programa de Aceleração de Tecnologia Programa Escale-se Summit Fase de Diagnóstico, avançando para a segunda fase. É Professora Associada III de Química Analítica no Departamento de Química da Universidade Federal de Viçosa. Em 2024, recebeu o prêmio Destaque Jovem Pesquisador no Encontro Regional da Sociedade Brasileira de Química de Minas Gerais (ERSBQ-MG). É membro da Comissão Permanente de Propriedade Intelectual (CPPI) e membro suplente do Conselho Universitário da UFV. É mãe de duas filhas, Rebeca e Sarah.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--SERGIO-->
+                            <div class="speaker-entry" id="sergio">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Fabricação de isolantes topológicos</h1>
+                                <h2>Sérgio Luis de Abreu Mello</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/sergio.jpg" alt="Foto de Sérgio Luis de Abreu Mello" class="speaker-photo-right">
+                                        <p>Formou-se em Física pela UFRJ em 2009 (bacharelado), com mestrado e doutorado (2015) em Física nesta mesma instituição. Realizou doutorado sanduíche (2014) na ''University of Notre Dame'' - EUA. Em 2015, realizou pós-doutorado no CBPF. Tem experiência com: síntese e modificação de filmes finos utilizando feixes de íons; nanofabricação de estruturas em sala limpa; técnicas de caracterização experimental de materiais semicondutores. É Professor Adjunto do Departamento de Física da Universidade Federal de Viçosa. Tem trabalhado em problemas de física da matéria condensada relacionados com propriedades magnéticas e de transporte elétrico em materiais e dispositivos com forte apelo para spintrônica.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--SUKARNO-->
+                            <div class="speaker-entry" id="sukarno">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Construção de uma MBE</h1>
+                                <h2>Sukarno Olavo Ferreira</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/sukarno.gif" alt="Foto de Sukarno Olavo Ferreira" class="speaker-photo-left">
+                                        <p>Graduado em Física pela Universidade Federal de Minas Gerais (1983), mestre em Eletrônica e Telecomunicações-Semicondutores pelo Instituto Nacional de Pesquisas Espaciais (1986) e doutor em Física de Semicondutores - Johannes Kepler Universität-Linz (1995). Atualmente é Professor Titular na Universidade Federal de Viçosa. Atua na área de Física da Matéria Condensada, com ênfase em crescimento e caracterização de semicondutores, atuando principalmente nos seguintes temas: técnicas de crescimento epitaxial (HWE, MBE), nanoestruturas (poços e pontos quânticos) e caracterização de materiais (difração de raios-x, microscopia de força atômica).</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--VINICIUS-->
+                            <div class="speaker-entry" id="vinicius">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Neurociências como ferramenta no ensino de ciências</h1>
+                                <h2>Vinícius Catão de Assis Souza</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/vinicius.jpg" alt="Foto de Vinícius Catão de Assis Souza" class="speaker-photo-right">
+                                        <p>Licenciado em Química pela Universidade Federal de Minas Gerais (UFMG), especialista em Educação Inclusiva pela Escola de Governo da Fundação João Pinheiro (MG), mestre e doutor em Educação (Ensino de Ciências) pela Faculdade de Educação da UFMG. Realizei estágio de pós-doutorado na Faculdade de Educação da USP, em parceria com o Centro de Formação de Escolas António Sérgio (Portugal). Professor no Departamento de Química da Universidade Federal de Viçosa, onde atuo no setor de Educação em Química. Tenho experiência profissional com temas relacionados ao ensino de Ciências/Química em espaços não formais de educação, formação inicial e continuada de professores/as, inclusão de surdos/as, educação bilíngue para surdos/as e diversidade na Escola, com trabalhos voltadas à educação sociocientífica e socioambiental, educação e cidadania, História da Ciência aplicada ao ensino, alfabetização científica e processos de ensino e aprendizagem em contextos inclusivos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--WESLEY-->
+                            <div class="speaker-entry" id="wesley">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Polarização e formação de opinião em Sistemas Complexos</h1>
+                                <h2>Wesley Francis Costa Cota</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/wesley.gif" alt="Foto de Wesley Francis Costa Cota" class="speaker-photo-left">
+                                        <p>Professor no Departamento de Física (DPF) da Universidade Federal de Viçosa (UFV). Doutor em Física (2017-2020) e bacharel em Física (2013-2016) pela Universidade Federal de Viçosa (UFV). Membro do INCT-DigiSaúde. Foi pesquisador em nível de pós-doutorado (FAPESP) no Centro Conjunto Brasil-Reino Unido para Descoberta, Diagnóstico, Genômica e Epidemiologia de Arbovirus (CADDE) do Instituto de Medicina Tropical da Universidade de São Paulo (USP) e Universidade de Oxford, e pesquisador voluntário na Faculdade de Medicina da Unesp-Botucatu, de 2022 a 2024. Pós-doutorado no Departamento de Física da UFV de 2020 a 2022. Atuo no estudo de modelos para propagação de epidemias e aplicações em COVID-19 e Dengue, na caracterização de redes complexas e na coleta de dados (data mining) de redes sociais como o X e Bluesky. Em 2024, foi um dos 5 selecionados pela Academia Brasileira de CIências para representar o Brasil no 73rd Lindau Nobel Laureate Meeting. <a href="https://wcota.me/">Página pessoal</a>.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
                         </div>
-                    </blockquote>
+                    </div>
                 </div>
 
-                <!--JOANA-->
-                <div class="speaker-entry" id="joana">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Novo Ensino Médio no Brasil: impactos na vida acadêmica</h1>
-                    <h2>Joana D'Arc Germano Hollerbach</h2>
-                    <blockquote class="right">
-                        <div class="container">
-                            <img src="imagens/palestrantes/joana.gif" alt="Foto de Joana D'Arc Germano Hollerbach" class="speaker-photo-right">
-                            <p>Possui graduação em Administração pela Faculdade de Administração de Governador Valadares (1986), Licenciatura em História pela Universidade Vale do Rio Doce (2003), Mestrado em Educação pela Universidade Federal de Minas Gerais (2007) e Doutorado em Educação pela Universidade Federal de São Carlos (2016). Atualmente é professora do magistério superior, Associado I, da Universidade Federal de Viçosa. Tem experiência na área de Educação, atuando principalmente nos seguintes temas: história da educação, ensino de história, políticas públicas para a educação básica, Ensino Médio, trabalho e educação.</p>
+                <div class="program-card">
+                    <button type="button" class="program-card-toggle" aria-expanded="false" aria-controls="card-mesas-redondas">
+                        <span class="program-card-title">Mesas Redondas</span>
+                        <svg class="program-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="program-card-content" id="card-mesas-redondas">
+                        <div class="program-card-content-inner">
+
+                            <!--CAFIS10-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MESA REDONDA</span>
+                                <!--
+                                id AQUI (no h1, não na div) — o link da planilha
+                                (#cafis10) precisa apontar exatamente para o
+                                título, não para o topo da entrada inteira, para
+                                o scroll parar com o título logo abaixo do
+                                navbar (ver .schedule-cell--clickable e o
+                                scroll-margin-top de "main h1", em main.css).
+                                -->
+                                <h1 id="cafis10">10 anos de Centro Acadêmico de Física: Olhar o passado é pensar o futuro</h1>
+                                <blockquote class="left">
+                                    <h2>Henrique Mota</h2>
+                                    <div class="container">
+                                        <img src="imagens/henrique_perfil.jpeg" alt="Foto de Henrique Mota" class="speaker-photo-left">
+                                        <p>Sou Henrique, bacharel e mestre em Física pela UFV. Entre 2015 e 2017, participei da gestão do Centro Acadêmico de Física e, nos anos seguintes, continuei contribuindo como conselheiro.</p>
+                                        <p>Durante esse período, atuei na busca por melhorias para o curso e ajudei a levar ao Colegiado e à Coordenação demandas dos estudantes que, por muito tempo, não tiveram o devido espaço. Essa experiência me ensinou a ouvir diferentes perspectivas, representar demandas coletivas e buscar soluções por meio do diálogo, habilidades que levo comigo até hoje, tanto na vida pessoal quanto profissional.</p>
+                                        <p>Nos últimos cinco anos, tenho atuado no mercado de trabalho nas áreas de ciência de dados e operações.</p>
+                                    </div>
+
+                                    <h2>Milena Lima</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/mila.jpg" alt="Foto de Milena Lima" class="speaker-photo-right">
+                                        <p>No começo de 2015, no dia da confirmação de matrícula, enquanto vários veteranos procuravam seus calouros, as primeiras palavras que ouvi ao falar que eu ia fazer Física foram: "Nossa, meus pêsames". E naquele momento, eu achei engraçado - por conta de todo o estereótipo que os cursos de ciências exatas tem. Mas aquelas palavras voltaram várias vezes na minha memória depois do começo do período, quando eu percebi que na verdade era assim que os próprios alunos se sentiam sobre o curso. Havia uma grande desconexão - não sabíamos ao certo quem eram nossos veteranos e eles não sabiam quem eram os seus; havia uma cultura ultrapassada de trote por parte de um pequeno grupo e nenhuma rede de suporte para calouros. E enquanto víamos outros cursos fazendo recepções, calouradas, apadrinhamento, eventos acadêmicos, etc; para nós a sensação era mesmo de estar "sobrevivendo" ao curso. Foi por tudo isso que, após uma palestra provocativa de Tópicos de Física, do professor Orlando, várias ideias começaram a surgir. Foi quando senti pela primeira vez que podíamos fazer algo para mudar aquele ambiente. O tempo passou e as ideias foram saindo do papel: Um grupo amador de astronomia e o Centro Acadêmico de Física. A criação do CAfis movimentou todas as frentes: nós calouros, veteranos e professores. De repente, se perguntar o que os alunos querem ou que os alunos precisam no curso de física não parecia mais tão absurdo. No primeiro ano de gestão, aprendemos muito e erramos muito mais - mas entre todas as dificuldades, nós presenciamos mudanças sutis que indicavam o começo de uma transformação. O CAfis passou a ser um ponto de apoio, um ponto de conexão para todos os estudantes. E no ano seguinte, na confirmação de matrícula, quando nós como membros do CAfis estávamos lá com tintas e plaquinhas pra receber os novos calouros pudemos garantir que a primeira coisa que eles ouvissem ao falar que seriam da Física fosse: "Sejam bem vindos". E a partir daí, o resto é história.</p>
+                                    </div>
+
+                                    <h2>Luís Xavier</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/luis_xavier.jpeg" alt="Foto de Luís Xavier" class="speaker-photo-left">
+                                        <p>Luís Xavier é graduado em Licenciatura em Física pela Universidade Federal de Viçosa (UFV), professor efetivo de física na Rede Estadual de Educação de Minas Gerais e realizar o mestrado no Departamento de Educação - UFV. Durante a graduação, Luís atuou em movimentos estudantis e de educação, em especial no Centro Acadêmico de Física (CAFÍS), que compôs pastas de Comunicação, Financeiro e Coordenador Geral da entidade entre 2018 e 2021, além de uma rápida passagem pela Comissão Gestora para retorno após a pandemia em 2022.</p>
+                                    </div>
+
+                                    <h2>Sarah El Haouche</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/sarah.jpeg" alt="Foto de Sarah El Haouche" class="speaker-photo-right">
+                                        <p>Entrei na UFV em 2020 e, logo na chegada, fui muito bem recebida pelo pessoal do CAFís da época. Eles foram essenciais para mim, principalmente por eu ter vindo de muito longe e sem conhecer ninguém na universidade. Essa acolhida foi a maior motivação para eu me interessar pelo Centro Acadêmico: em 2021, fui chamada para integrar a gestão Prisma e, posteriormente, em 2023, me tornei presidente da chapa Noether. Agora, finalizando o curso de Física, tenho a absoluta certeza de que o Centro Acadêmico foi um grande aliado na minha caminhada até aqui.</p>
+                                    </div>
+
+                                    <h2>Luis Henrique de Freitas</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/luis_henrique.jpeg" alt="Foto de Luis Henrique de Freitas" class="speaker-photo-left">
+                                        <p>Meu nome é Luís Henrique de Freitas, participei do Centro Acadêmico no período de 2025/2026 pela chapa Frota42, minha experiência no CA é extremamente positiva, tendo que aprender muitas coisas do zero, mas sempre contando com a ajuda de pessoas ao meu redor. Essa vivência abriu portas e proporcionou conexões importantes com os alunos e a universidade. Em geral fico feliz de poder ser mais um tijolo nessa história em construção!</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--MARIANA-->
+                            <div class="speaker-entry" id="mariana-historia">
+                                <span class="speaker-kicker">MESA REDONDA</span>
+                                <h1>Uma breve história do Departamento de Física</h1>
+                                <blockquote class="right">
+                                    <h2>Mariana da Costa Novo Pimenta Brandão</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="speaker-photo-right">
+                                        <p>Possui graduação em Física pela Universidade Federal de Juiz de Fora (Brasil), mestrado em física pela Universidade Federal de Juiz de Fora (Brasil) e doutorado em Ciências Física pela Pontifícia Universidade Católica do Rio de Janeiro. Possui pós-doutorado na Universidade de São Paulo no projeto de Caracterização Ótica de Tecidos da Tireoide e Paratireoide e pós-doutorado na Universidade Federal de Juiz de Fora no projeto Novas Metodologias para Caracterizar Produtos Lácteos e Detectar Fraudes ou Adulterações. Atualmente é Professora Adjunto A da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part., atuando principalmente nos seguintes temas: espectroscopia, luminescência, microscopia, biofísica, física aplicada a biologia, medicina e farmácia, física aplicada a ciências de alimentos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
                         </div>
-                    </blockquote>
+                    </div>
                 </div>
 
-                <!--CEZAR-->
-                <div class="speaker-entry" id="cezar">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Filosofia da ciência como veículo de formação humana nos âmbitos político e social</h1>
-                    <h2>Cezar Luiz De Mari</h2>
-                    <blockquote class="left">
-                        <div class="container">
-                            <img src="imagens/palestrantes/cezar.jfif" alt="Foto de Cezar Luiz De Mari" class="speaker-photo-left">
-                            <p>Possui graduação em Filosofia, mestrado e doutorado pela Universidade Federal de Santa Catarina (1993/1998/2006); pós-doutorado pela Universidade Federal de Minas Gerais (2019/2020) . Atualmente é docente titular da Universidade Federal de Viçosa - UFV. Atua no Programa de Pós-Graduação em Educação - PPGE/DPE/UFV. Membro da International Gramsci Society (Seção BR - 2015/RJ), e da RED Latinoamericana para el cambio social (desde 2020). Líder do Grupo de Pesquisa Educação, Conhecimento e Processos Educativos e do Grupo de Estudos dos Clássicos Contemporâneos em Educação - GECCE (2010-atual). Membro fundador da Cátedra Paulo Freire (DPE/UFV). Temas de pesquisa: educação superior, internacionalização, epistemologia, sociedade civil e formação estudantil. Dentre outros escritos organizou as obras Educação e Formação Humana: múltiplos olhares sobre a práxis educativa (2021); Diálogos interdisciplinares: questões sobre a práxis universitária (2014) e Da Escola Básica à Universidade: o trabalho docente e a educação sob pressões (2021) 10 Lições sobre Gramsci (2023); Educação Emancipadora na atualidade: novas perspectivas na América Latina e no sul da europa (2025); Educação crítica, formação humana, políticas e práxis sociais (2026). Tem experiência na área de Educação, com ênfase em Filosofia da Educação, políticas educacionais atuando principalmente nos seguintes temas: educação, conhecimento, universidade, sociedade do conhecimento, política educacional, temas de fronteira e pensamento gramsciano.</p>
-                        </div>
-                    </blockquote>
-                </div>
+                <div class="program-card">
+                    <button type="button" class="program-card-toggle" aria-expanded="false" aria-controls="card-minicursos">
+                        <span class="program-card-title">Minicursos</span>
+                        <svg class="program-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="program-card-content" id="card-minicursos">
+                        <!--
+                           id AQUI (não em cada speaker-entry individual)
+                           — a célula "MINICURSOS" da planilha não aponta
+                           pra um instrutor específico, e sim pro card
+                           inteiro (ver .schedule-cell--clickable, em
+                           main.css, e a Seção 9 de main.js: o clique
+                           abre o card e rola até este div).
+                        -->
+                        <div class="program-card-content-inner" id="minicursos">
+                            <!--SAMUEL-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1 id="samuel">Geometria Diferencial para Físicos: Curvatura, Métrica e Noções de Relatividade Geral</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, 4º andar
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        20 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="left">
+                                    <p>Neste minicurso serão introduzidos conceitos fundamentais de Geometria Diferencial em uma e duas dimensões, com foco na construção de uma compreensão intuitiva de ideias como distância, métrica e curvatura. A partir de exemplos geométricos simples, os participantes serão levados a compreender como a curvatura pode ser descrita matematicamente e interpretada fisicamente.</p>
+                                    <p>Em seguida, esses conceitos serão aplicados a modelos simplificados em 1+1 dimensões, permitindo uma introdução intuitiva a algumas das ideias geometricas centrais da Relatividade Geral. Serão também discutidos exemplos de aplicação da curvatura em outras áreas da Física, como o nanomagnetismo em superfícies curvas.</p>
+                                    <p>Ao final do minicurso, espera-se que os participantes tenham desenvolvido uma intuição geométrica sólida para compreender como conceitos de métrica e curvatura aparecem em diferentes contextos físicos e como essas ideias podem ser generalizadas para dimensões mais altas.</p>
+                                    <h2>Samuel Gherard Celestino Afonso</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/samuel.gif" alt="Foto de Samuel Gherard Celestino Afonso" class="speaker-photo-left">
+                                        <p>Formado em Física (Bacharel e Licenciatura) pela universidade federal de Viçosa. Experiência em programação nas linguagens Python e Fortran, além em simulação de sistemas físicos nanomagnéticos através da ferramenta MuMax, no qual usou para fazer pesquisas durante a graduação. Também tem experiência com o Microscópio de Força Atômica (AFM) no qual usou para pesquisar o efeito SERS do ouro. Experiência em ensino, com 9 meses de projeto de extensão dando Monitorias de física para alunos do ensino médio da Escola Estadual Santa Rita De Cássia e para estudantes do EJA e ensino médio da Escola Estadual Effie Rolfs.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
-                <!--VINICIUS-->
-                <div class="speaker-entry" id="vinicius">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Neurociências como ferramenta no ensino de ciências</h1>
-                    <h2>Vinícius Catão de Assis Souza</h2>
-                    <blockquote class="right">
-                        <div class="container">
-                            <img src="imagens/palestrantes/vinicius.jpg" alt="Foto de Vinícius Catão de Assis Souza" class="speaker-photo-right">
-                            <p>Licenciado em Química pela Universidade Federal de Minas Gerais (UFMG), especialista em Educação Inclusiva pela Escola de Governo da Fundação João Pinheiro (MG), mestre e doutor em Educação (Ensino de Ciências) pela Faculdade de Educação da UFMG. Realizei estágio de pós-doutorado na Faculdade de Educação da USP, em parceria com o Centro de Formação de Escolas António Sérgio (Portugal). Professor no Departamento de Química da Universidade Federal de Viçosa, onde atuo no setor de Educação em Química. Tenho experiência profissional com temas relacionados ao ensino de Ciências/Química em espaços não formais de educação, formação inicial e continuada de professores/as, inclusão de surdos/as, educação bilíngue para surdos/as e diversidade na Escola, com trabalhos voltadas à educação sociocientífica e socioambiental, educação e cidadania, História da Ciência aplicada ao ensino, alfabetização científica e processos de ensino e aprendizagem em contextos inclusivos.</p>
-                        </div>
-                    </blockquote>
-                </div>
+                            <!--LUCIANO-->
+                            <div class="speaker-entry" id="luciano-mini">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1>Introdução ao Arduíno</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, sala 205
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        20 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="right">
+                                    <p>O Arduíno revolucionou a forma como interagimos com a tecnologia ao tornar a eletrônica e a programação acessíveis a qualquer pessoa. Neste minicurso teórico/prático e focado no essencial, os participantes aprenderão os conceitos fundamentais para sair do zero e criar seus próprios projetos interativos de automação e robótica em apenas duas horas. Durante a oficina, exploraremos a placa Arduíno Uno, seus componentes básicos (LEDs, resistores, botões e sensores) e o ambiente de desenvolvimento (IDE). Ao final, o participante terá noções de como ler sinais do mundo físico, processá-los via código e acionar dispositivos eletrônicos.</p>
+                                    <h2>Luciano de Moura Guimarães</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/luciano.gif" alt="Foto de Luciano de Moura Guimarães" class="speaker-photo-right">
+                                        <p>Professor associado do Departamento de Física da Universidade Federal de Viçosa (UFV). Doutor em Ciências (2011) pela Universidade Federal de Minas Gerais (UFMG), com enfoque em espectroscopia Raman ressonante aplicada ao estudo de nanomateriais de carbono, como nanotubos, grafeno e poliinas. Pós-doutorado (2012) no Laboratório de Espectroscopia Raman da UFMG, com ênfase em investigações sobre o efeito Raman intensificado por superfícies (SERS). Mestre em Física Aplicada (2006) e bacharel e licenciado em Física (2004) pela Universidade Federal de Viçosa. Durante a graduação e o mestrado, foram desenvolvidas pesquisas baseadas em espectroscopia no infravermelho próximo aplicada à tecnologia da madeira, eletrodeposição e caracterização de filmes semicondutores, respectivamente. Atualmente, minhas atividades de pesquisa envolvem estudos em espectroscopia Raman e fotoeletroquímica, com foco na caracterização e investigação de propriedades físico-químicas de materiais. Além disso, desenvolvo projetos nas áreas de eletrônica e instrumentação científica, utilizando plataformas de prototipagem e sistemas embarcados, como Arduíno e ESP32.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
-                <!--RENATA-->
-                <div class="speaker-entry" id="renata">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Tema surpresa</h1>
-                    <h2>Renata Pereira Lopes Moreira</h2>
-                    <blockquote class="left">
-                        <div class="container">
-                            <img src="imagens/palestrantes/renata.gif" alt="Foto de Renata Pereira Lopes Moreira" class="speaker-photo-left">
-                            <p>Possui formação Técnica em Química pelo CEFET-MG (1998), Licenciatura em Química pela UFMG (2005), Mestrado em Química Analítica pela UFMG (2008), Doutorado em Ciências/Química (2012), com estágio sanduíche na Universidade de Almería (Centro de Excelência Agro-alimentar), e Pós-doutorado na Université de Bordeaux sob a supervisão do Prof. Didier Astruc. Tem experiência na área de Química, com ênfase em Química Ambiental e Análise de Alimentos. Desenvolve pesquisas nos seguintes temas: remoção de poluentes emergentes por processos de adsorção, processos oxidativos avançados (POAs), processos redutivos avançados envolvendo metais de valência zero, processos redutivos com nano-redutores bimetálicos, síntese de materiais a partir de resíduos eletrônicos, síntese e funcionalização de biochar, evolução de hidrogênio a partir de NaBH4 e ácido fórmico, uso de biomassa para produção de biochar como suporte de catalisadores, suspensões de nanopartículas de prata como nanosensores, síntese de carbon-dots, além do desenvolvimento e validação de métodos analíticos.Possui experiência no desenvolvimento e validação de métodos de análise de resíduos de contaminantes em alimentos e domínio das técnicas analíticas de espectrofotometria de absorção molecular UV-Vis, cromatografia e espectrometria de massas. Tem interesse em inovação e tecnologia, possuindo cinco registros de patente e duas cartas-patente. Participou do Programa de Aceleração de Tecnologia Programa Escale-se Summit Fase de Diagnóstico, avançando para a segunda fase. É Professora Associada III de Química Analítica no Departamento de Química da Universidade Federal de Viçosa. Em 2024, recebeu o prêmio Destaque Jovem Pesquisador no Encontro Regional da Sociedade Brasileira de Química de Minas Gerais (ERSBQ-MG). É membro da Comissão Permanente de Propriedade Intelectual (CPPI) e membro suplente do Conselho Universitário da UFV. É mãe de duas filhas, Rebeca e Sarah.</p>
-                        </div>
-                    </blockquote>
-                </div>
+                            <!--TIMOTEO-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1 id="timoteo">Introdução aos Sistemas Caóticos</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, 4º andar
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        20 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="left">
+                                    <p>O objetivo do minicurso é desmistificar o conceito de "caos" na Física, buscando compreendê-lo de forma visual e intuitiva, sem a necessidade de matemática exaustiva. Partindo de demonstrações experimentais que contrastam a previsibilidade do pêndulo simples com a imprevisibilidade do pêndulo duplo, introduziremos a ferramenta conceitual mais importante da mecânica para mapear a complexidade: o espaço de fase. Ao traduzir o movimento dos sistemas em gráficos simples, os alunos descobrirão que o caos não é sinônimo de desordem ou de incapacidade matemática, mas sim um comportamento emergente repleto de padrões. Concluiremos mostrando como essa mesma abordagem visual e simples permite aos físicos estudar fenômenos fascinantes, como a estabilidade de órbitas na gravitação.</p>
+                                    <h2>Timóteo César Fassoni</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/timoteo.gif" alt="Foto de Timóteo César Fassoni" class="speaker-photo-left">
+                                        <p>Estudante de Física (Bacharelado e Licenciatura) pela Universidade Federal de Viçosa com formação prevista para 2025/2. Durante a graduação, desenvolveu pesquisas de iniciação científica nas áreas de Sistemas Dinâmicos Contínuos e de Filippov, simulações de fluidos em reticulados com aplicação a meios porosos e análises de Linguagem Natural e sentimentos aplicadas a redes reais. Seu Trabalho de Conclusão de Curso aborda a conexão entre a Linguagem Natural e os Sistemas Complexos, com aplicações a dados reais. Atualmente, seu foco de estudo é em Sistemas Complexos e Linguística Qualitativa. Possui experiência como tutor em disciplinas fundamentais: cálculo diferencial e integral de uma variável real e fundamentos de mecânica.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
-                <!--ANESIA-->
-                <div class="speaker-entry" id="anesia">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Tema surpresa</h1>
-                    <h2>Anésia Aparecida dos Santos</h2>
-                    <blockquote class="right">
-                        <div class="container">
-                            <p>Possui graduação (bacharelado e licenciatura) em Ciências Biológicas pela Universidade Federal de Viçosa (1994) e mestrado em Medicina Veterinária pela Universidade Federal de Viçosa (2000). Tem experiência na área de Ciências Biológicas, com ênfase em Anatomia Patológica e Patologia Clínica, atuando principalmente nos seguintes temas: ciclo reprodutivo de oligosarcus argenteus e biologia celular e estudo da fase de transição de células tumorais e normais em cultura. Doutoramento no curso de Genética e Melhoramento atuando na área de Genética Vegetal sub-área de Biologia Molecular. Atualmente atua na área de genômica funcional no projeto Análise funcional de proteínas cinases LRRII-RLK do hospedeiro que interagem com proteínas de movimento núcleo-citoplasma de geminivirus bem como na área de física biológica avaliando os efeitos de compostos derivados de fármacos e de drogas que interagem com a molécula de DNA na morte celular para aplicações quimioterápicas.</p>
-                        </div>
-                    </blockquote>
-                </div>
+                            <!--LATEX-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1 id="latex">LaTeX</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, sala 203
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        10 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="right">
+                                    <p>Resumo do minicurso em breve, aguarde novidades!</p>
+                                    <h2>Kelly Aparecida Molica</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/kelly.gif" alt="Foto de Kelly Aparecida Molica" class="speaker-photo-right">
+                                        <p>Possui graduação em Abi - Física pela Universidade Federal de Viçosa (2020). Cursou Mestrado em Física Aplicada na Universidade Federal de Viçosa. Tem interesse na área da Física da Matéria Mole. Atualmente cursa Doutorado em Física Aplicada na Universidade Federal de Viçosa com foco em matéria ativa.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
-                <!--FILIPE-->
-                <div class="speaker-entry" id="filipe">
-                    <span class="speaker-kicker">PALESTRA</span>
-                    <h1>Relatividade Geral e Gravitação Quântica: uma introdução à Física Teórica</h1>
-                    <h2>Filipe Henrique de Castro Menezes (UaiFísica)</h2>
-                    <blockquote class="left">
-                        <div class="container">
-                            <img src="imagens/palestrantes/filipe.gif" alt="Foto de Filipe Henrique de Castro Menezes" class="speaker-photo-left">
-                            <p>Bacharel, mestre e doutor em física pela Universidade Federal de Minas Gerais. Faz parte do grupo GFT (Grupo de Física Teórica Fundamental), trabalhando nas áreas de relatividade geral e gravitação quântica de laços. Dono do canal no YouTube "UaiFísica".</p>
+                            <!--MARCIO-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1 id="marcio">Pinças ópticas e interações DNA-ligantes</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, sala 103
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        10 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="left">
+                                    <p>Neste mini-curso apresentaremos a técnica experimental de Pinças Ópticas, cujo inventor Arthur Ashkin foi um dos vencedores do Prêmio Nobel de Física de 2018. Abordaremos os princípios básicos da técnica, partindo da física básica envolvida. Mostraremos na prática como montar e otimizar o setup básico experimental, executando algumas demonstração simples de captura e manipulação de micropartículas. Por fim, discutiremos algumas das principais aplicações da técnica, como estudos envolvendo biofísica de macromoléculas, mecânica celular e construção de máquinas térmicas microscópicas.</p>
+                                    <h2>Márcio Santos Rocha</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/marcio.jpg" alt="Foto de Márcio Santos Rocha" class="speaker-photo-left">
+                                        <p>Possui graduação em Física - (bacharelado e licenciatura) pela Universidade Federal do Ceará (2001), mestrado em Física pela Universidade Federal de Minas Gerais (2004) e doutorado em Física pela Universidade Federal de Minas Gerais (2008). Desde 2008 é professor do Departamento de Física da Universidade Federal de Viçosa (UFV), sendo atualmente Professor Titular. Foi coordenador do Programa de Pós-graduação em Física da UFV de 2017 a 2022. Tem experiência na área de Física Experimental, com ênfase em ''Física Biológica'', ''Óptica Aplicada a Sistemas Biológicos'' e ''Manipulação Óptica de Microssistemas''. Coordena o Laboratório de Física Biológica da UFV, implantado pelo pesquisador nesta instituição. Atualmente é Coordenador da Câmara de Ciências Exatas e dos Materiais (CEX) da Fundação de Amparo à Pesquisa do Estado de Minas Gerais (FAPEMIG). Membro Associado da International Union of Pure and Applied Physics (IUPAP), Biological Physics Comission (2025-2027). Editor Executivo do <a href="https://www.sciencedirect.com/journal/international-journal-of-biological-macromolecules" target="_blank">International Journal of Biological Macromolecules (Elsevier)</a> desde 2025. Website: <a href="http://www.lfb.ufv.br" target="_blank">LFB</a>; <a href="https://scholar.google.com.br/citations?user=Oa8OpTwAAAAJhl=pt-BR" target="_blank">Google Scholar</a>; <a href="https://www.webofscience.com/wos/author/record/F-9880-2012" target="_blank">Web of Science</a>; <a href="https://www.scopus.com/authid/detail.uri?authorId=8254749700" target="_blank">Scopus ID</a>; <a href="https://orcid.org/0000-0003-0323-3718" target="_blank">ORCID</a></p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--EXPERIMENTAL-->
+                            <div class="speaker-entry">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1 id="experimental">Técnicas experimentais</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, 1º andar
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        16 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="right">
+                                    <p>Este minicurso prático oferece uma imersão direta nas técnicas da micro e nanofabricação, com foco em duas técnicas essenciais: a Litografia por Feixe de Elétrons (EBL) e a Microscopia Eletrônica de Varredura (SEM). Realizado inteiramente dentro do ambiente controlado de uma sala limpa, o treinamento guiará os participantes de forma visual e interativa pelas etapas de litografia e caracterização de estruturas em escala nanométrica. A partir do contato real com amostras, insumos específicos (como os <i>resists</i> ou resinas fotossensíveis) e os próprios equipamentos de ponta, você entenderá o funcionamento, os desafios práticos e o enorme potencial dessas tecnologias na pesquisa e no desenvolvimento tecnológico.</p>
+                                    <p>Além disso, o minicurso também irá explorar a técnica de deposição por evaporação catódica. A deposição por evaporação catódica (Sputtering) é atualmente uma das técnicas de PVD (Physical Vapor Deposition) mais populares no crescimento de filmes finos, seja na pesquisa científica ou mesmo na indústria. A técnica consiste em ejetar átomos de um material alvo através de transferência de momento por colisões. Experimentalmente,  utilizam-se partículas altamente energizadas de gás inerte (tipicamente Argônio) em uma câmara de alto vácuo, que são aceleradas por campos elétricos DC ou AC. Os átomos ejetados do material alvo atingem uma superfície ou substrato, onde são condensados camada sobre camada.</p>
+                                    <p>Neste minicurso, será apresentado o equipamento comercial  de sputtering instalado no Laboratório de Materiais Avançados (Laboratory of Advanced Materials, LAM) do Departamento de Física da Universidade Federal de Viçosa, seguido de uma discussão acerca  dos fundamentos teóricos dos processos de crescimento de filmes finos por sputtering. Além disso, serão apresentadas as principais técnicas de medidas de transporte elétrico e magnético realizadas no LAM, utilizando as amostras crescidas.</p>
+
+                                    <h2>Eloi Benicio de Melo Junior</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/eloi.jpeg" alt="Foto de Eloi Benicio de Melo Junior" class="speaker-photo-right">
+                                        <p>Doutor em Física pela Universidade Federal de Viçosa (UFV), com período de doutorado sanduíche na Scuola Normale Superiore di Pisa / National Enterprise for nanoScience and nanoTechnology (NEST - Pisa, Itália). Mestre em Física pela Pontifícia Universidade Católica do Rio de Janeiro (PUC-Rio) e Licenciado em Física pela Universidade Federal do Acre (UFAC). Possui experiência na área de Física da Matéria Condensada, com ênfase experimental e teórica em supercondutividade, micro e nanomagnetismo e spintrônica. Atua principalmente nos seguintes temas: efeito de campo em supercondutores, caracterização magnética e elétrica de materiais, medidas de transporte, instrumentação científica e Ensino de Física. Possui experiência em modelagem computacional e simulação numérica aplicada a sistemas supercondutores e a sistemas micromagnéticos.</p>
+                                    </div>
+
+                                    <h2>Murilo Quirino de Andrade</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/murilo.jpeg" alt="Foto de Murilo Quirino" class="speaker-photo-left">
+                                        <p>Graduado em Bacharel em Física pela Universidade Federal de Viçosa (UFV) em 2024; atuou como monitor nível 1 durante um ano (2019), na disciplina de Física 1 (FIS201); Teve experiência como bolsista de iniciação científica, de 08/2020 a 10/2023, com enfoque nas áreas de Nanomagnetismo e Spintrônica. Titulado Mestre em Física no Programa de Pós-Graduação do Departamento de Física da Universidade Federal de Viçosa (DPF-UFV) em 2025, com enfoque nas áreas de Spintrônica e Orbitrônica. Possui experiência em crescimento de filmes finos por Sputtering, medidas de transporte elétrico, correntes de spin e corrente orbital. Atualmente, cursa doutorado em Física no Programa de Pós-Graduação do Departamento de Física da Universidade Federal de Viçosa (DPF-UFV), investigando efeitos de interconversão spin-orbital-carga em filmes finos sob orientação do Prof. Dr. Joaquim Mendes (UFV).</p>
+                                    </div>
+                                </blockquote>
+                            </div>
                         </div>
-                    </blockquote>
+                    </div>
                 </div>
             </section>
 
@@ -593,7 +1209,7 @@
                    Contém email e Instagram do CAFIS.
                    Alinhada à esquerda do footer.
                 -->
-                <div class="footer-section footer-contact">
+                <div class="footer-section">
                     
                     <!-- Título da seção -->
                     <h3 class="footer-title">Contato:</h3>
@@ -696,7 +1312,7 @@
                    Quem organiza o evento: CAFís e o Departamento
                    de Física. Logos em imagens/patrocinio/.
                 -->
-                <div class="footer-section footer-realizacao">
+                <div class="footer-section">
 
                     <!-- Título da seção -->
                     <h3 class="footer-title">Realização:</h3>
@@ -727,7 +1343,7 @@
                    .support-logos--grid (uma grade que quebra em
                    várias linhas) em vez do flex simples de lá.
                 -->
-                <div class="footer-section footer-apoio">
+                <div class="footer-section">
 
                     <!-- Título da seção -->
                     <h3 class="footer-title">Apoio:</h3>

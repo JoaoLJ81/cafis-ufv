@@ -1,0 +1,25 @@
+# ============================================
+# .GITIGNORE — SEAFís
+# ============================================
+#
+# Arquivos e pastas que o Git nunca deve versionar — nem
+# "sujeira" do sistema operacional/editor, nem nada que possa
+# ser gerado automaticamente no futuro (ex: se algum dia entrar
+# alguma ferramenta de build com node_modules).
+
+# ----- Sistema operacional -----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----- Editores/IDEs -----
+.vscode/
+.idea/
+*.swp
+
+# ----- Caso alguma ferramenta com npm/node entre no projeto -----
+node_modules/
+
+# ----- Arquivos temporários -----
+*.tmp
+*.log

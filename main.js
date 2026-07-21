@@ -28,7 +28,37 @@
 // 7. MENU HAMBÚRGUER (telas estreitas)
 //    - Abre/fecha o painel de navegação em telas abaixo de 768px
 //
+// 8. PLANILHA — CARDS EXPANSÍVEIS E CLIQUE NAS CÉLULAS
+//    - Abre/fecha os cards de Palestras/Mesas Redondas/Minicursos
+//    - Abre o card certo sozinho quando uma célula da planilha
+//      (ou uma URL com âncora) aponta para dentro dele
+//
 // ============================================
+
+//
+// DESLIGA A "RESTAURAÇÃO DE SCROLL" AUTOMÁTICA DO NAVEGADOR
+//
+// Por padrão, ao dar F5 (recarregar), o navegador tenta voltar
+// pra MESMA posição de rolagem em que a página estava antes —
+// então um F5 no meio da planilha "puxa" a página de volta pra lá
+// mesmo depois do recarregamento. history.scrollRestoration =
+// 'manual' desliga esse comportamento automático, então a página
+// simplesmente recarrega do topo (scrollY = 0), como qualquer
+// primeira visita.
+//
+// Fica FORA do DOMContentLoaded (não precisa esperar o HTML
+// carregar — é uma propriedade da API de histórico do navegador,
+// não do DOM) e o mais cedo possível no arquivo, pra "ganhar" do
+// navegador antes que ele tente restaurar a posição antiga.
+//
+// Não interfere com o pulo automático para uma URL com âncora
+// (ex: programacao.html#pouya) — são dois mecanismos totalmente
+// independentes; esse continua funcionando normalmente (ver Seção
+// 8, mais abaixo, que já trata esse caso).
+//
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
 
 //
 // DOMContentLoaded = evento que dispara quando TODO o HTML foi
@@ -318,24 +348,54 @@ document.addEventListener('DOMContentLoaded', function() {
     // com a classe 'active', destacando visualmente a página atual.
     //
 
+    // ----- FUNÇÃO: EXTRAIR O "NOME DA PÁGINA" DE UM CAMINHO -----
+    //
+    // Recebe um pathname completo (ex: "/cafis-ufv/programacao.html")
+    // e devolve só o nome do arquivo, em minúsculas e SEM a
+    // extensão .html (ex: "programacao").
+    //
+    // Por quê tirar a extensão e normalizar maiúsculas/minúsculas?
+    // Este site é hospedado via GitHub Pages (deploy por git push),
+    // e times de hospedagem estática às vezes servem a MESMA página
+    // por uma URL ligeiramente diferente da que está escrita no
+    // HTML — com maiúsculas/minúsculas diferentes (o servidor é
+    // Linux, sensível a isso; testar localmente no Windows nunca
+    // pegaria esse tipo de diferença) ou até sem a extensão .html.
+    // Comparar de forma mais "solta" (sem extensão, sem diferenciar
+    // caixa) evita que a detecção de página ativa quebre silenciosa-
+    // mente só por causa de uma dessas diferenças.
+    //
+    function getPageName(pathname) {
+        // .split('/').pop() pega o ÚLTIMO segmento do caminho,
+        // não importa quantas pastas vierem antes (então funciona
+        // tanto em "/programacao.html" quanto em
+        // "/cafis-ufv/programacao.html", por exemplo).
+        //
+        // Se vier vazio (a "raiz" do site, tipo "/" ou
+        // "/cafis-ufv/"), cai no "|| 'index.html'".
+        const fileName = pathname.split('/').pop() || 'index.html';
+
+        return fileName.toLowerCase().replace(/\.html$/, '');
+    }
+
     // window.location.pathname = caminho da URL após o domínio
-    // Ex: "/programacao.html"
-    //
-    // .split('/') divide em partes: ["", "programacao.html"]
-    // .pop() pega o último elemento: "programacao.html"
-    // || 'index.html' → se estiver vazio (página raiz), usa index.html
-    //
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    // (não inclui querystring "?" nem âncora "#")
+    const currentPage = getPageName(window.location.pathname);
 
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(function(link) {
-        const href = link.getAttribute('href');
+        // link.pathname (diferente de link.getAttribute('href')) é
+        // uma propriedade que o PRÓPRIO NAVEGADOR calcula: o
+        // caminho ABSOLUTO e já resolvido do link, considerando
+        // automaticamente a pasta em que o site está publicado.
+        // Usamos ela em vez do texto cru do href porque ela reflete
+        // como o navegador REALMENTE entende aquele link, ali,
+        // naquele domínio — mais confiável do que comparar strings
+        // "na mão".
+        const linkPage = getPageName(link.pathname);
 
-        // Compara o href do link com a página atual
-        // Também aceita './' + currentPage para links relativos
-        if (href && (href === currentPage || href === './' + currentPage)) {
-
+        if (linkPage === currentPage) {
             // Remove 'active' de TODOS os nav-item primeiro
             document.querySelectorAll('.nav-item').forEach(function(item) {
                 item.classList.remove('active');
@@ -367,6 +427,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // página para página, e pode crescer no futuro) e um elemento
     // de aleatoriedade. CSS não tem como "sortear" um número nem
     // reagir à altura do documento.
+    //
+    // CADA GRUPO SE CONFIGURA SOZINHO, VIA ATRIBUTOS DATA-* NO HTML
+    //
+    // Quantos grupos existem, onde cada um fica (top/right/bottom/
+    // left), o tamanho dos anéis (min/max raio), se tem o texto
+    // curvo "VIII SEAFís" e a velocidade/sentido de rotação — tudo
+    // isso é lido diretamente do HTML de cada página (atributos
+    // data-top, data-right, data-bottom, data-left, data-min-radius,
+    // data-max-radius, data-text, data-speed em cada .content-circles
+    // — ver o comentário completo em main.css). Isso significa que
+    // adicionar um grupo novo, remover um, ou mudar a posição/
+    // velocidade de um já existente é uma mudança SÓ no HTML —
+    // nada aqui precisa mudar.
 
     // ----- FUNÇÃO: CONSTRUIR OS ANÉIS DE UM GRUPO -----
     //
@@ -433,6 +506,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let svgParts = [];
 
+        // ----- ANIMAÇÃO DE "CONSTRUÇÃO" DE CADA ANEL -----
+        //
+        // stroke-dasharray + stroke-dashoffset é a técnica clássica
+        // pra "desenhar" um traço aos poucos: dasharray define UM
+        // traço do tamanho exato do contorno inteiro (o "comprimento
+        // de arco" do círculo, 2πr) — e começamos com dashoffset
+        // igual a esse mesmo valor, o que desloca o traço inteiro
+        // pra fora de vista (como se ainda não tivesse sido
+        // desenhado). Reduzir o dashoffset até 0 (feito mais abaixo,
+        // depois do elemento já estar na página) "completa" o
+        // traço, dando a impressão de ele estar sendo construído.
+        //
+        // transform="rotate(...)" muda o PONTO onde esse traçado
+        // começa (sem isso, todo anel nasceria do mesmo ponto,
+        // ficando repetitivo) e, em metade dos anéis (escolha
+        // aleatória), um "scale(-1,1)" espelha o anel em torno do
+        // próprio centro — visualmente, isso INVERTE o sentido em
+        // que ele parece se construir (horário vira anti-horário).
+        //
+        function ringRevealAttrs(pathLength, ringIndex, allowRotateAndMirror) {
+            const duration = (3 + Math.random() * 3.5).toFixed(2);
+            const delay = (ringIndex * 0.3 + Math.random() * 0.5).toFixed(2);
+
+            let transformAttr = '';
+            if (allowRotateAndMirror) {
+                const startAngle = Math.round(Math.random() * 360);
+                transformAttr = 'transform="rotate(' + startAngle + ' ' + center + ' ' + center + ')';
+                if (Math.random() < 0.5) {
+                    transformAttr += ' translate(' + (center * 2) + ' 0) scale(-1,1)';
+                }
+                transformAttr += '" ';
+            }
+
+            return {
+                duration: duration,
+                delay: delay,
+                markup: 'class="content-circles-ring" ' + transformAttr +
+                    'stroke-dasharray="' + pathLength + '" stroke-dashoffset="' + pathLength + '" ' +
+                    'style="transition: stroke-dashoffset ' + duration + 's cubic-bezier(0.65,0,0.35,1) ' + delay + 's;"'
+            };
+        }
+
         // Um <circle> por anel — fill="none" porque queremos só o
         // CONTORNO (a "rosquinha"), não um disco cheio. O anel que
         // vai levar o texto (ver abaixo) é pulado aqui: ele é
@@ -441,9 +556,13 @@ document.addEventListener('DOMContentLoaded', function() {
         rings.forEach(function(ring, index) {
             if (index === textRingIndex) return;
 
+            const circumference = 2 * Math.PI * ring.radius;
+            const reveal = ringRevealAttrs(circumference, index, true);
+
             svgParts.push(
                 '<circle cx="' + center + '" cy="' + center + '" r="' + ring.radius +
-                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '"></circle>'
+                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '" ' +
+                reveal.markup + '></circle>'
             );
         });
 
@@ -508,10 +627,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // novo em gapStartDeg pelo outro lado.
             const arcStart = pointOnCircle(gapEndDeg);
             const arcEnd = pointOnCircle(gapStartDeg + 360);
+
+            // Sem rotação/espelhamento aleatórios aqui — diferente
+            // dos <circle> fechados acima, ESTE anel precisa manter
+            // o vão sempre no topo (pro texto ficar legível e no
+            // lugar certo); só a "velocidade de construção" varia.
+            const arcLength = r * (360 - gapAngleDeg) * Math.PI / 180;
+            const reveal = ringRevealAttrs(arcLength, textRingIndex, false);
+
             svgParts.push(
                 '<path d="M ' + arcStart.x + ',' + arcStart.y +
                 ' A ' + r + ',' + r + ' 0 1,1 ' + arcEnd.x + ',' + arcEnd.y +
-                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '"></path>'
+                '" fill="none" stroke="' + ringColor + '" stroke-width="' + ring.thickness + '" ' +
+                reveal.markup + '></path>'
             );
 
             // Caminho INVISÍVEL só dentro do vão (a volta CURTA,
@@ -527,16 +655,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 '" fill="none"></path>'
             );
 
+            // O texto só aparece (fade em opacity) perto do FIM da
+            // construção do próprio anel — parece "surgir" assim
+            // que o traço termina de contornar o vão, em vez de já
+            // estar visível enquanto o anel ainda está se desenhando.
+            const textFadeDelay = (parseFloat(reveal.delay) + parseFloat(reveal.duration) * 0.7).toFixed(2);
+
             // FILL + STROKE = a mesma "formatação de h1" usada no
             // resto do site (color: #eeb97c + -webkit-text-stroke:
             // 1.5px #564d46, em main.css) — só que aqui é texto de
             // <svg>, então usamos os atributos nativos fill/stroke
             // em vez de propriedades CSS.
             svgParts.push(
-                '<text text-anchor="middle" font-family="Segoe UI, Tahoma, Geneva, Verdana, sans-serif" ' +
+                '<text class="content-circles-text" text-anchor="middle" font-family="Segoe UI, Tahoma, Geneva, Verdana, sans-serif" ' +
                 'font-weight="700" font-size="' + fontSize + '" fill="#eeb97c" ' +
                 'stroke="#564d46" stroke-width="' + Math.max(0.5, fontSize * 0.05) + '" ' +
-                'letter-spacing="1">' +
+                'letter-spacing="1" ' +
+                'style="opacity: 0; transition: opacity 0.6s ease ' + textFadeDelay + 's;">' +
                     '<textPath href="#' + textPathId + '" xlink:href="#' + textPathId + '" startOffset="50%">' +
                         text +
                     '</textPath>' +
@@ -551,45 +686,93 @@ document.addEventListener('DOMContentLoaded', function() {
             'aria-hidden="true">' +
                 svgParts.join('') +
             '</svg>';
+
+        // ----- DISPARA A ANIMAÇÃO -----
+        //
+        // Os elementos acima nasceram com stroke-dashoffset (e o
+        // texto, opacity) já no estado "escondido" — se a gente
+        // mudasse pro estado final JUNTO com o innerHTML, o
+        // navegador nunca chegaria a pintar o estado inicial, e a
+        // transição do CSS não teria "de onde" animar (só pintaria
+        // o resultado final direto, sem transição nenhuma).
+        //
+        // Um requestAnimationFrame só, às vezes, ainda cai ANTES do
+        // navegador terminar de pintar o estado inicial (o "outro"
+        // rAF, dentro deste, garante que já passamos por um quadro
+        // de pintura completo) — daí o duplo requestAnimationFrame,
+        // um padrão comum pra esse tipo de "anima a partir do
+        // estado inicial" em JavaScript puro.
+        //
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                container.querySelectorAll('.content-circles-ring').forEach(function(ringEl) {
+                    ringEl.style.strokeDashoffset = '0';
+                });
+
+                const textEl = container.querySelector('.content-circles-text');
+                if (textEl) textEl.style.opacity = '1';
+            });
+        });
     }
 
-    // ----- MONTAGEM DOS GRUPOS -----
+    // ----- MONTAGEM DOS GRUPOS (LÊ OS ATRIBUTOS DATA-* DE CADA UM) -----
     //
-    // minRadius/maxRadius diferentes entre os grupos garantem que o
-    // de cima (top-right) SEMPRE nasça e termine menor que o de
-    // baixo (bottom-left), como pedido — os dois grupos do meio
-    // (mid-left/mid-right, só existem em programacao.html, mais
-    // comprida) ficam com tamanhos intermediários entre os dois.
+    // document.querySelectorAll('.content-circles') pega QUALQUER
+    // quantidade de grupos que existir na página — 2, 4, 10, o
+    // número que o HTML definir. Para cada um, lemos seus próprios
+    // atributos data-* (com um valor padrão para qualquer um que
+    // faltar) e desenhamos os anéis de acordo.
     //
-    // Só os grupos "âncora" (top-right e bottom-left, presentes em
-    // TODAS as páginas) recebem o texto curvo "VIII SEAFís" — os do
-    // meio são só anéis lisos, para o texto não se repetir demais
-    // numa página só. Cada grupo com texto escolhe seu próprio anel
-    // interno (a lógica de escolha do anel e do tamanho do vão, mais
-    // abaixo, já se adapta sozinha ao raio de cada grupo).
-    //
-    // .content-circles--mid-left/--mid-right simplesmente não
-    // existem no HTML de index.html/inscricao.html — o
-    // document.querySelector logo abaixo retorna null nesse caso, e
-    // o "if (!container) return;" pula esse grupo sem erro nenhum.
-    //
-    const decorativeGroups = [
-        { selector: '.content-circles--top-right', minRadius: 45, maxRadius: 190, withText: true },
-        { selector: '.content-circles--mid-left', minRadius: 55, maxRadius: 230, withText: false },
-        { selector: '.content-circles--mid-right', minRadius: 65, maxRadius: 260, withText: false },
-        { selector: '.content-circles--bottom-left', minRadius: 80, maxRadius: 340, withText: true }
-    ];
-
     const pageHeight = document.body.scrollHeight;
 
-    decorativeGroups.forEach(function(group) {
-        const container = document.querySelector(group.selector);
-        if (!container) return;
+    // Guarda {elemento, velocidade} de cada grupo à medida que
+    // processamos — usado pelo listener de scroll, logo abaixo, sem
+    // precisar percorrer os elementos uma segunda vez.
+    const rotatingCircles = [];
 
-        const rings = buildRingsForGroup(group.minRadius, group.maxRadius, pageHeight);
+    document.querySelectorAll('.content-circles').forEach(function(container) {
+        // ----- POSIÇÃO: TOP / RIGHT / BOTTOM / LEFT -----
+        //
+        // container.dataset.top lê o atributo "data-top" do HTML
+        // (o navegador converte "data-top" para "dataset.top"
+        // automaticamente — e "data-min-radius" para
+        // "dataset.minRadius", com o traço virando camelCase).
+        // Só aplicamos como estilo o lado que REALMENTE foi
+        // definido: um grupo só com data-bottom, por exemplo, fica
+        // ancorado pelo fim do <main>, sem "top" nenhum atrapalhando.
+        ['top', 'right', 'bottom', 'left'].forEach(function(side) {
+            if (container.dataset[side]) {
+                container.style[side] = container.dataset[side];
+            }
+        });
+
+        // ----- RAIO MÍNIMO/MÁXIMO -----
+        //
+        // parseFloat converte o texto do atributo ("45") para
+        // número de verdade (45). Se o atributo não existir,
+        // parseFloat(undefined) retorna NaN — e NaN é "falsy" em
+        // JavaScript, então o "||" entra em ação e usa o valor
+        // padrão.
+        const minRadius = parseFloat(container.dataset.minRadius) || 60;
+        const maxRadius = parseFloat(container.dataset.maxRadius) || 250;
+
+        // ----- TEXTO CURVO: SIM OU NÃO? -----
+        //
+        // Só vira "true" se o atributo existir E valer exatamente
+        // a palavra "true" — omitido, vazio, ou qualquer outro
+        // valor conta como "false".
+        const withText = container.dataset.text === 'true';
+
+        // ----- VELOCIDADE (E SENTIDO) DE ROTAÇÃO -----
+        //
+        // Sem data-speed no HTML, o grupo simplesmente não gira
+        // (0 = parado).
+        const speed = parseFloat(container.dataset.speed) || 0;
+
+        const rings = buildRingsForGroup(minRadius, maxRadius, pageHeight);
 
         let textRingIndex = -1;
-        if (group.withText) {
+        if (withText) {
             // NUNCA o anel mais externo (rings.length - 1) — o texto
             // deve ficar em um dos anéis INTERNOS. A fórmula abaixo
             // mira ~45% do caminho de dentro para fora (por exemplo,
@@ -602,6 +785,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         renderRingsSVG(container, rings, textRingIndex);
+
+        rotatingCircles.push({ element: container, speed: speed });
     });
 
     // ----- ROTAÇÃO NO SCROLL -----
@@ -612,28 +797,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // em movimento. Um detalhe importante: um círculo com anéis
     // totalmente sólidos é SIMÉTRICO — girar não mudaria nada
     // visualmente. É o texto curvo (que não é simétrico) que torna
-    // a rotação dos grupos "âncora" (top-right/bottom-left)
-    // perceptível; os grupos do meio (mid-left/mid-right, sem
-    // texto) giram "de fé" (sem quebra de simetria própria), mas
-    // ainda assim contribuem para a sensação de profundidade —
-    // cada um dos quatro com uma velocidade e SENTIDO diferente.
+    // a rotação de um grupo COM texto perceptível; um grupo sem
+    // texto (data-text ausente/"false") gira "de fé" (sem quebra de
+    // simetria própria), mas ainda contribui para a sensação de
+    // profundidade quando cada grupo usa um data-speed diferente.
     //
     // A cada evento de scroll, lemos quantos pixels a página rolou
     // (window.scrollY) e transformamos esse valor em um ângulo de
-    // rotação. Como scrollY pode chegar a milhares de pixels,
-    // multiplicamos por um fator bem pequeno para a rotação ser
-    // lenta e suave.
+    // rotação — data-speed é o fator multiplicador: valores pequenos
+    // (ex: 0.05) giram bem devagar; maiores, mais rápido; negativos
+    // invertem o sentido.
     //
-    const rotatingCircles = [
-        { element: document.querySelector('.content-circles--top-right'), speed: 0.05 },
-        { element: document.querySelector('.content-circles--mid-left'), speed: -0.03 },
-        { element: document.querySelector('.content-circles--mid-right'), speed: 0.065 },
-        { element: document.querySelector('.content-circles--bottom-left'), speed: -0.08 }
-    ];
-
     window.addEventListener('scroll', function() {
         rotatingCircles.forEach(function(circle) {
-            if (!circle.element) return;
+            if (circle.speed === 0) return;
 
             const rotationAngle = window.scrollY * circle.speed;
             circle.element.style.transform = 'rotate(' + rotationAngle + 'deg)';
@@ -747,6 +924,185 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeNavMenu();
             }
         });
+    }
+
+    // ==========================================
+    // SEÇÃO 9: PLANILHA — CARDS EXPANSÍVEIS E CLIQUE NAS CÉLULAS
+    // ==========================================
+    //
+    // Só existe conteúdo pra isso em programacao.html: os
+    // palestrantes/mesas ficam agrupados em 3 cards (Palestras /
+    // Mesas Redondas / Minicursos — ver .program-card, em
+    // main.css) que abrem/fecham independentemente. Nas outras
+    // páginas, os querySelectorAll abaixo simplesmente não
+    // encontram nada, e os blocos "if" fazem esse código não
+    // fazer nada nesse caso.
+    //
+
+    const programCardToggles = document.querySelectorAll('.program-card-toggle');
+    const programCardContents = document.querySelectorAll('.program-card-content');
+
+    // ----- FUNÇÃO: MOSTRAR/ESCONDER O 4º GRUPO DE CÍRCULOS -----
+    //
+    // Ver .content-circles[data-hide-if-collapsed], em main.css —
+    // esse grupo específico (marcado com esse atributo no HTML)
+    // some enquanto os 3 cards estiverem fechados, porque a página
+    // fica curta demais pra ele sem colar no grupo anterior.
+    // Chamada toda vez que um card abre/fecha, pra reavaliar se
+    // ALGUM continua aberto (não precisa ser o mesmo que acabou de
+    // mudar).
+    //
+    const collapsibleCircleGroup = document.querySelector('.content-circles[data-hide-if-collapsed]');
+
+    function updateCollapsibleCircleGroup() {
+        if (!collapsibleCircleGroup) return;
+
+        const anyCardOpen = Array.prototype.some.call(programCardContents, function(content) {
+            return content.classList.contains('program-card-content--open');
+        });
+
+        collapsibleCircleGroup.classList.toggle('content-circles--visible', anyCardOpen);
+    }
+
+    // ----- FUNÇÃO: FECHAR TODOS OS OUTROS CARDS -----
+    //
+    // Só um card fica aberto por vez — um "acordeão" de verdade.
+    // Recebe o <button> do card que DEVE continuar como está (o
+    // que acabou de abrir) e fecha todos os outros.
+    //
+    function closeOtherCards(exceptToggle) {
+        programCardToggles.forEach(function(toggle) {
+            if (toggle === exceptToggle) return;
+
+            const content = document.getElementById(toggle.getAttribute('aria-controls'));
+            if (content) content.classList.remove('program-card-content--open');
+
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    // ----- ABRIR/FECHAR AO CLICAR NO CABEÇALHO DO CARD -----
+    programCardToggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function() {
+            const content = document.getElementById(toggle.getAttribute('aria-controls'));
+            if (!content) return;
+
+            // classList.toggle() devolve TRUE se a classe FICOU
+            // presente depois da chamada (o card abriu) e FALSE se
+            // foi removida (fechou) — mesmo padrão já usado no
+            // menu hambúrguer, na Seção 8.
+            const isOpen = content.classList.toggle('program-card-content--open');
+            toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+            if (isOpen) {
+                // Se este acabou de abrir, fecha qualquer outro que
+                // já estivesse aberto.
+                closeOtherCards(toggle);
+
+                // ----- MANTÉM O CARD RECÉM-ABERTO NO TOPO DA TELA -----
+                //
+                // Sem isso, ao trocar de um card grande (aberto) para
+                // outro bem menor, a posição de rolagem ANTIGA podia
+                // sobrar além do fim da página (agora mais curta),
+                // jogando a tela pro rodapé. Rolar até o próprio
+                // cabeçalho do card resolve isso sempre, não só nesse
+                // caso — scroll-margin-top nele (ver main.css) já
+                // garante a folga certa por baixo do navbar fixo.
+                //
+                // O atraso de 500ms espera a transição de FECHAR os
+                // outros cards (mesma duração do max-height em
+                // .program-card-content) terminar antes de rolar —
+                // senão a rolagem miraria numa posição que ainda ia
+                // se mover embaixo dela.
+                setTimeout(function() {
+                    toggle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
+            }
+
+            updateCollapsibleCircleGroup();
+        });
+    });
+
+    // ----- FUNÇÃO: ABRIR O CARD QUE CONTÉM UM ELEMENTO -----
+    //
+    // Recebe o elemento-alvo (ex: o <h1 id="pouya">) e, se ele
+    // estiver dentro de um .program-card-content ainda fechado,
+    // abre esse card — mesma troca de classe/aria-expanded do
+    // clique manual, acima. Devolve TRUE só quando o card ESTAVA
+    // fechado e acabou de abrir agora, para quem chamou saber se
+    // precisa esperar a transição do CSS (0.4s) antes de rolar.
+    //
+    function openCardContaining(targetElement) {
+        const content = targetElement.closest('.program-card-content');
+        if (!content || content.classList.contains('program-card-content--open')) {
+            return false;
+        }
+
+        content.classList.add('program-card-content--open');
+
+        const toggle = document.querySelector('.program-card-toggle[aria-controls="' + content.id + '"]');
+        if (toggle) toggle.setAttribute('aria-expanded', 'true');
+
+        // Mesma regra do clique manual no cabeçalho: só um card
+        // aberto por vez.
+        closeOtherCards(toggle);
+        updateCollapsibleCircleGroup();
+
+        return true;
+    }
+
+    // ----- CLIQUE NUMA CÉLULA CLICÁVEL DA PLANILHA -----
+    //
+    // Sem isso, o link só rolaria direto (comportamento padrão do
+    // navegador para um href="#algo"), ignorando que o alvo pode
+    // estar escondido dentro de um card fechado (max-height: 0 —
+    // ver .program-card-content, em main.css). Em vez disso: abre
+    // o card certo primeiro (se preciso) e SÓ DEPOIS rola — com um
+    // pequeno atraso igual à duração da transição do CSS (0.4s),
+    // pra rolar até a posição JÁ EXPANDIDA, não a de antes de abrir.
+    //
+    document.querySelectorAll('.schedule-cell-link').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            const href = link.getAttribute('href');
+            if (!href || href.charAt(0) !== '#') return;
+
+            const target = document.getElementById(href.slice(1));
+            if (!target) return;
+
+            event.preventDefault();
+
+            const justOpened = openCardContaining(target);
+
+            if (justOpened) {
+                setTimeout(function() {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }, 400);
+            } else {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // ----- CARREGAR A PÁGINA JÁ COM UMA ÂNCORA NA URL -----
+    //
+    // Ex: alguém acessa programacao.html#pouya direto (um link
+    // salvo, ou o botão "voltar" do navegador). Sem isso, o
+    // navegador tenta pular pra lá ANTES deste script rodar, e
+    // como o card começa fechado, o salto cai no lugar errado.
+    // Só entra em ação quando o alvo realmente está dentro de um
+    // card — outras âncoras da página (ex: #planilha) continuam
+    // com o salto padrão do navegador, sem esse atraso extra.
+    //
+    if (window.location.hash) {
+        const target = document.getElementById(window.location.hash.slice(1));
+        const content = target ? target.closest('.program-card-content') : null;
+
+        if (content) {
+            openCardContaining(target);
+            setTimeout(function() {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }, 400);
+        }
     }
 
 });

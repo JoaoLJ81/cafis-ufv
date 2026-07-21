@@ -158,8 +158,38 @@
    O seletor "body" pega o elemento <body> do HTML.
    ============================================ */
 
+/*
+   OVERFLOW-X: HIDDEN (HTML + BODY)
+
+   Impede rolagem HORIZONTAL na página inteira. Definimos nos
+   dois elementos (<html> e <body>) porque navegadores diferem
+   em qual dos dois efetivamente controla a rolagem da janela —
+   colocando nos dois, cobrimos ambos os casos.
+
+   Por que isso era necessário: elementos posicionados com
+   position: absolute + left/right em PORCENTAGEM (como os
+   .content-circles — ver mais abaixo) podem, dependendo do
+   tamanho aleatório que sorteiam, ultrapassar a borda direita
+   ou esquerda da tela em janelas mais estreitas. Isso fazia o
+   <body> inteiro ficar mais "largo" que o viewport, habilitando
+   uma barra de rolagem horizontal na página toda — mesmo o
+   conteúdo de texto normal cabendo direitinho.
+
+   IMPORTANTE: isso NÃO afeta a rolagem horizontal PRÓPRIA da
+   planilha de horários (.schedule-table-wrapper, em
+   programacao.html) — aquela usa overflow-x: auto num elemento
+   interno específico, que continua rolando normalmente por
+   dentro de si mesmo, independente do que acontece aqui no
+   <html>/<body>.
+*/
+html {
+    overflow-x: hidden;
+}
+
 body {
-    /* 
+    overflow-x: hidden;
+
+    /*
        FONT-FAMILY: lista de fontes em ordem de prioridade.
        O navegador tenta usar a primeira; se não estiver
        instalada no computador do usuário, tenta a segunda,
@@ -1309,29 +1339,65 @@ main {
    CÍRCULOS DECORATIVOS DO CONTEÚDO
    ============================================
 
-   Dois grupos, puramente decorativos, inseridos dentro do
-   <main> de cada página (vazios no HTML — o conteúdo deles é
-   gerado por JavaScript, ver main.js, Seção 9):
+   Quantos grupos você quiser, puramente decorativos, inseridos
+   dentro do <main> de cada página — cada um configurado
+   INTEIRAMENTE via atributos data-* no próprio HTML (vazios de
+   conteúdo — o <svg> de dentro é gerado por JavaScript, ver
+   main.js, Seção 5):
 
-     <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
-     <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
+     <div class="content-circles" aria-hidden="true"
+          data-top="20px" data-right="2%"
+          data-min-radius="45" data-max-radius="190"
+          data-text="true" data-speed="0.05"></div>
+
+   ATRIBUTOS DISPONÍVEIS (todos opcionais — main.js usa um
+   valor padrão sensato para qualquer um que faltar):
+
+     data-top / data-right / data-bottom / data-left
+        Posição do grupo, exatamente como um valor CSS
+        (aceita "20px", "38%", "auto"...). Só os lados que
+        você definir são aplicados — pode misturar, por
+        exemplo, "data-top" + "data-right" para ancorar num
+        canto, ou só "data-bottom" para ancorar pelo fim do
+        <main> (útil em páginas compridas, onde uma
+        porcentagem de "top" pode acabar caindo em cima de um
+        título — ver comentário em main.js).
+
+     data-min-radius / data-max-radius
+        Raio mínimo/máximo (em px) dos anéis deste grupo — o
+        menor e o maior anel ficam dentro dessa faixa. Grupos
+        com números menores ficam visualmente menores que
+        grupos com números maiores.
+
+     data-text="true"
+        Se presente com o valor "true", este grupo ganha o
+        texto curvo "VIII SEAFís" num dos seus anéis internos.
+        Omitido (ou qualquer outro valor) = sem texto.
+
+     data-speed
+        Velocidade E sentido de rotação ao rolar a página.
+        Números maiores giram mais rápido; negativo inverte o
+        sentido. "0" (ou omitido) deixa o grupo parado.
 
    POR QUE VIA JAVASCRIPT (E NÃO CSS PURO)?
 
    Cada grupo precisa de um número de anéis DIFERENTE (que
    ainda por cima depende da altura da página — páginas mais
    compridas ganham mais anéis), cada anel com sua própria
-   espessura e raio meio aleatórios, e um dos anéis carrega um
-   texto curvado ("VIII SEAFís", seguindo a curvatura do
-   anel). Nada disso é possível de calcular ou "sortear" só
-   com CSS — main.js monta um <svg> com um <circle> por anel
-   (raio e espessura calculados ali) mais um <text> com
-   <textPath> para o texto curvo, e insere esse <svg> dentro
-   de cada .content-circles.
+   espessura e raio meio aleatórios, e (dependendo do
+   data-text) um dos anéis carrega um texto curvado ("VIII
+   SEAFís", seguindo a curvatura do anel). Nada disso é
+   possível de calcular ou "sortear" só com CSS — main.js lê
+   os atributos data-* de cada .content-circles, monta um
+   <svg> com um <circle> por anel (raio e espessura calculados
+   ali) mais um <text> com <textPath> para o texto curvo (se
+   for o caso), e insere esse <svg> dentro do próprio elemento.
 
-   .content-circles é só o "grupo": cuida da posição geral
-   (--top-right / --bottom-left) e gira como um bloco só
-   (o <svg> inteiro, anéis + texto, sempre juntos).
+   .content-circles é só o "grupo": position: absolute é
+   definido aqui (a regra genérica), mas top/right/bottom/left
+   em si vêm dos atributos data-*, aplicados pelo JavaScript
+   como estilo inline em cada elemento. Cada grupo gira como
+   um bloco só (o <svg> inteiro, anéis + texto, sempre juntos).
 
    Ficam ATRÁS de todo o texto do conteúdo (graças ao
    z-index negativo), como uma "marca d'água" temática — os
@@ -1345,18 +1411,19 @@ main {
    ============================================ */
 
 .content-circles {
-    /* Tira o elemento do fluxo normal; a posição exata de
-       cada instância vem dos modificadores mais abaixo.
-       Como esta regra também tem position != static, ela
-       vira o "ponto de referência" do <svg> gerado dentro
-       dela. SEM width/height fixos aqui: o tamanho do
-       quadro varia a cada carregamento (depende de quantos
-       anéis main.js decidir criar), então quem manda no
-       tamanho é o próprio <svg>, não este container. */
+    /* Tira o elemento do fluxo normal — a posição exata de
+       cada instância vem dos atributos data-top/right/bottom/
+       left no HTML, aplicados via JavaScript (main.js). Como
+       esta regra também tem position != static, ela vira o
+       "ponto de referência" do <svg> gerado dentro dela. SEM
+       width/height fixos aqui: o tamanho do quadro varia a
+       cada carregamento (depende de quantos anéis main.js
+       decidir criar), então quem manda no tamanho é o próprio
+       <svg>, não este container. */
     position: absolute;
 
-    /* 30% de opacidade, como pedido — mantém os anéis como
-       um detalhe bem sutil, sem competir com o texto */
+    /* 30% de opacidade — mantém os anéis como um detalhe bem
+       sutil, sem competir com o texto */
     opacity: 0.3;
 
     /* Fica atrás de todo o conteúdo do <main> (que tem
@@ -1386,75 +1453,36 @@ main {
     display: block;
 }
 
-/* Instância de cima: mais para a direita, perto do topo
-   do <main> (logo abaixo do carrossel da hero) */
-.content-circles--top-right {
-    top: 20px;
-    right: 2%;
-}
-
-/* Instância de baixo: mais para a esquerda, na parte
-   inferior do conteúdo. Usamos "top" em porcentagem — como
-   o <main> é bem mais alto que a tela (o conteúdo é longo),
-   uma porcentagem do total garante que ela fique de fato
-   na METADE DE BAIXO da página, não importa o quão longo
-   o texto acabe ficando. */
-.content-circles--bottom-left {
-    top: 55%;
-    left: 2%;
-}
-
 /*
-   AJUSTE PARA PÁGINAS INTERNAS (programacao.html e futuras)
+   4º GRUPO DE CÍRCULOS: ESCONDIDO ENQUANTO OS CARDS ESTÃO FECHADOS
 
-   "top: 55%" funciona bem na página inicial, mas
-   programacao.html tem uma estrutura de conteúdo bem
-   diferente (título, parágrafo, legenda, DUAS tabelas — cada
-   uma podendo crescer se novos horários forem adicionados) —
-   55% da altura total do <main> ali pode cair bem em cima de
-   um título, o que já aconteceu.
+   Só se aplica ao grupo marcado com data-hide-if-collapsed no HTML
+   (o de baixo, em programacao.html) — com os 3 cards de
+   Palestras/Mesas Redondas/Minicursos fechados (o estado inicial
+   da página), ela fica bem mais curta, e não sobra altura
+   suficiente pra esse grupo sem ele ficar colado no grupo anterior.
 
-   Em vez de tentar adivinhar uma porcentagem seguro para cada
-   página interna, ancoramos pelo FIM do <main> (bottom, não
-   top): o conteúdo sempre termina com a seção de palestrantes,
-   deixando esse canto inferior esquerdo livre de texto na
-   prática, não importa quantas linhas a planilha tenha.
+   Escondido via opacity (não display: none) para poder fazer um
+   fade suave em vez de sumir/aparecer de repente — display não dá
+   para animar com transition. pointer-events: none já vem da regra
+   base .content-circles, então não precisa de visibility aqui: o
+   grupo nunca captura clique, escondido ou não.
 
-   ".page-interna" é a classe que o <body> de páginas internas
-   já usa (ver --navbar-safe-area, no topo do arquivo).
+   O JavaScript (main.js, Seção 9) adiciona a classe
+   .content-circles--visible assim que qualquer card é aberto (a
+   página cresce o bastante de novo) e remove quando todos voltam a
+   fechar.
 */
-body.page-interna .content-circles--bottom-left {
-    top: auto;
-    bottom: 40px;
+.content-circles[data-hide-if-collapsed] {
+    opacity: 0;
+    transition: opacity 0.6s ease;
 }
 
-/*
-   DOIS GRUPOS EXTRAS, SÓ EM PROGRAMACAO.HTML
-
-   .content-circles--mid-left e --mid-right existem apenas no
-   HTML de programacao.html (não em index.html nem
-   inscricao.html) — a página é bem mais comprida que as
-   outras (planilha + lista de palestrantes crescendo), então
-   dois grupos a mais preenchem esse espaço extra com mais
-   detalhe.
-
-   Junto com --top-right (perto do topo) e --bottom-left
-   (perto do fim), os quatro formam um "zigue-zague" descendo
-   a página: direita → esquerda → direita → esquerda.
-
-   Assim como --bottom-left, usamos porcentagem de "top" — o
-   <main> desta página é bem mais alto que a tela, então uma
-   porcentagem do total garante que cada grupo fique
-   aproximadamente na faixa vertical pretendida.
-*/
-.content-circles--mid-left {
-    top: 38%;
-    left: 2%;
-}
-
-.content-circles--mid-right {
-    top: 66%;
-    right: 2%;
+/* Volta à MESMA opacidade sutil (0.3) da regra base .content-circles
+   — não para opacity:1, que destacaria demais este grupo em
+   relação aos outros 3, sempre visíveis */
+.content-circles[data-hide-if-collapsed].content-circles--visible {
+    opacity: 0.3;
 }
 
 /* ============================================
@@ -1471,6 +1499,21 @@ body.page-interna .content-circles--bottom-left {
    ============================================ */
 
 main h1 {
+    /*
+       SCROLL-MARGIN-TOP
+
+       Relevante quando um h1 é o ALVO de um link âncora (ex:
+       uma célula da planilha de horários linkando para o
+       título da atração revelada — ver .schedule-cell--clickable,
+       mais abaixo). Sem isso, o navegador rolaria a página até
+       o h1 encostar EXATAMENTE no topo da tela — mas aí o
+       navbar fixo (position: fixed, 70px de altura) ficaria
+       por cima dele, escondendo o título. scroll-margin-top
+       cria uma folga antes do alvo, mesmo princípio já usado em
+       #planilha (ver a regra dela, na seção de Programação).
+    */
+    scroll-margin-top: var(--navbar-safe-area);
+
     /*
        COLOR: #3D2E22
 
@@ -1902,17 +1945,52 @@ main hr {
    cima, exatamente para poder ter um tamanho diferente sem
    afetar as imagens da seção "História" (página inicial), que
    usam wrapped-image-left/right e devem continuar em 300px.
+
+   MOLDURA — EXPERIMENTO (2026-07-21)
+
+   As fotos enviadas têm proporções bem diferentes entre si (uma
+   quadrada, outra bem mais alta que larga, etc.) — sem nada
+   além do width acima, cada uma aparecia com uma altura
+   diferente. aspect-ratio + object-fit: cover resolvem isso:
+   toda foto passa a ocupar a MESMA caixa (200×250px, proporção
+   4:5 — a mesma de uma foto 3x4/retrato de documento), com o
+   excesso recortado para fora dos lados.
+
+   Por que 4:5 (retrato) e não um quadrado (1:1)? Olhando as
+   fotos reais usadas: o rosto costuma ficar centralizado na
+   horizontal, mas no terço SUPERIOR da foto (comum em selfie/
+   foto de perfil), não bem no centro vertical. Uma moldura mais
+   alta que larga precisa recortar menos na vertical pra caber a
+   mesma largura de rosto, sobrando mais margem embaixo (ombros/
+   peito) pra "absorver" o corte em vez do rosto.
+
+   object-position: center 25% (em vez do padrão "center 50%")
+   desloca o ENQUADRAMENTO pra cima, pelo mesmo motivo: com o
+   rosto tipicamente no terço superior, um recorte customizado assim
+   erra menos do que um recorte bem no meio da imagem.
+
+   SEM nenhum detalhe decorativo aqui de propósito (nada de
+   borda/sombra) — só a moldura em si, como pedido. Se não
+   agradar, é só remover aspect-ratio/object-fit/object-position
+   das duas classes abaixo pra voltar ao comportamento antigo
+   (cada foto na sua altura natural).
 */
 .speaker-photo-left {
   float: left;
   margin: 0 20px 10px 0;
   width: 200px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 25%;
 }
 
 .speaker-photo-right {
   float: right;
   margin: 0 0 10px 20px;
   width: 200px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 25%;
 }
 
 /* ============================================
@@ -2681,27 +2759,48 @@ main hr {
 }
 
 /*
-   PREPARO PARA QUANDO A PLANILHA FICAR INTERATIVA
+   COMO TORNAR UMA CÉLULA DA PLANILHA CLICÁVEL
 
-   Hoje, NENHUMA célula tem esta classe (ainda não há
-   palestrante nenhum revelado para linkar). Quando um
-   Palestra/Mesa Redonda/Minicurso for confirmado:
+   Já em uso em várias células da planilha (ex: Pouya, 08h30–09h30
+   quinta) — use como referência. Quando uma Palestra/Minicurso com
+   UM palestrante identificado for confirmado, repita o padrão:
 
    1) Troque a <td> daquele evento para conter um <a> em vez de
       só texto solto — algo como:
 
         <td class="schedule-cell schedule-cell--revealed">
             <a href="#fulano-de-tal" class="schedule-cell-link schedule-cell--clickable">
-                <span class="schedule-cell-label--gradient schedule-cell-category">PALESTRA</span>
-                <span class="schedule-cell-theme">Nome do tema</span>
+                <span class="schedule-cell-category">Fulano Sobrenome</span>
+                <span class="schedule-cell-theme">Tema da palestra</span>
             </a>
         </td>
+
+      Repare que o texto MAIOR (.schedule-cell-category) passa a
+      ser o NOME do palestrante — não mais a palavra "PALESTRA" —
+      numa versão reduzida (primeiro nome + 1 ou 2 sobrenomes, não
+      o nome completo). O texto menor (.schedule-cell-theme) fica
+      só com o TEMA, sem repetir o nome. SEM
+      .schedule-cell-label--gradient aqui: esse modificador é só
+      para os rótulos fixos sem link (Credenciamento, Coffee Break
+      etc., mais abaixo) — olhe .schedule-cell--revealed, logo
+      abaixo, para o porquê.
+
+      Exceção: uma Mesa Redonda com VÁRIOS palestrantes (sem UM
+      nome específico pra liderar a célula) mantém a categoria
+      "MESA REDONDA" e o tema no lugar do nome — ver a célula "10
+      anos de CAFís" (11h–12h, quarta) para essa variante.
 
    2) Troque a classe de --pending para --revealed (a
       informação deixou de ser "a definir").
 
-   3) Adicione id="fulano-de-tal" na seção correspondente do
-      palestrante, lá embaixo (ver .speaker-entry).
+   3) Adicione id="fulano-de-tal" no <h1> da entrada correspondente
+      do palestrante, lá embaixo (ver .speaker-entry) — NO H1,
+      não na <div class="speaker-entry"> que o envolve. Isso
+      garante que o clique role a página até o TÍTULO da
+      atração (que tem scroll-margin-top, ver "main h1" — a
+      folga certa para não ficar escondido atrás do navbar
+      fixo), não até o topo da entrada inteira (que começaria
+      no "selo" MESA REDONDA/PALESTRA, acima do título).
 
    Esta classe já deixa pronto o efeito de hover/foco — é só
    usar.
@@ -2713,7 +2812,7 @@ main hr {
 .schedule-cell--clickable:hover,
 .schedule-cell--clickable:focus-visible {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(61, 46, 34, 0.25);
+    text-shadow: 5px 5px 20px rgba(61, 46, 34, 0.5);
     outline: none;
 }
 
@@ -2739,7 +2838,6 @@ main hr {
 .speaker-entry {
     margin-bottom: 3rem;
     padding-bottom: 3rem;
-    border-bottom: 2px solid rgba(61, 46, 34, 0.12);
 }
 
 /* Última entrada não precisa de linha divisória embaixo */
@@ -2760,6 +2858,242 @@ main hr {
     border-radius: 20px;
     margin-bottom: 0.5rem;
 }
+
+/*
+   LOCAL + VAGAS DE UM MINICURSO
+
+   Fica entre o <h1> (tema) e o <blockquote> (resumo/currículo) de
+   uma .speaker-entry de minicurso — informação prática (onde
+   acontece, quantas vagas) que não faz parte do resumo em si, por
+   isso ganha um destaque visual próprio em vez de virar só mais
+   uma frase dentro do texto corrido.
+
+   <ul> por semântica (é uma pequena LISTA de informações), mas
+   visualmente vira duas "pílulas" lado a lado — mesmo raio de
+   borda do .speaker-kicker (acima), só que com um fundo mais
+   claro (o mesmo verde-água de .schedule-time, em main.css) para
+   não competir com o selo "MINICURSO" logo acima.
+*/
+.minicurso-info {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 1.2rem;
+}
+
+.minicurso-info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    color: #3D2E22;
+    background: #CBE6E2;
+}
+
+/* Ícone pequeno antes do texto (local ou nº de vagas) — cor no
+   laranja de destaque, o mesmo usado nos ícones de contato do
+   rodapé, pra puxar um pouco de atenção sem gritar */
+.minicurso-info-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: var(--color-highlight-text);
+}
+
+/* ================================================================
+   CARDS EXPANSÍVEIS (PALESTRAS / MESAS REDONDAS / MINICURSOS)
+   ================================================================
+
+   Agrupam as .speaker-entry acima em 3 blocos que abrem/fecham
+   independentemente, para quem quiser ver só um tipo de sessão
+   sem rolar a lista inteira. Cada card = um <button> (cabeçalho,
+   sempre visível) + um <div class="program-card-content"> logo
+   abaixo dele (o conteúdo, escondido por padrão).
+
+   O JavaScript (main.js) alterna aria-expanded no botão e a
+   classe "program-card-content--open" no conteúdo a cada clique
+   — mesmo padrão já usado no menu hambúrguer (.nav-toggle/
+   .nav-list--open, mais abaixo). Quando uma célula clicável da
+   planilha aponta pra dentro de um card fechado, o mesmo
+   JavaScript abre o card sozinho antes de rolar até o
+   palestrante (ver .schedule-cell--clickable).
+   ================================================================ */
+
+.program-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+    /*
+       BORDA NO DEGRADÊ QUE ACOMPANHA O ARREDONDAMENTO
+
+       border-image (a técnica usada em .schedule-cell e outros
+       elementos do site) NÃO respeita border-radius — ele sempre
+       desenha a borda como um retângulo reto, mesmo com cantos
+       arredondados definidos. Isso não incomodava em nenhum outro
+       lugar porque não havia um filho "colado" na borda ali, mas
+       aqui o .program-card-toggle (o cabeçalho) encosta direto
+       no topo do card, e o overflow:hidden abaixo arredonda ELE
+       (não a borda), criando um vão visível entre os dois cantos.
+
+       A técnica abaixo pinta o degradê como BACKGROUND do próprio
+       .program-card (não como border-image), esticado até a borda
+       via "border-box" — normalmente isso cobriria o card inteiro,
+       mas o .program-card-toggle e o .program-card-content (os
+       dois filhos, ambos opacos) cobrem exatamente o miolo por
+       cima, sobrando visível só o anel de 3px da borda. Como esse
+       background respeita border-radius de verdade (ao contrário
+       de border-image), o anel acompanha certinho o arredondamento
+       do topo do .program-card-toggle.
+    */
+    border: 3px solid transparent;
+    background: var(--gradient-soft) border-box;
+
+    /* overflow: hidden garante que o conteúdo recolhido (com
+       max-height pequeno) não vaze por fora dos cantos
+       arredondados do card, e que os cantos QUADRADOS do
+       .program-card-toggle (abaixo) sejam recortados no formato
+       arredondado do card */
+    overflow: hidden;
+}
+
+.program-card-toggle {
+    /* Reset de estilos padrão de <button> */
+    width: 100%;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
+
+    /*
+       SCROLL-MARGIN-TOP: FOLGA POR BAIXO DO NAVBAR FIXO
+
+       Ao abrir um card, main.js rola até este cabeçalho
+       (scrollIntoView) pra ele ficar no topo da tela — sem esse
+       scroll-margin-top, o navbar fixo (position: fixed) cobriria
+       este cabeçalho por cima. var(--navbar-safe-area) é a mesma
+       folga já usada em #planilha e em "main h1", só que aqui com
+       +16px extras: o pedido foi "uma pequena margem" abaixo do
+       navbar, não encostado nele.
+    */
+    scroll-margin-top: calc(var(--navbar-safe-area) + 16px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+
+    background: var(--gradient-soft);
+    color: #3D2E22;
+
+    /*
+       BACKGROUND-SIZE MAIOR QUE 100%: ESPAÇO PARA O DEGRADÊ "ANDAR"
+
+       Em repouso, com background-position no padrão (0% 0%), só a
+       primeira metade do degradê (esticado em dobro) aparece — o
+       efeito de "andar" só acontece no :hover (ver a regra
+       [aria-expanded="false"]:hover, abaixo), que anima
+       background-position enquanto o card está fechado.
+    */
+    background-size: 200% 100%;
+    transition: background-size 0.25s ease;
+}
+
+/*
+   HOVER: DEGRADÊ "ANDANDO" — SÓ QUANDO O CARD ESTÁ FECHADO
+
+   [aria-expanded="false"] é o próprio estado de acessibilidade que
+   o JavaScript já mantém atualizado a cada clique — serve de
+   gancho pra esse hover não acontecer quando o card já está
+   aberto, sem precisar de nenhuma classe extra só pra isso.
+
+   A animação desloca background-position da esquerda pra direita
+   e de volta, em loop — como o degradê está "esticado" em 200% de
+   largura (ver acima), isso dá a impressão de as cores circulando
+   por dentro do cabeçalho, em vez de só deslizar uma vez.
+*/
+.program-card-toggle[aria-expanded="false"]:hover {
+    animation: program-card-gradient-flow 3s ease-in-out infinite;
+}
+
+@keyframes program-card-gradient-flow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.program-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.program-card-chevron {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+
+    /* cubic-bezier(0.4, 0, 0.2, 1) é a curva "standard" do Material
+       Design — acelera suave no início e desacelera suave no fim,
+       bem mais natural que "ease" para um giro de 180°. */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Girada (aponta pra cima) quando o card está aberto — o próprio
+   aria-expanded do botão (que o JS já mantém atualizado para
+   acessibilidade) serve de gancho para o CSS, sem precisar de
+   uma classe extra só para isso */
+.program-card-toggle[aria-expanded="true"] .program-card-chevron {
+    transform: rotate(180deg);
+}
+
+.program-card-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    background: #ffffff;
+
+    /* Mesma curva suave do chevron, acima, só que mais lenta (o
+       conteúdo tem bem mais altura pra percorrer). O fade em
+       opacity, junto do max-height, evita o texto "aparecer de
+       repente" assim que a altura libera espaço pra ele. */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s ease;
+}
+
+/*
+   CLASSE ADICIONADA PELO JS AO ABRIR
+
+   20000px é só um teto bem mais alto do que o conteúdo jamais
+   deve precisar (mesmo com uma lista grande de palestrantes) —
+   é a mesma técnica (e o mesmo motivo) do .nav-list--open, no
+   menu hambúrguer: max-height não pode ser "none"/"auto" numa
+   transição CSS, então usamos um valor fixo alto o bastante.
+*/
+.program-card-content--open {
+    max-height: 20000px;
+    opacity: 1;
+}
+
+.program-card-content-inner {
+    padding: 20px 24px 4px;
+
+    /* Mesma folga por baixo do navbar fixo já usada em outros
+       alvos de link âncora (main h1, #planilha) — necessária aqui
+       porque uma célula da planilha pode linkar direto pro id
+       deste elemento (ex: #minicursos), quando o link aponta pro
+       card inteiro, não pra um palestrante específico dentro dele. */
+    scroll-margin-top: var(--navbar-safe-area);
+}
+
 
 /* ================================================================
    BOTÃO "VOLTAR AO TOPO"
@@ -2976,6 +3310,155 @@ main hr {
 .inscricao-cta-button:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 22px rgba(61, 46, 34, 0.4);
+}
+
+/* ================================================================
+   PÁGINA: COMISSÃO ORGANIZADORA (comissao.html)
+   ================================================================
+
+   Grade de "cards" com foto, nome e subcomissão de cada membro —
+   layout simples de propósito (a lista de nomes ainda vai ser
+   preenchida aos poucos), pensado pra crescer bem com qualquer
+   quantidade de pessoas: a grade quebra linha sozinha, sem
+   depender de um número fixo de membros.
+   ================================================================ */
+
+.committee-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    margin: 2rem 0 3rem;
+}
+
+/*
+   <hr> DENTRO DA GRADE = SEPARADOR ENTRE SUBCOMISSÕES
+
+   O visual da linha em si (degradê, altura, cor) já vem de "main
+   hr", lá em cima — não precisa repetir aqui. O único problema é
+   que, dentro de um flex container, um <hr> sozinho não ocupa a
+   LARGURA TODA da linha por padrão (ele só teria a largura do seu
+   conteúdo, que é nenhum). flex-basis: 100% resolve isso: força o
+   <hr> a tomar a linha inteira sozinho, empurrando os próximos
+   .committee-card para a linha de baixo — é só escrever um <hr>
+   no HTML, entre um grupo de pessoas e outro, pra "quebrar" a
+   grade ali.
+*/
+.committee-grid hr {
+    flex-basis: 100%;
+    width: 100%;
+}
+
+/*
+   CARD DE UM MEMBRO
+
+   Mesma técnica de "borda no degradê que acompanha o
+   arredondamento" usada em .program-card (ver o comentário
+   completo lá, perto de .speaker-kicker) — mas aqui com as DUAS
+   camadas explícitas (branca + degradê), porque, diferente do
+   card expansível, nada dentro deste card é opaco o bastante pra
+   cobrir o miolo sozinho.
+*/
+.committee-card {
+    /*
+       220px → 280px: aumentado a pedido do usuário, junto com a
+       foto logo abaixo — nem toda foto enviada tem a pessoa
+       perfeitamente centralizada, e um círculo maior sobra mais
+       chance do rosto aparecer inteiro mesmo assim (menos corte
+       nas bordas). Como a grade é flex-wrap, cards mais largos já
+       resolvem sozinhos o "menos cards por linha" — não precisa
+       de nenhum ajuste separado pra isso.
+    */
+    width: 280px;
+    text-align: center;
+    padding: 32px 20px 26px;
+
+    border: 3px solid transparent;
+    border-radius: 14px;
+    background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        var(--gradient-soft) border-box;
+
+    /* Mesma "elevação no hover" já usada em vários lugares do site
+       (.back-to-top-button, .schedule-cell--clickable, os cards de
+       palestrantes) — um pequeno respiro visual ao passar o mouse */
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.committee-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(61, 46, 34, 0.18);
+}
+
+.committee-photo {
+    display: block;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 18px;
+
+    /* Foto REDONDA — diferente das speaker-photo-left/right
+       (retangulares) do resto do site, de propósito: dá a esta
+       página uma identidade visual própria de "galeria de perfis",
+       em vez de parecer mais uma lista de palestrantes. */
+    border-radius: 50%;
+    object-fit: cover;
+
+    /* Anel branco entre a foto e o fundo do card — evita a foto
+       "grudar" visualmente na borda em degradê ao redor do card */
+    border: 4px solid #ffffff;
+    box-shadow: 0 2px 10px rgba(61, 46, 34, 0.25);
+}
+
+.committee-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #3D2E22;
+    margin-bottom: 8px;
+}
+
+/* Mesmo visual de "pílula" do .speaker-kicker (planilha de
+   programação) — reaproveitado aqui pra identificar a subcomissão
+   de cada membro, mesma lógica de cor (fundo sólido, texto branco) */
+.committee-subcommittee {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    background: var(--color-bg-dark);
+    padding: 4px 14px;
+    border-radius: 20px;
+}
+
+/* ================================================================
+   PÁGINA: ERRO 404 (404.html)
+   ================================================================
+
+   Mensagem curta e centralizada — bem diferente do resto do
+   <main>, que é otimizado pra texto corrido longo (por isso as
+   sobrescritas de text-align/padding-right abaixo).
+   ================================================================ */
+
+.error-404 {
+    text-align: center;
+    max-width: 500px;
+    margin: 4rem auto;
+    padding: 20px;
+}
+
+/* "404" gigante — sobrescreve o padding-right de 40% de "main h1"
+   (pensado pra título de texto corrido, não faz sentido aqui) */
+.error-404 h1 {
+    font-size: 6rem;
+    text-align: center;
+    padding-right: 0;
+}
+
+/* Sobrescreve o text-align: justify de "main p" — um parágrafo
+   desse tamanho fica melhor centralizado do que justificado */
+.error-404 p {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 /* ================================================================

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
-<!-- 
+<!--
    HTML LANG="PT-BR"
-   
+
    Define o idioma principal da página como Português do Brasil.
    Isso é importante para:
    - Leitores de tela (acessibilidade)
@@ -11,29 +11,29 @@
 -->
 <html lang="pt-BR">
     <head>
-        <!-- 
+        <!--
            META CHARSET="UTF-8"
-           
+
            Define a codificação de caracteres como UTF-8.
            UTF-8 suporta praticamente todos os caracteres do mundo,
            incluindo acentos (á, é, í, ó, ú, ç, etc.).
         -->
         <meta charset="utf-8">
-        
-        <!-- 
+
+        <!--
            META VIEWPORT
-           
+
            Essencial para sites responsivos (mobile).
            - width=device-width = largura igual à tela do dispositivo
            - initial-scale=1 = zoom inicial de 100%
-           
+
            Sem isso, o site aparece "miniaturizado" no celular.
         -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link href="main.css" rel="stylesheet">
 
-        <title>Inscrições - VIII SEAFís | CAFís UFV</title>
+        <title>Comissão Organizadora - VIII SEAFís | CAFís UFV</title>
 
         <!--
            FAVICON
@@ -53,7 +53,7 @@
            evita problemas de conteúdo "duplicado" aos olhos do
            buscador (ver comentário completo em index.html).
         -->
-        <link rel="canonical" href="https://seafisufv.netlify.app/inscricao.html">
+        <link rel="canonical" href="https://seafisufv.netlify.app/comissao.html">
 
         <!--
            META DESCRIPTION
@@ -63,7 +63,7 @@
            afeta o RANKING diretamente, mas afeta se a pessoa
            clica ou não no resultado.
         -->
-        <meta name="description" content="Faça sua inscrição na VIII SEAFís e confira os valores para cada categoria de participante: graduação, pós-graduação, professores e inscrição social.">
+        <meta name="description" content="Conheça a Comissão Organizadora da VIII Semana Acadêmica de Física (SEAFís), da Universidade Federal de Viçosa.">
 
         <!--
            OPEN GRAPH
@@ -78,10 +78,10 @@
            completar um caminho relativo como sabe o navegador.
         -->
         <meta property="og:type" content="website">
-        <meta property="og:title" content="Inscrições - VIII SEAFís">
-        <meta property="og:description" content="Faça sua inscrição na VIII SEAFís e confira os valores para cada categoria de participante.">
+        <meta property="og:title" content="Comissão Organizadora - VIII SEAFís">
+        <meta property="og:description" content="Conheça a Comissão Organizadora da VIII Semana Acadêmica de Física (SEAFís), da UFV.">
         <meta property="og:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
-        <meta property="og:url" content="https://seafisufv.netlify.app/inscricao.html">
+        <meta property="og:url" content="https://seafisufv.netlify.app/comissao.html">
         <meta property="og:locale" content="pt_BR">
 
         <!--
@@ -93,36 +93,36 @@
            summary_large_image = preview com imagem grande.
         -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Inscrições - VIII SEAFís">
-        <meta name="twitter:description" content="Faça sua inscrição na VIII SEAFís e confira os valores para cada categoria de participante.">
+        <meta name="twitter:title" content="Comissão Organizadora - VIII SEAFís">
+        <meta name="twitter:description" content="Conheça a Comissão Organizadora da VIII Semana Acadêmica de Física (SEAFís), da UFV.">
         <meta name="twitter:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
 
     </head>
     <body class="page-interna">
 
-        <!-- 
+        <!--
            ========================================
            NAVBAR FIXO NO TOPO
            ========================================
-           
+
            O navbar está DIRETAMENTE no <body>, fora de qualquer
            section. Isso é importante porque ele será "fixed"
            (fixo) e precisa estar no fluxo principal da página.
-           
+
            A classe "navbar" identifica este elemento para o CSS.
            A classe "sticky" será adicionada/removida pelo JS
            quando houver scroll (para adicionar sombra).
         -->
         <nav class="navbar" id="navbar">
             <div class="nav-container">
-                
-                <!-- 
+
+                <!--
                    LOGO DO NAVBAR (mini)
-                   
+
                    Adicionei um logo pequeno à esquerda do menu.
                    Isso é uma sugestão de usabilidade: o usuário
                    sempre sabe onde clicar para voltar à home.
-                   
+
                    Quando você tiver a imagem real, substitua o texto.
                 -->
                 <a href="index.html" class="nav-logo">
@@ -159,29 +159,25 @@
                 -->
                 <ul class="nav-list" id="nav-list">
 
-                    <!--
-                       ITEM SIMPLES (sem dropdown)
-
-                       A classe "active" indica a página atual.
-                       Por enquanto deixei no "Início".
-                    -->
-                    <li class="nav-item active">
-                        <a href="index.html" class="nav-link">Início</a>
-                    </li>
-
-                    <!--
-                       Item simples
-                    -->
+                    <!-- Item simples -->
                     <li class="nav-item">
-                        <a href="programacao.html" class="nav-link">Programação</a>
+                        <a href="index.html" class="nav-link">Início</a>
                     </li>
 
                     <!-- Item simples -->
                     <li class="nav-item">
+                        <a href="programacao.html" class="nav-link">Programação</a>
+                    </li>
+
+                    <!--
+                       A classe "active" indica a página atual —
+                       aqui, por estarmos em comissao.html.
+                    -->
+                    <li class="nav-item active">
                         <a href="comissao.html" class="nav-link">Comissão</a>
                     </li>
 
-                    <!-- Itens simples -->
+                    <!-- Item simples -->
                     <li class="nav-item">
                         <a href="inscricao.html" class="nav-link">Inscrições</a>
                     </li>
@@ -189,8 +185,8 @@
             </div>
         </nav>
 
-        
-        <!-- 
+
+        <!--
            ========================================
            MAIN (conteúdo principal)
            ========================================
@@ -215,7 +211,8 @@
                O segundo grupo usa data-bottom (não data-top) —
                ancorado pelo FIM do <main> em vez de uma porcentagem
                do topo, para não correr o risco de cair em cima de
-               algum título se o conteúdo desta página crescer.
+               algum título se o conteúdo desta página crescer (mais
+               membros adicionados = página mais comprida).
             -->
             <div class="content-circles" aria-hidden="true"
                  data-top="20px" data-right="2%"
@@ -228,154 +225,258 @@
 
             <!--
                ========================================
-               PLANILHA DE VALORES
+               COMISSÃO ORGANIZADORA
                ========================================
 
-               Mesma ideia da planilha de horários (programacao.html):
-               uma <table> de verdade (não uma grade de <div>s), pelo
-               mesmo motivo — é dado tabular de verdade (categoria ×
-               valor), e <table> dá de graça a leitura correta por
-               leitores de tela.
+               Grade simples de "cards" — foto, nome e subcomissão
+               de cada membro. Sem agrupamento por subcomissão de
+               propósito (a pedido do usuário: "página bem simples")
+               — se um dia fizer sentido agrupar visualmente por
+               subcomissão, isso é uma mudança de estrutura, não só
+               de estilo, então melhor esperar até haver gente
+               suficiente pra essa organização valer a pena.
             -->
-            <section id="valores">
-                <h1>Inscrições</h1>
+            <section id="comissao">
+                <h1>Comissão Organizadora</h1>
 
                 <p>
-                    As inscrições da VIII SEAFís vão até o dia <b>14 de julho</b> corra e venha fazer parte desse evento! O valor da inscrição varia conforme a categoria do participante. Confira abaixo qual se aplica ao seu caso antes de preencher o formulário.
+                    Conheça quem está por trás da organização da VIII SEAFís.
                 </p>
 
-                <div class="pricing-table-wrapper">
-                    <table class="pricing-table">
-                        <caption>Valores de Inscrição</caption>
-                        <thead>
-                            <tr>
-                                <th scope="col" class="pricing-header">Categoria</th>
-                                <th scope="col" class="pricing-header">Valor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="pricing-cell">Estudantes de Graduação</td>
-                                <td class="pricing-cell pricing-cell--price">R$ 30</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">
-                                    Estudantes de Graduação - Calouros
-                                    <span class="pricing-cell-note">
-                                        Estudantes de graduação que entraram no curso em 2026.
-                                    </span>
-                                </td>
-                                <td class="pricing-cell pricing-cell--price">R$ 25</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">Professores da Educação Básica</td>
-                                <td class="pricing-cell pricing-cell--price">R$ 30</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">Estudantes de Pós-Graduação</td>
-                                <td class="pricing-cell pricing-cell--price">R$ 50</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">Professores da Universidade</td>
-                                <td class="pricing-cell pricing-cell--price">R$ 80</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">
-                                    Inscrição Social
-                                    <!-- Nota explicando quem se qualifica para
-                                         esta categoria, menor e mais discreta
-                                         que o nome da categoria em si -->
-                                    <span class="pricing-cell-note">
-                                        Estudantes de graduação que recebem apoio da universidade
-                                    </span>
-                                </td>
-                                <td class="pricing-cell pricing-cell--price">R$ 15</td>
-                            </tr>
-                            <tr>
-                                <td class="pricing-cell">Público Geral</td>
-                                <td class="pricing-cell pricing-cell--price">R$ 50</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!--
+                   EXEMPLOS ABAIXO — os placeholders (nomes, fotos e
+                   subcomissões fictícios, com foto de
+                   https://placehold.co) são só pra dar pra ver o
+                   layout da grade preenchida. Substitua/apague
+                   conforme a lista real de membros for definida.
+
+                   AGRUPANDO POR SUBCOMISSÃO: escreva um <hr> entre
+                   um grupo de pessoas e outro (nunca DENTRO de um
+                   grupo) — ele "quebra" a grade ali, empurrando o
+                   próximo grupo pra uma linha nova. O visual do
+                   <hr> em si (o degradê) já vem pronto de "main hr",
+                   em main.css; só o comportamento de quebrar linha
+                   dentro da grade foi ajustado em .committee-grid
+                   hr, logo depois de .committee-grid.
+                -->
+                <div class="committee-grid">
+
+                    <!-- DIREÇÃO GERAL -->
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/miguel.jpg" alt="Foto de Miguel Pinto Xavier Salgado" class="committee-photo">
+                        <h3 class="committee-name">Miguel Pinto Xavier Salgado</h3>
+                        <span class="committee-subcommittee">Direção Geral</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/tiago.jpg" alt="Foto de Tiago Oliveira Vilhena" class="committee-photo">
+                        <h3 class="committee-name">Tiago Oliveira Vilhena</h3>
+                        <span class="committee-subcommittee">Direção Geral</span>
+                    </div>
+
+                    <hr>
+
+                    <!-- ACADÊMICO-SOCIAL (ordem alfabética) -->
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/alinny.jpg" alt="Foto de Alinny Elainny da Silva Sousa" class="committee-photo">
+                        <h3 class="committee-name">Alinny Elainny da Silva Sousa</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/clarissa.jpg" alt="Foto de Clarissa de Fátima Silva" class="committee-photo">
+                        <h3 class="committee-name">Clarissa de Fátima Silva</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/enrico.jpg" alt="Foto de Enrico Alves Pereira" class="committee-photo">
+                        <h3 class="committee-name">Enrico Alves Pereira</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/massardi.jpg" alt="Foto de Gabriel Tomaz Massardi" class="committee-photo">
+                        <h3 class="committee-name">Gabriel Tomaz Massardi</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/joao.jpg" alt="Foto de João Vitor Neves Brandão" class="committee-photo">
+                        <h3 class="committee-name">João Vitor Neves Brandão</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/rian.jpg" alt="Foto de Rian Rodrigues de Souza" class="committee-photo">
+                        <h3 class="committee-name">Rian Rodrigues de Souza</h3>
+                        <span class="committee-subcommittee">Acadêmico-Social</span>
+                    </div>
+
+                    <hr>                    
+
+                    <!-- FINANCEIRO -->
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/assis.jpg" alt="Foto de Assis Felipe" class="committee-photo">
+                        <h3 class="committee-name">Assis Felipe de Souza</h3>
+                        <span class="committee-subcommittee">Financeiro</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/joao_guilherme.jpg" alt="Foto de João Guilherme Siqueira Campos" class="committee-photo">
+                        <h3 class="committee-name">João Guilherme Siqueira Campos</h3>
+                        <span class="committee-subcommittee">Financeiro</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/lara.jpg" alt="Foto de Lara Ospina Azevedo" class="committee-photo">
+                        <h3 class="committee-name">Lara Ospina Azevedo</h3>
+                        <span class="committee-subcommittee">Financeiro</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/leandro.jpg" alt="Foto de Leandro Silva Arruda" class="committee-photo">
+                        <h3 class="committee-name">Leandro Silva Arruda</h3>
+                        <span class="committee-subcommittee">Financeiro</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/vilaca.jpg" alt="Foto de Lucas de Miranda Vargas Vilaça" class="committee-photo">
+                        <h3 class="committee-name">Lucas de Miranda Vargas Vilaça</h3>
+                        <span class="committee-subcommittee">Financeiro</span>
+                    </div>
+
+                    <hr>
+
+                    <!-- MARKETING -->
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/bernardo.jpg" alt="Foto de Bernardo Madeira de Araujo Guedes" class="committee-photo">
+                        <h3 class="committee-name">Bernardo Madeira de Araujo Guedes</h3>
+                        <span class="committee-subcommittee">Marketing</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/geovana.jpg" alt="Foto de Geovana Cristina Araújo Barbosa" class="committee-photo">
+                        <h3 class="committee-name">Geovana Cristina Araújo Barbosa</h3>
+                        <span class="committee-subcommittee">Marketing</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/jordy.jpg" alt="Foto de Jordy Pigaiane Nato de Oliveira" class="committee-photo">
+                        <h3 class="committee-name">Jordy Pigaiane Nato de Oliveira</h3>
+                        <span class="committee-subcommittee">Marketing</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/palestrantes/luis_henrique.jpeg" alt="Foto de Luis Henrique de Freitas" class="committee-photo">
+                        <h3 class="committee-name">Luis Henrique de Freitas</h3>
+                        <span class="committee-subcommittee">Marketing</span>
+                    </div>                    
+
+                    <hr>
+
+                    <!-- COMISSÃO COORDENADORA (ordem alfabética exceto o coordenador) -->
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/kairon.jpg" alt="Foto de Kairon Márcio de Oliveira" class="committee-photo">
+                        <h3 class="committee-name">Kairon Márcio de Oliveira</h3>
+                        <span class="committee-subcommittee">Coordenador</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/palestrantes/andreza.gif" alt="Foto de Andreza Germana da Silva Subtil" class="committee-photo">
+                        <h3 class="committee-name">Andreza Germana da Silva Subtil</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/joaquim.jpg" alt="Foto de Joaquim Bonfim Santos Mendes" class="committee-photo">
+                        <h3 class="committee-name">Joaquim Bonfim Santos Mendes</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>                    
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/leonarde.jpeg" alt="Foto de Leonarde Rodrigues" class="committee-photo">
+                        <h3 class="committee-name">Leonarde Rodrigues</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="committee-photo">
+                        <h3 class="committee-name">Mariana da Costa Novo Pimenta Brandão</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/comissao/rafael_otoniel.jpeg" alt="Foto de Rafael Otoniel Ribeiro Rodrigues da Cunha" class="committee-photo">
+                        <h3 class="committee-name">Rafael Otoniel Ribeiro Rodrigues da Cunha</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>
+
+                    <div class="committee-card">
+                        <img src="imagens/palestrantes/sergio.jpg" alt="Foto de Sérgio Luis de Abreu Mello" class="committee-photo">
+                        <h3 class="committee-name">Sérgio Luis de Abreu Mello</h3>
+                        <span class="committee-subcommittee">Comissão coordenadora</span>
+                    </div>
                 </div>
-            </section>
-
-            <!-- Separador já usado entre seções em programacao.html —
-                 mesmo <hr> com degradê definido em "main hr", no
-                 início de main.css -->
-            <hr>
-
-            <!--
-               ========================================
-               LINK PARA O FORMULÁRIO DE INSCRIÇÃO
-               ========================================
-
-               href="#" É UM PLACEHOLDER — troque pelo link real do
-               Google Forms (ou equivalente) assim que ele existir.
-            -->
-            <section class="inscricao-cta">
-                <p>
-                    Pronto para se inscrever? Preencha o formulário
-                    abaixo com seus dados:
-                </p>
-
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdvraxbOJoSYq032WKnPc1v_9bw8mMloQlw15pOljXljzVmXg/viewform?usp=preview" target="_blank" rel="noopener noreferrer" class="inscricao-cta-button">
-                    Inscreva-se pelo Formulário
-                </a>
             </section>
 
         </main>
 
-        <!-- 
+        <!--
            ========================================
            FOOTER (RODAPÉ)
            ========================================
-           
+
            O <footer> contém informações de rodapé:
            contato, links úteis, apoiadores, etc.
-           
+
            Fundo preto com duas seções lado a lado.
         -->
         <footer class="site-footer">
-            
-            <!-- 
+
+            <!--
                CONTAINER DO FOOTER
-               
+
                Centraliza o conteúdo e limita a largura máxima,
                similar ao navbar.
             -->
             <div class="footer-container">
-                
-                <!-- 
+
+                <!--
                    =====================================
                    SEÇÃO ESQUERDA: CONTATO
                    =====================================
-                   
+
                    Contém email e Instagram do CAFIS.
                    Alinhada à esquerda do footer.
                 -->
                 <div class="footer-section">
-                    
+
                     <!-- Título da seção -->
                     <h3 class="footer-title">Contato:</h3>
-                    
-                    <!-- 
+
+                    <!--
                        LISTA DE CONTATOS
-                       
+
                        UL sem bullets, com ícones + texto.
                     -->
                     <ul class="contact-list">
-                        
-                        <!-- 
+
+                        <!--
                            ITEM DE EMAIL
-                           
+
                            Ícone de carta (SVG) + endereço de email.
                            O link usa "mailto:" para abrir o cliente de email.
                         -->
                         <li class="contact-item">
-                            <!-- 
+                            <!--
                                ÍCONE DE EMAIL (SVG)
-                               
+
                                Desenho de um envelope/carta.
                                stroke-linecap="round" deixa as pontas arredondadas.
                             -->
@@ -385,29 +486,29 @@
                                 <!-- Linha do "V" da aba -->
                                 <polyline points="22,4 12,14 2,4"></polyline>
                             </svg>
-                            
-                            <!-- 
+
+                            <!--
                                LINK MAILTO
-                               
+
                                HREF="MAILTO:EMAIL@EXEMPLO.COM"
-                               
+
                                Quando clicado, abre o aplicativo de email
                                padrão do usuário com um novo email
                                pré-endereçado.
                             -->
                             <a href="mailto:cafis@ufv.br" class="contact-link">cafis@ufv.br</a>
                         </li>
-                        
-                        <!-- 
+
+                        <!--
                            ITEM DO INSTAGRAM
-                           
+
                            Ícone do Instagram (SVG) + @ do perfil.
                            Link externo que abre em nova aba.
                         -->
                         <li class="contact-item">
-                            <!-- 
+                            <!--
                                ÍCONE DO INSTAGRAM (SVG)
-                               
+
                                Desenho da câmera do Instagram.
                             -->
                             <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -418,13 +519,13 @@
                                 <!-- Flash (ponto superior direito) -->
                                 <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
                             </svg>
-                            
-                            <!-- 
+
+                            <!--
                                LINK EXTERNO
-                               
+
                                TARGET="_BLANK" = abre em nova aba do navegador
                                REL="NOOPENER NOREFERRER" = segurança para links externos
-                               
+
                                Sem target="_blank", o link abre na mesma aba,
                                fazendo o usuário sair do seu site.
                             -->
@@ -467,7 +568,7 @@
 
                        Flexbox para alinhar os logos lado a lado.
                     -->
-                    <div class="support-logos">                    
+                    <div class="support-logos">
                         <a href="https://www.instagram.com/cafis.ufv/" class="support-link" aria-label="CAFís">
                             <img src="imagens/patrocinio/cafis.png" alt="Logo do CAFís" class="support-logo">
                         </a>
@@ -494,16 +595,6 @@
                     <h3 class="footer-title">Apoio:</h3>
 
                     <!--
-                       NOMES DOS APOIADORES
-
-                       Os nomes completos de alguns apoiadores não
-                       estavam claros só pelo nome do arquivo (ccb,
-                       cce, nova, pec, thor) — usei o nome do arquivo
-                       em maiúsculas como texto alternativo por
-                       enquanto. Ajuste o "alt" de cada <img> abaixo
-                       com o nome real do apoiador quando puder.
-                    -->
-                    <!--
                        ORDEM DAS IMAGENS = ORDEM NA GRADE
 
                        A grade (.support-logos--grid, em main.css) usa
@@ -513,9 +604,9 @@
                        quem fica em qual fileira: os 4 primeiros
                        (UFV/CCB/CCE/PEC) ficam na primeira fileira, os
                        3 últimos (Thorlabs/Quantum Design/Nova ND) na
-                       segunda, como pedido. As duas primeiras da
-                       segunda fileira também usam a classe extra
-                       "support-logo--large" (maiores que as demais).
+                       segunda. As duas primeiras da segunda fileira
+                       também usam a classe extra "support-logo--large"
+                       (maiores que as demais).
                     -->
                     <div class="support-logos support-logos--grid">
                         <a href="https://www.ufv.br/" class="support-link" aria-label="UFV">
@@ -544,9 +635,9 @@
 
             </div>
 
-            <!-- 
+            <!--
                LINHA DE COPYRIGHT
-               
+
                Barra inferior com informação de copyright.
             -->
             <div class="footer-bottom">
@@ -559,10 +650,9 @@
            BOTÃO "VOLTAR AO TOPO"
 
            Presente em TODAS as páginas do site (mesmo HTML nas
-           três). Fica escondido até o usuário rolar a página (ver
-           main.js, Seção 10, que adiciona/remove a classe
-           "visible" conforme o scroll). Ao clicar, rola
-           suavemente até o topo (top: 0).
+           demais). Fica escondido até o usuário rolar a página (ver
+           main.js, que adiciona/remove a classe "visible" conforme
+           o scroll). Ao clicar, rola suavemente até o topo (top: 0).
 
            Fica fora do <footer> e do <main> de propósito: é um
            elemento "flutuante" (position: fixed em main.css),
@@ -577,7 +667,7 @@
 
         <!--
            SCRIPT SRC="MAIN.JS"
-           
+
            Conecta o arquivo JavaScript à página.
            É colocado no FINAL do <body> para garantir que
            todo o HTML já foi carregado antes do JS executar.

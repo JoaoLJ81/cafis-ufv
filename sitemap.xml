@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   SITEMAP.XML
+
+   Lista todas as páginas do site para buscadores (Google, Bing)
+   — ajuda a indexar o site mais rápido, principalmente enquanto
+   ele é novo e ainda não tem muitos links externos apontando
+   pra ele. <changefreq> é só uma dica (não uma garantia) de com
+   que frequência cada página costuma mudar.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://seafisufv.netlify.app/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://seafisufv.netlify.app/programacao.html</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://seafisufv.netlify.app/comissao.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://seafisufv.netlify.app/inscricao.html</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+</urlset>

@@ -1,0 +1,9 @@
+# User-agent: * -> esta regra vale para QUALQUER robô de busca
+# (Google, Bing, etc.). Allow: / libera o rastreamento de TODO o
+# site -- não há nenhuma página que precise ficar fora de busca.
+User-agent: *
+Allow: /
+
+# Aponta para o sitemap.xml, ajudando o buscador a encontrar
+# todas as páginas do site mais rápido.
+Sitemap: https://seafisufv.netlify.app/sitemap.xml

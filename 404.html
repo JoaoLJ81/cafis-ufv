@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<!--
+   HTML LANG="PT-BR"
+
+   Define o idioma principal da página como Português do Brasil.
+-->
+<html lang="pt-BR">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="main.css" rel="stylesheet">
+
+        <title>Página não encontrada - VIII SEAFís</title>
+
+        <!--
+           NETLIFY DETECTA ESTE ARQUIVO AUTOMATICAMENTE
+
+           Um arquivo chamado exatamente "404.html" na raiz do
+           projeto é servido pelo Netlify sempre que alguém acessa
+           uma URL que não existe no site — não precisa configurar
+           nada em netlify.toml/_redirects para isso funcionar.
+        -->
+
+        <link rel="icon" type="image/png" href="imagens/SemTextoSemFundo.png">
+
+        <!--
+           META DESCRIPTION
+
+           Sem tags Open Graph aqui de propósito — não faz sentido
+           "compartilhar" uma página de erro, então não precisa do
+           preview que og:* cria para os outros sites/redes sociais.
+        -->
+        <meta name="description" content="Página não encontrada no site da VIII SEAFís.">
+
+    </head>
+    <body class="page-interna">
+
+        <!--
+           ========================================
+           NAVBAR FIXO NO TOPO
+           ========================================
+
+           Mesmo navbar de todas as outras páginas — sem nenhum
+           item marcado como "active" de propósito: esta página
+           não corresponde a nenhum item real do menu.
+        -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">
+                    <img src="imagens/Titulo_SF_2.png" alt="Logo inteira SEAFís" class="nav-logo-image">
+                </a>
+
+                <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="nav-list">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+
+                <ul class="nav-list" id="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="programacao.html" class="nav-link">Programação</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="comissao.html" class="nav-link">Comissão</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="inscricao.html" class="nav-link">Inscrições</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!--
+           ========================================
+           MAIN (conteúdo principal)
+           ========================================
+
+           Só os círculos decorativos de sempre + uma mensagem
+           curta e centralizada — não precisa de mais estrutura
+           que isso para uma página de erro.
+        -->
+        <main>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="20px" data-right="2%"
+                 data-min-radius="45" data-max-radius="190"
+                 data-text="true" data-speed="0.45"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-bottom="40px" data-left="2%"
+                 data-min-radius="80" data-max-radius="340"
+                 data-text="true" data-speed="-0.4"></div>
+
+            <section id="erro-404" class="error-404">
+                <h1>404</h1>
+                <p>
+                    Ops! A página que você está procurando não existe ou foi movida. Que tal voltar para o início?
+                </p>
+
+                <!-- Reaproveita o mesmo estilo de botão já usado
+                     na chamada de inscrição (.inscricao-cta-button,
+                     em main.css) — não precisa de nenhuma classe
+                     nova só para este link. -->
+                <a href="index.html" class="inscricao-cta-button">Voltar para o início</a>
+            </section>
+        </main>
+
+        <!--
+           ========================================
+           FOOTER (RODAPÉ)
+           ========================================
+        -->
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3 class="footer-title">Contato:</h3>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                                <polyline points="22,4 12,14 2,4"></polyline>
+                            </svg>
+                            <a href="mailto:cafis@ufv.br" class="contact-link">cafis@ufv.br</a>
+                        </li>
+
+                        <li class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            <a href="https://www.instagram.com/cafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@cafis.ufv</a>
+                        </li>
+
+                        <li class="contact-item">
+                            <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"></circle>
+                            </svg>
+                            <a href="https://www.instagram.com/seafis.ufv/" target="_blank" rel="noopener noreferrer" class="contact-link">@seafis.ufv</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Realização:</h3>
+                    <div class="support-logos">
+                        <a href="https://www.instagram.com/cafis.ufv/" class="support-link" aria-label="CAFís">
+                            <img src="imagens/patrocinio/cafis.png" alt="Logo do CAFís" class="support-logo">
+                        </a>
+                        <a href="https://www.dpf.ufv.br/" class="support-link" aria-label="Departamento de Física">
+                            <img src="imagens/patrocinio/dpf.png" alt="Logo do Departamento de Física" class="support-logo">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-title">Apoio:</h3>
+                    <div class="support-logos support-logos--grid">
+                        <a href="https://www.ufv.br/" class="support-link" aria-label="UFV">
+                            <img src="imagens/patrocinio/ufv.png" alt="Logo da UFV" class="support-logo">
+                        </a>
+                        <a href="https://www.ccb.ufv.br/" class="support-link" aria-label="CCB">
+                            <img src="imagens/patrocinio/ccb.png" alt="Logo do apoiador CCB" class="support-logo">
+                        </a>
+                        <a href="https://www.cce.ufv.br/" class="support-link" aria-label="CCE">
+                            <img src="imagens/patrocinio/cce.png" alt="Logo do apoiador CCE" class="support-logo">
+                        </a>
+                        <a href="https://www.pec.ufv.br/" class="support-link" aria-label="PEC">
+                            <img src="imagens/patrocinio/pec.png" alt="Logo do apoiador PEC" class="support-logo">
+                        </a>
+                        <a href="https://www.thorlabs.com/" class="support-link" aria-label="Thorlabs">
+                            <img src="imagens/patrocinio/thor.png" alt="Logo do apoiador Thorlabs" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.qd-latam.com/site/en/" class="support-link" aria-label="Quantum Design">
+                            <img src="imagens/patrocinio/qdesign.png" alt="Logo do apoiador Quantum Design" class="support-logo support-logo--large">
+                        </a>
+                        <a href="https://www.novand.com.br/" class="support-link" aria-label="Nova ND">
+                            <img src="imagens/patrocinio/nova.png" alt="Logo do apoiador Nova ND Tecnologia" class="support-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 Centro Acadêmico de Física - UFV. Todos os direitos reservados.</p>
+            </div>
+        </footer>
+
+        <button id="back-to-top" class="back-to-top-button" aria-label="Voltar ao topo da página">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+
+        <script src="main.js"></script>
+    </body>
+</html>

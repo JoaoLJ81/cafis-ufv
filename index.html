@@ -33,7 +33,154 @@
 
         <link href="main.css" rel="stylesheet">
 
-        <title>VIII Semana Acadêmica de Física</title>
+        <title>VIII SEAFís - Semana Acadêmica de Física | CAFís UFV</title>
+
+        <!--
+           VERIFICAÇÃO DO GOOGLE SEARCH CONSOLE
+
+           Prova pro Google que quem cadastrou esta URL no Search
+           Console é o mesmo dono do site — só precisa ficar na
+           página inicial (o "URL prefix"
+           cadastrado foi https://seafisufv.netlify.app/), não em
+           todas as páginas. Depois de confirmado no Search
+           Console, esta tag pode ficar aqui pra sempre (removê-la
+           faria o Google "desverificar" a propriedade).
+        -->
+        <meta name="google-site-verification" content="-Dd0D4NSM78s_B5TjFINyBCz9FzK7PsxM02-eb4usIc" />
+
+        <!--
+           FAVICON
+
+           O iconezinho que aparece na aba do navegador (e nos
+           favoritos). rel="icon" é o padrão atual — não precisa
+           mais do antigo "shortcut icon". Usamos o ícone isolado
+           da marca (o átomo com raízes, sem o texto "SEAFís" do
+           lado, que ficaria ilegível nesse tamanho pequeno).
+        -->
+        <link rel="icon" type="image/png" href="imagens/SemTextoSemFundo.png">
+
+        <!--
+           LINK CANONICAL
+
+           Diz ao Google "esta é a URL OFICIAL desta página" —
+           evita que buscadores tratem, por exemplo,
+           "seafisufv.netlify.app" e "seafisufv.netlify.app/" (com
+           barra no final) como duas páginas DIFERENTES e duplicadas,
+           o que "dilui" o SEO em vez de concentrar numa página só.
+        -->
+        <link rel="canonical" href="https://seafisufv.netlify.app/">
+
+        <!--
+           META DESCRIPTION
+
+           O resumo que aparece embaixo do título quando o Google
+           (ou outro buscador) lista esta página numa busca. Não
+           afeta o RANKING diretamente, mas afeta se a pessoa
+           clica ou não no resultado.
+        -->
+        <meta name="description" content="Site oficial da VIII Semana Acadêmica de Física (SEAFís), promovida pelo Centro Acadêmico de Física (CAFís) da UFV. Confira a programação, os palestrantes e as inscrições.">
+
+        <!--
+           OPEN GRAPH
+
+           Um conjunto de tags que outros sites (WhatsApp, Instagram,
+           Facebook, Discord, etc.) leem para montar o "preview" do
+           link quando alguém cola/compartilha a URL desta página —
+           sem elas, a maioria dos apps mostra só o link cru, sem
+           imagem nem descrição. og:url e og:image PRECISAM ser
+           endereços completos (com https://…), não caminhos
+           relativos — os robôs desses sites não sabem "de onde"
+           completar um caminho relativo como sabe o navegador.
+        -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="VIII SEAFís - Semana Acadêmica de Física">
+        <meta property="og:description" content="Site oficial da VIII Semana Acadêmica de Física (SEAFís), promovida pelo Centro Acadêmico de Física (CAFís) da UFV.">
+        <meta property="og:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
+        <meta property="og:url" content="https://seafisufv.netlify.app/">
+        <meta property="og:locale" content="pt_BR">
+
+        <!--
+           TWITTER CARD
+
+           Mesma ideia do Open Graph acima, mas é o formato
+           específico que o Twitter/X lê (ele ignora as tags
+           og:* para montar o preview, por isso duplicamos aqui).
+           summary_large_image = preview com imagem grande.
+        -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="VIII SEAFís - Semana Acadêmica de Física">
+        <meta name="twitter:description" content="Site oficial da VIII Semana Acadêmica de Física (SEAFís), promovida pelo Centro Acadêmico de Física (CAFís) da UFV.">
+        <meta name="twitter:image" content="https://seafisufv.netlify.app/imagens/Titulo_SF_2.png">
+
+        <!--
+           DADOS ESTRUTURADOS (JSON-LD)
+
+           Um "resumo" da página num formato que buscadores (Google
+           principalmente) entendem diretamente, sem precisar
+           "adivinhar" a partir do texto solto — schema.org é o
+           vocabulário padrão da web pra isso. Diferente de
+           og:title/description (que são pro PREVIEW de compartilhar
+           o link), isso é pro Google entender O QUE a página
+           REPRESENTA e, com sorte, mostrar um resultado "rico" na
+           busca (com data e local do evento, por exemplo, em vez de
+           só título+descrição genéricos).
+
+           Dois objetos aqui:
+           1) Event — o evento em si (a VIII SEAFís): nome, datas,
+              local, quem organiza. Isso é o que mais ajuda buscas
+              tipo "Semana Acadêmica de Física" encontrarem
+              justamente ESTE evento, com data/local certos.
+           2) Organization — o CAFís como entidade (ajuda buscas por
+              "Centro Acadêmico de Física" a reconhecerem que este
+              site É o site oficial dessa organização).
+
+           type="application/ld+json": diz ao navegador "isto é só
+           dado, não execute como JavaScript" — apesar de estar
+           dentro de uma tag <script>.
+        -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "EducationalEvent",
+            "name": "VIII SEAFís - VIII Semana Acadêmica de Física",
+            "description": "Evento acadêmico de Física promovido pelo Centro Acadêmico de Física (CAFís) da Universidade Federal de Viçosa (UFV), com palestras, mesas redondas e minicursos.",
+            "startDate": "2026-08-19",
+            "endDate": "2026-08-21",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "location": {
+                "@type": "Place",
+                "name": "Auditório da Engenharia Florestal - UFV",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Avenida Purdue, s/nº, Campus Universitário, Edifício Reinaldo de Jesus Araújo",
+                    "addressLocality": "Viçosa",
+                    "addressRegion": "MG",
+                    "addressCountry": "BR"
+                }
+            },
+            "organizer": {
+                "@type": "Organization",
+                "name": "Centro Acadêmico de Física (CAFís) - UFV",
+                "url": "https://seafisufv.netlify.app/"
+            },
+            "url": "https://seafisufv.netlify.app/"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Centro Acadêmico de Física - CAFís (UFV)",
+            "url": "https://seafisufv.netlify.app/",
+            "logo": "https://seafisufv.netlify.app/imagens/Titulo_SF_2.png",
+            "sameAs": [
+                "https://www.instagram.com/cafis.ufv/",
+                "https://www.instagram.com/seafis.ufv/"
+            ]
+        }
+        </script>
 
     </head>
     <body>
@@ -112,6 +259,11 @@
                     -->
                     <li class="nav-item">
                         <a href="programacao.html" class="nav-link">Programação</a>
+                    </li>
+
+                    <!-- Item simples -->
+                    <li class="nav-item">
+                        <a href="comissao.html" class="nav-link">Comissão</a>
                     </li>
 
                     <!-- Itens simples -->
@@ -287,20 +439,27 @@
                CÍRCULOS DECORATIVOS (fundo temático, sem conteúdo)
 
                Puramente visual — emulam os anéis concêntricos da logo
-               (imagens/Titulo_SF_2.png) atrás do texto. Dois grupos,
-               um mais acima/à direita (menor) e outro mais abaixo/à
-               esquerda (maior). Ficam VAZIOS aqui de propósito: o
-               JavaScript (main.js, Seção 9) monta um <svg> com um
-               número de anéis, espessura e raio meio aleatórios (e
-               que crescem conforme a página é mais comprida) e insere
-               dentro de cada um — inclusive o texto curvo "VIII
-               SEAFís" em um dos anéis do grupo maior. Estilizados em
-               main.css, na regra .content-circles e modificadores.
-               aria-hidden="true" diz a leitores de tela para ignorar
-               estes elementos.
+               (imagens/Titulo_SF_2.png) atrás do texto. Dois grupos
+               nesta página, um mais acima/à direita (menor) e outro
+               mais abaixo/à esquerda (maior). Ficam VAZIOS de
+               conteúdo de propósito: o JavaScript (main.js, Seção 6)
+               lê os atributos data-* de cada um (posição, raio,
+               texto, velocidade — ver a lista completa no comentário
+               de .content-circles, em main.css) e monta um <svg>
+               dentro, com anéis meio aleatórios e o texto curvo
+               "VIII SEAFís" (data-text="true"). Quer adicionar,
+               remover ou reposicionar um grupo? É só mexer aqui, sem
+               tocar no CSS/JS. aria-hidden="true" diz a leitores de
+               tela para ignorar estes elementos.
             -->
-            <div class="content-circles content-circles--top-right" aria-hidden="true"></div>
-            <div class="content-circles content-circles--bottom-left" aria-hidden="true"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="20px" data-right="2%"
+                 data-min-radius="45" data-max-radius="190"
+                 data-text="true" data-speed="0.45"></div>
+            <div class="content-circles" aria-hidden="true"
+                 data-top="55%" data-left="2%"
+                 data-min-radius="80" data-max-radius="340"
+                 data-text="true" data-speed="-0.4"></div>
 
             <h1>VIII SEAFís - Física: A ciência mãe</h1>
 
@@ -320,7 +479,7 @@
                 <img src="imagens/Iseafis.jpg" alt="Membros do CAFís fazendo a inscrição da primeira Semana Acadêmica" class="wrapped-image-left">
                 <p>A Oitava Edição da Semana Acadêmica de Física tem como tema principal “Física: A Ciência-mãe”, que busca demonstrar o papel da física em diversas áreas do conhecimento, desde os princípios epistemológicos basais da Ciência Natural e sua história. Além disso, pretende-se apresentar as possibilidades de imersão do físico e engenheiro físico no mercado de trabalho através das apresentações de aplicações da física nas Engenharias, na Matemática, Biologia e outras áreas. Há de ser um evento especial para a Física - UFV, marcando seu retorno no ano em que comemoraremos mais de 10 anos de Centro Acadêmico de Física, juntamente aos 100 anos da Universidade Federal de Viçosa.</p>
 
-                <p>O evento acontecerá dos dias <b>19 a 21 de agosto</b>, no <b>auditório da engenharia florestal UFV campus Viçosa</b>, conforme a <a href="programacao.html">programação</a>.</p>
+                <p>O evento acontecerá dos dias <b>19 a 21 de agosto</b>, no <b>auditório da engenharia florestal UFV campus Viçosa (Avenida Purdue, s/nº, Campus Universitário, Edif. Reinaldo de Jesus Araújo, Viçosa - MG)</b>, conforme a <a href="programacao.html">programação</a>.</p>
             </div>
 
             <hr>
@@ -372,7 +531,7 @@
                    Contém email e Instagram do CAFIS.
                    Alinhada à esquerda do footer.
                 -->
-                <div class="footer-section footer-contact">
+                <div class="footer-section">
                     
                     <!-- Título da seção -->
                     <h3 class="footer-title">Contato:</h3>
@@ -475,7 +634,7 @@
                    Quem organiza o evento: CAFís e o Departamento
                    de Física. Logos em imagens/patrocinio/.
                 -->
-                <div class="footer-section footer-realizacao">
+                <div class="footer-section">
 
                     <!-- Título da seção -->
                     <h3 class="footer-title">Realização:</h3>
@@ -506,7 +665,7 @@
                    .support-logos--grid (uma grade que quebra em
                    várias linhas) em vez do flex simples de lá.
                 -->
-                <div class="footer-section footer-apoio">
+                <div class="footer-section">
 
                     <!-- Título da seção -->
                     <h3 class="footer-title">Apoio:</h3>
