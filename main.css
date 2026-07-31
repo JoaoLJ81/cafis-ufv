@@ -2576,6 +2576,37 @@ main hr {
     width: 100%;
 
     /*
+       MIN-WIDTH: PRESERVA O SCROLL LATERAL EM TELAS PEQUENAS
+
+       table-layout: fixed (logo abaixo) faz as colunas obedecerem
+       cegamente as larguras do <colgroup>, mesmo que isso não deixe
+       espaço suficiente para o conteúdo — sem um piso mínimo, a
+       tabela encolhia até caber nos 100% do contêiner em telas
+       estreitas, e o texto (principalmente o horário, que não
+       quebra linha — ver .schedule-time) passava a "vazar" pra fora
+       da célula. Com min-width, a tabela para de encolher a partir
+       desse ponto e o contêiner (.schedule-table-wrapper, com
+       overflow-x: auto) assume, mostrando uma barra de rolagem
+       horizontal em vez de espremer o conteúdo — exatamente o
+       comportamento original em telas pequenas.
+    */
+    min-width: 640px;
+
+    /*
+       TABLE-LAYOUT: FIXED
+
+       Por padrão (table-layout: auto), cada <table> calcula a
+       largura de suas colunas a partir do próprio conteúdo — como
+       temos DUAS tabelas (Manhã / Tarde e Noite) com conteúdos
+       diferentes, elas acabavam com colunas de larguras diferentes
+       entre si. Com "fixed", as larguras vêm do <colgroup> definido
+       no HTML de cada tabela (mesmas em ambas), então a coluna
+       "Horário" e as de cada dia ficam sempre do mesmo tamanho,
+       alinhadas entre as duas planilhas.
+    */
+    table-layout: fixed;
+
+    /*
        BORDER-COLLAPSE: SEPARATE + BORDER-SPACING
 
        Por padrão, tabelas "colam" as bordas das células

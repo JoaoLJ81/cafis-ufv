@@ -301,6 +301,30 @@
                 <div class="schedule-table-wrapper">
                     <table class="schedule-table">
                         <caption>Manhã</caption>
+                        <!--
+                           COLGROUP: LARGURAS FIXAS DAS COLUNAS
+
+                           Sem isso, cada <table> calcula a largura das colunas
+                           sozinha, a partir do próprio conteúdo (table-layout: auto,
+                           o padrão) — por isso a coluna "Horário" e as de cada dia
+                           ficavam com larguras diferentes entre a planilha da Manhã
+                           e a de Tarde e Noite. Definindo as larguras aqui (iguais
+                           nas duas tabelas) e usando table-layout: fixed no CSS
+                           (.schedule-table, em main.css), as colunas ficam sempre
+                           do mesmo tamanho nas duas planilhas.
+                        -->
+                        <colgroup>
+                            <!-- "Horário" fixo em px (o bastante pro texto de
+                                 horário, que não quebra linha — ver .schedule-time
+                                 em main.css); as 3 colunas de dia ficam sem largura
+                                 definida, então dividem igualmente o espaço que
+                                 sobra — iguais entre si E entre as duas planilhas,
+                                 já que ambas partem do mesmo contêiner. -->
+                            <col style="width: 130px">
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th scope="col" class="schedule-corner">Horário</th>
@@ -362,16 +386,19 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">10h00 – 10h30</th>
+                                <!-- rowspan="2": a Mesa Redonda ocupa esta linha e a de
+                                     baixo (10h00–11h00) — saiu de 11h00–12h00 pra cá. -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#cafis10" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">MESA REDONDA</span>
+                                        <span class="schedule-cell-theme">10 anos de Centro Acadêmico de Física: Olhar o passado é pensar o futuro</span>
+                                    </a>
+                                </td>
+                                <!-- Cezar saiu daqui (quinta, 10h–11h) e foi para
+                                     quarta-feira, 11h–12h — no lugar dele, duas palestras
+                                     ainda a definir (uma por linha, sem rowspan). -->
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
-                                </td>
-                                <!-- rowspan="2": Cezar (quinta) e a palestra a definir (sexta)
-                                     ocupam esta linha e a de baixo (10h00–11h00). -->
-                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
-                                    <a href="#cezar" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">Cezar Luiz De Mari</span>
-                                        <span class="schedule-cell-theme">Filosofia da ciência como veículo de formação humana nos âmbitos político e social</span>
-                                    </a>
                                 </td>
                                 <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <a href="#filipe" class="schedule-cell-link schedule-cell--clickable">
@@ -382,25 +409,28 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">10h30 – 11h00</th>
+                                <!-- Sem <td> de quarta aqui de propósito — coberta pelo
+                                     rowspan="2" da Mesa Redonda, na linha de cima. -->
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
-                                <!-- Sem <td> de quinta/sexta aqui de propósito — cobertas
-                                     pelos rowspans da linha de cima. -->
+                                <!-- Sem <td> de sexta aqui de propósito — coberta pelo
+                                     rowspan="2" do Filipe, na linha de cima. -->
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">11h00 – 12h00</th>
+                                <!-- Cezar entrou aqui, vindo de quinta-feira 10h–11h. -->
                                 <td class="schedule-cell schedule-cell--revealed">
-                                    <a href="#cafis10" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">MESA REDONDA</span>
-                                        <span class="schedule-cell-theme">10 anos de Centro Acadêmico de Física: Olhar o passado é pensar o futuro</span>
+                                    <a href="#cezar" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Cezar Luiz De Mari</span>
+                                        <span class="schedule-cell-theme">Filosofia da ciência como veículo de formação humana nos âmbitos político e social</span>
                                     </a>
                                 </td>
-                                <td class="schedule-cell schedule-cell--revealed">
-                                    <a href="#renata" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">Renata Moreira</span>
-                                        <span class="schedule-cell-theme">Materiais Avançados e Tecnologias Sustentáveis para a Produção de Hidrogênio</span>
-                                    </a>
+                                <!-- Renata voltou ao status "a definir" — sem link; a
+                                     bio dela continua na seção de revelados, mas sem
+                                     nada apontando pra ela por enquanto. -->
+                                <td class="schedule-cell schedule-cell--pending">
+                                    <span class="schedule-cell-category">PALESTRANTE</span>
                                 </td>
                                 <td class="schedule-cell schedule-cell--revealed">
                                     <a href="#vinicius" class="schedule-cell-link schedule-cell--clickable">
@@ -425,6 +455,20 @@
                 <div class="schedule-table-wrapper">
                     <table class="schedule-table">
                         <caption>Tarde e Noite</caption>
+                        <!-- COLGROUP: mesma estrutura da tabela da Manhã, de
+                             propósito — ver comentário completo lá em cima. -->
+                        <colgroup>
+                            <!-- "Horário" fixo em px (o bastante pro texto de
+                                 horário, que não quebra linha — ver .schedule-time
+                                 em main.css); as 3 colunas de dia ficam sem largura
+                                 definida, então dividem igualmente o espaço que
+                                 sobra — iguais entre si E entre as duas planilhas,
+                                 já que ambas partem do mesmo contêiner. -->
+                            <col style="width: 130px">
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th scope="col" class="schedule-corner">Horário</th>
@@ -539,14 +583,12 @@
                                         <span class="schedule-cell-theme">Física, cultura, educação e o mundo</span>
                                     </a>
                                 </td>
-                                <!-- rowspan="2": Anésia ocupa esta linha e a de baixo
-                                     (17h00–18h00) — uma única palestra de 1h nesse
-                                     horário, não duas de 30min como antes. -->
-                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
-                                    <a href="#anesia" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">Anésia Santos</span>
-                                        <span class="schedule-cell-theme">Física em sistemas biológicos</span>
-                                    </a>
+                                <!-- rowspan="2": ocupa esta linha e a de baixo
+                                     (17h00–18h00). Anésia voltou ao status "a definir" —
+                                     sem link; a bio dela continua na seção de revelados,
+                                     mas sem nada apontando pra ela por enquanto. -->
+                                <td class="schedule-cell schedule-cell--pending" rowspan="2">
+                                    <span class="schedule-cell-category">PALESTRANTE</span>
                                 </td>
                                 <!-- rowspan="2": Encerramento ocupa esta linha e a de baixo
                                      (17h00–18h00). -->
@@ -662,10 +704,11 @@
                             <!--ANESIA-->
                             <div class="speaker-entry" id="anesia">
                                 <span class="speaker-kicker">PALESTRA</span>
-                                <h1>Física em sistemas biológicos</h1>
+                                <h1>Física em sistemas biológicos: das nanopartículas e física de moléculas únicas ao comportamento celular</h1>
                                 <h2>Anésia Aparecida dos Santos</h2>
                                 <blockquote class="left">
                                     <div class="container">
+                                        <img src="imagens/palestrantes/anesia.jpeg" alt="Foto de Anésia Aparecida dos Santos" class="speaker-photo-left">
                                         <p>Possui graduação (bacharelado e licenciatura) em Ciências Biológicas pela Universidade Federal de Viçosa (1994) e mestrado em Medicina Veterinária pela Universidade Federal de Viçosa (2000). Tem experiência na área de Ciências Biológicas, com ênfase em Anatomia Patológica e Patologia Clínica, atuando principalmente nos seguintes temas: ciclo reprodutivo de oligosarcus argenteus e biologia celular e estudo da fase de transição de células tumorais e normais em cultura. Doutoramento no curso de Genética e Melhoramento atuando na área de Genética Vegetal sub-área de Biologia Molecular. Atualmente atua na área de genômica funcional no projeto Análise funcional de proteínas cinases LRRII-RLK do hospedeiro que interagem com proteínas de movimento núcleo-citoplasma de geminivirus bem como na área de física biológica avaliando os efeitos de compostos derivados de fármacos e de drogas que interagem com a molécula de DNA na morte celular para aplicações quimioterápicas.</p>
                                     </div>
                                 </blockquote>
@@ -972,6 +1015,38 @@
                            abre o card e rola até este div).
                         -->
                         <div class="program-card-content-inner" id="minicursos">
+                            <!--LUCIANO-->
+                            <div class="speaker-entry" id="luciano-mini">
+                                <span class="speaker-kicker">MINICURSO</span>
+                                <h1>Divulgação científica: A Física nas redes sociais</h1>
+                                <ul class="minicurso-info">
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
+                                            <circle cx="12" cy="10" r="2.5"></circle>
+                                        </svg>
+                                        CCE, auditório
+                                    </li>
+                                    <li class="minicurso-info-item">
+                                        <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        20 vagas
+                                    </li>
+                                </ul>
+                                <blockquote class="right">
+                                    <p>O Prof. Filipe Menezes, do canal UaiFísica, apresentará, neste minicurso as principais ferramentas e estratégias por trás da comunicação científica em redes sociais (Instagram Instagram, YouTube e demais plataformas). Serão trabalhadas, portanto, habilidades que cientistas (físicos, em particular) podem aprimorar para se comunicar de maneira assertiva e interessante, bem como aprender técnicas de delimitação de público-alvo e afins!</p>
+                                    <h2>Filipe Henrique de Castro Menezes (UaiFísica)</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/filipe.gif" alt="Foto de Filipe Henrique de Castro Menezes (UaiFísica)" class="speaker-photo-right">
+                                        <p>Bacharel, mestre e doutor em física pela Universidade Federal de Minas Gerais. Faz parte do grupo GFT (Grupo de Física Teórica Fundamental), trabalhando nas áreas de relatividade geral e gravitação quântica de laços. Fundador do canal no YouTube "UaiFísica".</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
                             <!--SAMUEL-->
                             <div class="speaker-entry">
                                 <span class="speaker-kicker">MINICURSO</span>
