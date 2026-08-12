@@ -345,29 +345,38 @@
                         <tbody>
                             <tr>
                                 <th scope="row" class="schedule-time">08h00 – 08h30</th>
-                                <td class="schedule-cell schedule-cell--revealed">
+                                <!-- rowspan="2": o Cadastramento ocupa esta linha
+                                E a de baixo (08h00–09h00), então a linha seguinte NÃO
+                                tem célula própria de quarta-feira — coberta por esta. -->
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">CREDENCIAMENTO</span>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
+                                </td>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#ismael" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Ismael da Silva Carrasco</span>
+                                        <span class="schedule-cell-theme">Modelagem de deposição de filmes finos</span>
+                                    </a>                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">08h30 – 09h00</th>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#pouya" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Pouya Mehdipour</span>
+                                        <span class="schedule-cell-theme">Teoria do Caos e suas Aplicações para a Física</span>
+                                    </a>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">08h30 – 09h30</th>
-                                <!-- rowspan="2": a Cerimônia de Abertura ocupa esta linha
-                                     E a de baixo (08h30–10h00), então a linha seguinte NÃO
-                                     tem célula própria de quarta-feira — coberta por esta. -->
+                                <th scope="row" class="schedule-time">09h00 – 09h30</th>
                                 <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <span class="schedule-cell-label--gradient schedule-cell-category">CERIMÔNIA DE ABERTURA</span>
-                                </td>
-                                <td class="schedule-cell schedule-cell--revealed">
-                                    <a href="#pouya" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">Pouya Mehdipour</span>
-                                        <span class="schedule-cell-theme">Teoria do Caos e suas Aplicações para a Física</span>
-                                    </a>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
@@ -411,33 +420,40 @@
                                 <th scope="row" class="schedule-time">10h30 – 11h00</th>
                                 <!-- Sem <td> de quarta aqui de propósito — coberta pelo
                                      rowspan="2" da Mesa Redonda, na linha de cima. -->
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#afranio" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Afranio Rodrigues Pereira</span>
+                                        <span class="schedule-cell-theme">Física da Matéria Condensada: uma introdução</span>
+                                    </a>                                  
                                 </td>
                                 <!-- Sem <td> de sexta aqui de propósito — coberta pelo
                                      rowspan="2" do Filipe, na linha de cima. -->
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">11h00 – 12h00</th>
+                                <th scope="row" class="schedule-time">11h00 – 11h30</th>
                                 <!-- Cezar entrou aqui, vindo de quinta-feira 10h–11h. -->
-                                <td class="schedule-cell schedule-cell--revealed">
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <a href="#cezar" class="schedule-cell-link schedule-cell--clickable">
                                         <span class="schedule-cell-category">Cezar Luiz De Mari</span>
                                         <span class="schedule-cell-theme">Filosofia da ciência como veículo de formação humana nos âmbitos político e social</span>
                                     </a>
                                 </td>
-                                <!-- Renata voltou ao status "a definir" — sem link; a
-                                     bio dela continua na seção de revelados, mas sem
-                                     nada apontando pra ela por enquanto. -->
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRANTE</span>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#obed" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Obed Alves Santos</span>
+                                        <span class="schedule-cell-theme">Magnônica All-on-Chip: De Sistemas Magnéticos Bulk a Materiais Quânticos 2D</span>
+                                    </a>
                                 </td>
-                                <td class="schedule-cell schedule-cell--revealed">
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <a href="#vinicius" class="schedule-cell-link schedule-cell--clickable">
                                         <span class="schedule-cell-category">Vinícius Catão</span>
                                         <span class="schedule-cell-theme">Neurociências como ferramenta no ensino de ciências</span>
                                     </a>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">11h30 – 12h00</th>
+                                <!-- Sem nada pois o tr anterior cobre essa linha com rowspan="2" -->
                             </tr>
                         </tbody>
                     </table>
@@ -500,7 +516,7 @@
                                 <td class="schedule-cell schedule-cell--revealed" rowspan="2">
                                     <a href="#carmem" class="schedule-cell-link schedule-cell--clickable">
                                         <span class="schedule-cell-category">Carmem Maia Gilardoni</span>
-                                        <span class="schedule-cell-theme">Tema surpresa</span>
+                                        <span class="schedule-cell-theme">Tecnologias Quânticas no CBPF: infraestrutura e iniciativas</span>
                                     </a>                                    
                                 </td>
                                 <td class="schedule-cell schedule-cell--revealed">
@@ -523,16 +539,22 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">15h00 – 15h30</th>
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#sukarno" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Sukarno Olavo Ferreira</span>
+                                        <span class="schedule-cell-theme">A construção do sistema MBE da UFV</span>
+                                    </a>
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
                                 </td>
                                 <!-- rowspan="2": esta célula representa 15h00–16h00 (2
                                      horários da tabela) só na sexta-feira. -->
-                                <td class="schedule-cell schedule-cell--pending" rowspan="2">
-                                    <span class="schedule-cell-category">PALESTRA</span>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="2">
+                                    <a href="#anesia" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Anésia Aparecida dos Santos</span>
+                                        <span class="schedule-cell-theme">Física em sistemas biológicos: das nanopartículas e física de moléculas únicas ao comportamento celular</span>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -565,14 +587,12 @@
                                 </td>
                                 <td class="schedule-cell schedule-cell--pending">
                                     <span class="schedule-cell-category">PALESTRA</span>
-                                </td>
-                                <!-- Sem palestrante/mesa vinculado ainda — a planilha não
-                                     trouxe nomes para esta mesa redonda, por isso a célula
-                                     fica "revelada" (temos o tema), mas SEM link clicável
-                                     (não há para onde rolar até ter os participantes). -->
-                                <td class="schedule-cell schedule-cell--pending">
-                                    <span class="schedule-cell-category">MESA REDONDA</span>
-                                    <span class="schedule-cell-theme">Física como ciência-mãe</span>
+                                </td>                               
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <a href="#kairon" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Kairon de Oliveira</span>
+                                        <span class="schedule-cell-theme">Polímeros e sensores eletroquímicos</span>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
@@ -587,20 +607,24 @@
                                      (17h00–18h00). Anésia voltou ao status "a definir" —
                                      sem link; a bio dela continua na seção de revelados,
                                      mas sem nada apontando pra ela por enquanto. -->
-                                <td class="schedule-cell schedule-cell--pending" rowspan="2">
-                                    <span class="schedule-cell-category">PALESTRANTE</span>
-                                </td>
-                                <!-- rowspan="2": Encerramento ocupa esta linha e a de baixo
-                                     (17h00–18h00). -->
                                 <td class="schedule-cell schedule-cell--revealed" rowspan="2">
-                                    <span class="schedule-cell-label--gradient schedule-cell-category">ENCERRAMENTO</span>
+                                    <a href="#renata" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Renata Pereira Lopes Moreira</span>
+                                        <span class="schedule-cell-theme">Materiais Avançados e Tecnologias Sustentáveis para a Produção de Hidrogênio</span>
+                                    </a>
+                                </td>                            
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="4">
+                                    <a href="#mesa-final" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Mesa Redonda</span>
+                                        <span class="schedule-cell-theme">Física como ciência-mãe: as diversas faculdades da filosofia natural</span>
+                                    </a>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row" class="schedule-time">17h30 – 18h00</th>
                                 <td class="schedule-cell schedule-cell--revealed">
-                                    <a href="#mariana-historia" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">Mariana Brandão</span>
+                                    <a href="#lobato-historia" class="schedule-cell-link schedule-cell--clickable">
+                                        <span class="schedule-cell-category">Marcelo Lobato</span>
                                         <span class="schedule-cell-theme">Uma breve história do Departamento de Física</span>
                                     </a>
                                 </td>
@@ -610,16 +634,30 @@
                                      rowspan="2" do Encerramento, na linha de cima. -->
                             </tr>
                             <tr>
-                                <th scope="row" class="schedule-time">18h30 – 20h30</th>
-                                <!-- Quarta e sexta não têm atividade neste horário na
-                                     planilha — célula deixada em branco de propósito. -->
+                                <th scope="row" class="schedule-time">18h00 – 18h30</th>
+                                <td class="schedule-cell" rowspan="5"></td>
                                 <td class="schedule-cell"></td>
-                                <td class="schedule-cell schedule-cell--revealed">
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">18h30 – 19h00</th>
+                                <td class="schedule-cell schedule-cell--revealed" rowspan="4">
                                     <a href="#minicursos" class="schedule-cell-link schedule-cell--clickable">
-                                        <span class="schedule-cell-category">MINICURSOS</span>
+                                        <span class="schedule-cell-label--gradient schedule-cell-category">MINICURSOS</span>
                                     </a>
                                 </td>
-                                <td class="schedule-cell"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">19h00 – 19h30</th>
+                                <td class="schedule-cell schedule-cell--revealed">
+                                    <span class="schedule-cell-label--gradient schedule-cell-category">ENCERRAMENTO</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">19h30 – 20h00</th>
+                                <td class="schedule-cell" rowspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="schedule-time">20h00 – 20h30</th>                                
                             </tr>
                         </tbody>
                     </table>
@@ -717,7 +755,7 @@
                             <!--CARMEM-->
                             <div class="speaker-entry" id="carmem">
                                 <span class="speaker-kicker">PALESTRA</span>
-                                <h1>Tema surpresa</h1>
+                                <h1>Tecnologias Quânticas no CBPF: infraestrutura e iniciativas</h1>
                                 <h2>Carmem Maia Gilardoni</h2>
                                 <blockquote class="right">
                                     <div class="container">
@@ -779,40 +817,40 @@
                                 </blockquote>
                             </div>
 
+                            <!--JOAQUIM-->
+                            <div class="speaker-entry" id="joaquim">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Sensor Magnetoelástico</h1>
+                                <h2>Joaquim Bonfim Santos Mendes</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/comissao/joaquim.jpg" alt="Foto de Joaquim Bonfim Santos Mendes" class="speaker-photo-left">
+                                        <p>Atua como Professor Associado no Departamento de Física da Universidade Federal de Viçosa - UFV e possui bolsa de Produtividade em Pesquisa do CNPq desde 2017. Em cargo de gestão, atualmente exerce o cargo de Chefe do Departamento de Física da UFV de junho/2019 - junho/2027, atua como vice coordenador do INCT de Spintrônica e Nanoestruturas Magnéticas Avançadas; coordenou as seis primeiras edições do Simpósio da Pós-graduação em Física da UFV (entre 2018 e 2024), integrante do comitê organizador do 2024 IEEE International Magnetic Conference (INTERMAG 2024), Latin American Workshop on Magnetism, Magnetic Materials, and Their Applications (LAW3M-2026), 21st Brazilian Workshop on Semiconductor Physics (BWSP-2024) e do Encontro de Outono da Sociedade Brasileira de Física (EO-SBF) no anos de 2023, 2025 e 2026; membro do comitê de programa da Sociedade Brasileira de Física (SBF) nas áreas de Magnetismo, Spintrônica, Interfaces, Superfícies e Filmes Finos. Também atua como revisor de reconhecidos periódicos científicos internacionais (Physical Review Letters, Nature Communications, Applied Physics Letters, Physical Review B, Scientific Reports, etc) e consultor ad-hoc de projetos de pesquisa nacionais e internacionais. Com uma formação predominantemente experimental, tem experiência na área de Materiais Magnéticos e Propriedades Magnéticas de Materiais, especialmente em sistemas de escala nanométrica (Filmes Finos, grafeno, etc). Atuando principalmente nos seguintes temas: geração e detecção de correntes puras de spin, acoplamento indireto entre camadas, acoplamento direto por intercâmbio (Exchange Bias), anisotropia magnética, mecanismos intrínsecos/extrínsecos de relaxação magnética, transporte eletrônico, Semicondutores Magnéticos Diluídos (DMS), além de outros temas relacionados ao nanomagnetismo, spintrônica e magnônica. Suas competências incluem experiência avançada, tanto em instrumentação quanto em operação, além de experiência em nível de usuário, em diversas técnicas de caracterização e fabricação de materiais. Quanto a formação acadêmica: possui graduação em Física pela Universidade Estadual do Sudoeste da Bahia (2007), Mestrado em Física pela Universidade Federal de Pernambuco (2009) e Doutorado em Física pela Universidade Federal do Rio de Janeiro (2013). Foi Pesquisador Visitante (Pós-Doutorado) no Grupo de Pesquisa em Magnetismo e Materiais Magnéticos da UFPE (2013-2014).</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
                             <!--KAIRON-->
                             <div class="speaker-entry" id="kairon">
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>Polímeros e sensores eletroquímicos</h1>
                                 <h2>Kairon Márcio de Oliveira</h2>
-                                <blockquote class="left">
+                                <blockquote class="right">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/kairon.jpg" alt="Foto de Kairon Márcio de Oliveira" class="speaker-photo-left">
+                                        <img src="imagens/palestrantes/kairon.jpg" alt="Foto de Kairon Márcio de Oliveira" class="speaker-photo-right">
                                         <p>Doutorado em Física pelo Departamento de Física da Universidade Federal de Viçosa (UFV), no Laboratório de Microfluídica e Fluidos Complexos (LMFFC), com período sanduíche de 10 meses no departamento de polímeros condutores do Institute of Macromolecular Chemistry (IMC) - Czech Academy of Science, Praga - Republica Tcheca. Bacharel em Física pela Universidade Federal de Viçosa (2020). Possui experiência na área da Física da Matéria Mole, com ênfase na síntese e caracterização de soluções coloidais, como géis poliméricos, surfactantes, polímeros condutores, cossolutos e estruturas supramoleculares de polianilina (tais como partículas, bastões, tubos e placas), bem como a sua aplicação em sensores eletroquímicos e supercapacitores. Possui capacitação em diversas técnicas experimentais tais como: Espalhamento Dinâmico e Estático de Luz, Espectroscopia Raman, Espectroscopia de Infravermelho por Transformada de Fourier, Difração de Raios-X, Pinça ótica, Microscopia Eletrônica de Varredura e Análises Eletroquímicas.</p>
                                     </div>
                                 </blockquote>
-                            </div>
-
-                            <!--LEONARDE-->
-                            <div class="speaker-entry" id="leonarde">
-                                <span class="speaker-kicker">PALESTRA</span>
-                                <h1>Crescimento epitaxial de isolantes topológicos</h1>
-                                <h2>Leonarde Rodrigues</h2>
-                                <blockquote class="right">
-                                    <div class="container">
-                                        <img src="imagens/comissao/leonarde.jpeg" alt="Foto de Leonarde Rodrigues" class="speaker-photo-right">
-                                        <p>Possui graduação em Física pela Universidade Federal Rural do Rio de Janeiro (2009), mestrado em Física pela Universidade Federal de Juiz de Fora (2012) e doutorado em Física pela Universidade Federal de Juiz de Fora (2016). Pós-doutorado no Laboratório Nacional de Nanotecnologia - LNNano, no campus do Centro Nacional de Pesquisa em Energia e Materiais - CNPEM na área de nanomembranas semicondutoras. Possui experiência na área de Física, com ênfase em Física da Matéria Condensada, atuando na caracterização de materiais semicondutores por meio da espectroscopia óptica e fabricação/crescimento de materiais nanoestrurados semicondutores, isolantes topológicos e isolantes topológicos magnéticos.</p>
-                                    </div>
-                                </blockquote>
-                            </div>
+                            </div>                            
 
                             <!--LUCIANO-->
                             <div class="speaker-entry" id="luciano">
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>A luz como Sonda: Princípios e Aplicações da Espectroscopia Raman</h1>
                                 <h2>Luciano de Moura Guimarães</h2>
-                                <blockquote class="right">
+                                <blockquote class="left">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/luciano.gif" alt="Foto de Luciano de Moura Guimarães" class="speaker-photo-right">
+                                        <img src="imagens/palestrantes/luciano.gif" alt="Foto de Luciano de Moura Guimarães" class="speaker-photo-left">
                                         <p>Professor associado do Departamento de Física da Universidade Federal de Viçosa (UFV). Doutor em Ciências (2011) pela Universidade Federal de Minas Gerais (UFMG), com enfoque em espectroscopia Raman ressonante aplicada ao estudo de nanomateriais de carbono, como nanotubos, grafeno e poliinas. Pós-doutorado (2012) no Laboratório de Espectroscopia Raman da UFMG, com ênfase em investigações sobre o efeito Raman intensificado por superfícies (SERS). Mestre em Física Aplicada (2006) e bacharel e licenciado em Física (2004) pela Universidade Federal de Viçosa. Durante a graduação e o mestrado, foram desenvolvidas pesquisas baseadas em espectroscopia no infravermelho próximo aplicada à tecnologia da madeira, eletrodeposição e caracterização de filmes semicondutores, respectivamente. Atualmente, minhas atividades de pesquisa envolvem estudos em espectroscopia Raman e fotoeletroquímica, com foco na caracterização e investigação de propriedades físico-químicas de materiais. Além disso, desenvolvo projetos nas áreas de eletrônica e instrumentação científica, utilizando plataformas de prototipagem e sistemas embarcados, como Arduíno e ESP32.</p>
                                     </div>
                                 </blockquote>
@@ -823,9 +861,9 @@
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>Física Biológica</h1>
                                 <h2>Marcelo Lobato Martins</h2>
-                                <blockquote class="left">
+                                <blockquote class="right">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/marcelolobato.jpg" alt="Foto de Marcelo Lobato Martins" class="speaker-photo-left">
+                                        <img src="imagens/palestrantes/marcelolobato.jpg" alt="Foto de Marcelo Lobato Martins" class="speaker-photo-right">
                                         <p>Graduado em Física pela Universidade Federal de Minas Gerais (1983), mestre em Física pela Universidade Federal de Minas Gerais (1986) e doutor em Física pelo Centro Brasileiro de Pesquisas Físicas (1994). Atualmente, sou professor Titular da Universidade Federal de Viçosa e realizo pesquisas nas áreas de Sistemas Complexos e Física Biológica. Especificamente, buscamos caracterizar experimentalmente e construir modelos teóricos baseados em agentes e de múltiplas escalas para a formação de padrões em sistemas biológicos, matéria ativa, fenômenoa sociais e econômicos. Em física biológica, nosso trabalho está concentrado na carcinogênese e progressão do câncer, invasão biológica e em biofísica celular, como a dinâmica de migração, agregação e atividade de membrana de células em cultura. Nas áreas de sociofísica e econpfísica , temos investigado a dinâmica de formação de opiniões, a propagação de rumores e a dinâmica da distribuição de riqueza em sistemas sociais modelados como redes complexas adaptativas.</p>
                                     </div>
                                 </blockquote>
@@ -836,10 +874,23 @@
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>Aplicações de pontos quânticos</h1>
                                 <h2>Mariana da Costa Novo Pimenta Brandão</h2>
+                                <blockquote class="left">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="speaker-photo-left">
+                                        <p>Possui graduação em Física pela Universidade Federal de Juiz de Fora (Brasil), mestrado em física pela Universidade Federal de Juiz de Fora (Brasil) e doutorado em Ciências Física pela Pontifícia Universidade Católica do Rio de Janeiro. Possui pós-doutorado na Universidade de São Paulo no projeto de Caracterização Ótica de Tecidos da Tireoide e Paratireoide e pós-doutorado na Universidade Federal de Juiz de Fora no projeto Novas Metodologias para Caracterizar Produtos Lácteos e Detectar Fraudes ou Adulterações. Atualmente é Professora Adjunto A da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part., atuando principalmente nos seguintes temas: espectroscopia, luminescência, microscopia, biofísica, física aplicada a biologia, medicina e farmácia, física aplicada a ciências de alimentos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--OBED-->
+                            <div class="speaker-entry" id="obed">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Magnônica All-on-Chip: De Sistemas Magnéticos Bulk a Materiais Quânticos 2D</h1>
+                                <h2>Obed Alves Santos</h2>
                                 <blockquote class="right">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="speaker-photo-right">
-                                        <p>Possui graduação em Física pela Universidade Federal de Juiz de Fora (Brasil), mestrado em física pela Universidade Federal de Juiz de Fora (Brasil) e doutorado em Ciências Física pela Pontifícia Universidade Católica do Rio de Janeiro. Possui pós-doutorado na Universidade de São Paulo no projeto de Caracterização Ótica de Tecidos da Tireoide e Paratireoide e pós-doutorado na Universidade Federal de Juiz de Fora no projeto Novas Metodologias para Caracterizar Produtos Lácteos e Detectar Fraudes ou Adulterações. Atualmente é Professora Adjunto A da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part., atuando principalmente nos seguintes temas: espectroscopia, luminescência, microscopia, biofísica, física aplicada a biologia, medicina e farmácia, física aplicada a ciências de alimentos.</p>
+                                        <img src="imagens/palestrantes/obed.gif" alt="Foto de Obed Alves Santos" class="speaker-photo-right">
+                                        <p>Sou pesquisador permanente no Centro Brasileiro de Pesquisas Físicas (CBPF), unidade de pesquisa vinculada ao Ministério da Ciência, Tecnologia e Inovações, sediada no Rio de Janeiro, Brasil. Minha pesquisa explora fenômenos quânticos de spin em matéria condensada, por meio de experimentos em spintrônica e magnônica em micro- e nanodispositivos baseados em filmes finos e materiais bidimensionais, tanto para investigação fundamental quanto para aplicações tecnológicas.Realizei pós-doutorado na University of Cambridge, no grupo da Profa. Chiara Ciccarelli, com foco em superconducting spintronics, e na University of Groningen, no grupo do Prof. Bart van Wees, desenvolvendo nanodispositivos magnônicos. Sou doutor (2018) e mestre (2014) em Física pela Universidade Federal de Pernambuco, sob orientação do Prof. Antônio Azevedo, e graduado em Física pela Universidade Federal de Sergipe (2012).</p>
                                     </div>
                                 </blockquote>
                             </div>
@@ -878,15 +929,28 @@
                                 <blockquote class="left">
                                     <div class="container">
                                         <img src="imagens/palestrantes/renata.gif" alt="Foto de Renata Pereira Lopes Moreira" class="speaker-photo-left">
-                                        <p>Possui formação Técnica em Química pelo CEFET-MG (1998), Licenciatura em Química pela UFMG (2005), Mestrado em Química Analítica pela UFMG (2008), Doutorado em Ciências/Química (2012), com estágio sanduíche na Universidade de Almería (Centro de Excelência Agro-alimentar), e Pós-doutorado na Université de Bordeaux sob a supervisão do Prof. Didier Astruc. Tem experiência na área de Química, com ênfase em Química Ambiental e Análise de Alimentos. Desenvolve pesquisas nos seguintes temas: remoção de poluentes emergentes por processos de adsorção, processos oxidativos avançados (POAs), processos redutivos avançados envolvendo metais de valência zero, processos redutivos com nano-redutores bimetálicos, síntese de materiais a partir de resíduos eletrônicos, síntese e funcionalização de biochar, evolução de hidrogênio a partir de NaBH4 e ácido fórmico, uso de biomassa para produção de biochar como suporte de catalisadores, suspensões de nanopartículas de prata como nanosensores, síntese de carbon-dots, além do desenvolvimento e validação de métodos analíticos.Possui experiência no desenvolvimento e validação de métodos de análise de resíduos de contaminantes em alimentos e domínio das técnicas analíticas de espectrofotometria de absorção molecular UV-Vis, cromatografia e espectrometria de massas. Tem interesse em inovação e tecnologia, possuindo cinco registros de patente e duas cartas-patente. Participou do Programa de Aceleração de Tecnologia Programa Escale-se Summit Fase de Diagnóstico, avançando para a segunda fase. É Professora Associada III de Química Analítica no Departamento de Química da Universidade Federal de Viçosa. Em 2024, recebeu o prêmio Destaque Jovem Pesquisador no Encontro Regional da Sociedade Brasileira de Química de Minas Gerais (ERSBQ-MG). É membro da Comissão Permanente de Propriedade Intelectual (CPPI) e membro suplente do Conselho Universitário da UFV. É mãe de duas filhas, Rebeca e Sarah.</p>
+                                        <p>Possui formação Técnica em Química pelo CEFET-MG (1998), Licenciatura em Química pela UFMG (2005), Mestrado em Química Analítica pela UFMG (2008), Doutorado em Ciências/Química (2012), com estágio sanduíche na Universidade de Almería (Centro de Excelência Agro-alimentar), e Pós-doutorado na Université de Bordeaux sob a supervisão do Prof. Didier Astruc. Tem experiência na área de Química, com ênfase em Química Ambiental e Análise de Alimentos. Desenvolve pesquisas nos seguintes temas: remoção de poluentes emergentes por processos de adsorção, processos oxidativos avançados (POAs), processos redutivos avançados envolvendo metais de valência zero, processos redutivos com nano-redutores bimetálicos, síntese de materiais a partir de resíduos eletrônicos, síntese e funcionalização de biochar, evolução de hidrogênio a partir de NaBH4 e ácido fórmico, uso de biomassa para produção de biochar como suporte de catalisadores, suspensões de nanopartículas de prata como nanosensores, síntese de carbon-dots, além do desenvolvimento e validação de métodos analíticos.Possui experiência no desenvolvimento e validação de métodos de análise de resíduos de contaminantes em alimentos e domínio das técnicas analíticas de espectrofotometria de absorção molecular UV-Vis, cromatografia e espectrometria de massas. Tem interesse em inovação e tecnologia, possuindo cinco registros de patente e duas cartas-patente. Participou do Programa de Aceleração de Tecnologia Programa Escale-se Summit Fase de Diagnóstico, avançando para a segunda fase. É Professora Associada III de Química Analítica no Departamento de Química da Universidade Federal de Viçosa. Em 2024, recebeu o prêmio Destaque Jovem Pesquisador no Encontro Regional da Sociedade Brasileira de Química	de Minas Gerais (ERSBQ-MG). É membro da Comissão Permanente	de Propriedade Intelectual (CPPI) e membro suplente do Conselho Universitário da UFV. É mãe	de duas filhas, Rebeca e Sarah.</p>
                                     </div>
                                 </blockquote>
-                            </div>                            
+                            </div>
+
+                            <!--RENE-->
+                            <div class="speaker-entry" id="rene">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>A Eletroquímica no Estudo dos Materiais</h1>
+                                <h2>Renê Chagas da Silva</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/rene.gif" alt="Foto de Renê Chagas da Silva" class="speaker-photo-right">
+                                        <p>Possui graduação em Física pela Universidade Federal do Paraná (1997), mestrado em Física pela Universidade Federal do Paraná (1999) e doutorado em Física pela Universidade Federal de Santa Catarina (2004). Atualmente é professor associado IV, no Departamento de Física da Universidade Federal de Viçosa. Tem atuado como pesquisador na área da Física da Matéria Condensada, com ênfase na eletrodeposição de filmes finos, ligas e nanoestruturas, caracterização de superfícies via Microscopia Eletrônica de Varredura e Microscopia de Força Atômica, além da deposição de filmes finos com propriedades eletroanalíticas para o desenvolvimento de sensores eletroquímicos.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
 
                             <!--SUKARNO-->
                             <div class="speaker-entry" id="sukarno">
                                 <span class="speaker-kicker">PALESTRA</span>
-                                <h1>Construção de uma MBE</h1>
+                                <h1>A construção do sistema MBE da UFV</h1>
                                 <h2>Sukarno Olavo Ferreira</h2>
                                 <blockquote class="left">
                                     <div class="container">
@@ -896,14 +960,27 @@
                                 </blockquote>
                             </div>
 
+                            <!--VAGSON-->
+                            <div class="speaker-entry" id="vagson">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Dobrando a Matéria, Orientando a Magnetização: O Nanomagnetismo em Sistemas Curvos</h1>
+                                <h2>Vagson Luiz de Carvalho Santos</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/vagson.gif" alt="Foto de Vagson Luiz de Carvalho Santos" class="speaker-photo-right">
+                                        <p>Doutorado em Física pela Universidade Federal de Viçosa (2010). Atualmente sou professor efetivo no Departamento de Física da Universidade Federal de Viçosa. Venho realizando pesquisas em Nanomagnetismo e Spintrônica. Mais especificamente, realizo estudos sobre efeitos de curvatura sobre as propriedades estáticas e dinâmicas da magnetização em nanopartículas ferromagnéticas e antiferromagnéticas. Em Teoria de Campos aplicada a Física da Matéria Condensada, tenho me dedicado ao estudo de isolantes topológicos e efeitos de curvatura nesse tipo de sistema.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
                             <!--VINICIUS-->
                             <div class="speaker-entry" id="vinicius">
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>Neurociências como ferramenta no ensino de ciências</h1>
                                 <h2>Vinícius Catão de Assis Souza</h2>
-                                <blockquote class="right">
+                                <blockquote class="left">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/vinicius.jpg" alt="Foto de Vinícius Catão de Assis Souza" class="speaker-photo-right">
+                                        <img src="imagens/palestrantes/vinicius.jpg" alt="Foto de Vinícius Catão de Assis Souza" class="speaker-photo-left">
                                         <p>Licenciado em Química pela Universidade Federal de Minas Gerais (UFMG), especialista em Educação Inclusiva pela Escola de Governo da Fundação João Pinheiro (MG), mestre e doutor em Educação (Ensino de Ciências) pela Faculdade de Educação da UFMG. Realizei estágio de pós-doutorado na Faculdade de Educação da USP, em parceria com o Centro de Formação de Escolas António Sérgio (Portugal). Professor no Departamento de Química da Universidade Federal de Viçosa, onde atuo no setor de Educação em Química. Tenho experiência profissional com temas relacionados ao ensino de Ciências/Química em espaços não formais de educação, formação inicial e continuada de professores/as, inclusão de surdos/as, educação bilíngue para surdos/as e diversidade na Escola, com trabalhos voltadas à educação sociocientífica e socioambiental, educação e cidadania, História da Ciência aplicada ao ensino, alfabetização científica e processos de ensino e aprendizagem em contextos inclusivos.</p>
                                     </div>
                                 </blockquote>
@@ -914,10 +991,23 @@
                                 <span class="speaker-kicker">PALESTRA</span>
                                 <h1>Modelagem de epidemias por uma perspectiva da física</h1>
                                 <h2>Wesley Francis Costa Cota</h2>
+                                <blockquote class="right">
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/wesley.gif" alt="Foto de Wesley Francis Costa Cota" class="speaker-photo-right">
+                                        <p>Professor no Departamento de Física (DPF) da Universidade Federal de Viçosa (UFV). Doutor em Física (2017-2020) e bacharel em Física (2013-2016) pela Universidade Federal de Viçosa (UFV). Membro do INCT-DigiSaúde. Foi pesquisador em nível de pós-doutorado (FAPESP) no Centro Conjunto Brasil-Reino Unido para Descoberta, Diagnóstico, Genômica e Epidemiologia de Arbovirus (CADDE) do Instituto de Medicina Tropical da Universidade de São Paulo (USP) e Universidade de Oxford, e pesquisador voluntário na Faculdade de Medicina da Unesp-Botucatu, de 2022 a 2024. Pós-doutorado no Departamento de Física da UFV de 2020 a 2022. Atuo no estudo de modelos para propagação de epidemias e aplicações em COVID-19 e Dengue, na caracterização de redes complexas e na coleta de dados (data mining) de redes sociais como o X e Bluesky. Em 2024, foi um dos 5 selecionados pela Academia Brasileira de CIências para representar o Brasil no 73rd Lindau Nobel Laureate Meeting. <a href="https://wcota.me/" target="_blank" rel="noopener noreferrer">Página pessoal</a>.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--WINDER-->
+                            <div class="speaker-entry" id="winder">
+                                <span class="speaker-kicker">PALESTRA</span>
+                                <h1>Introdução à Física de Partículas</h1>
+                                <h2>Winder A. Moura-Melo</h2>
                                 <blockquote class="left">
                                     <div class="container">
-                                        <img src="imagens/palestrantes/wesley.gif" alt="Foto de Wesley Francis Costa Cota" class="speaker-photo-left">
-                                        <p>Professor no Departamento de Física (DPF) da Universidade Federal de Viçosa (UFV). Doutor em Física (2017-2020) e bacharel em Física (2013-2016) pela Universidade Federal de Viçosa (UFV). Membro do INCT-DigiSaúde. Foi pesquisador em nível de pós-doutorado (FAPESP) no Centro Conjunto Brasil-Reino Unido para Descoberta, Diagnóstico, Genômica e Epidemiologia de Arbovirus (CADDE) do Instituto de Medicina Tropical da Universidade de São Paulo (USP) e Universidade de Oxford, e pesquisador voluntário na Faculdade de Medicina da Unesp-Botucatu, de 2022 a 2024. Pós-doutorado no Departamento de Física da UFV de 2020 a 2022. Atuo no estudo de modelos para propagação de epidemias e aplicações em COVID-19 e Dengue, na caracterização de redes complexas e na coleta de dados (data mining) de redes sociais como o X e Bluesky. Em 2024, foi um dos 5 selecionados pela Academia Brasileira de CIências para representar o Brasil no 73rd Lindau Nobel Laureate Meeting. <a href="https://wcota.me/" target="_blank" rel="noopener noreferrer">Página pessoal</a>.</p>
+                                        <img src="imagens/palestrantes/winder.jpg" alt="Foto de Winder A. Moura-Melo" class="speaker-photo-left">
+                                        <p>Possui graduação em Bacharelado em Ciências Físicas pela Universidade Federal de Viçosa (1994), mestrado em Física pelo Centro Brasileiro de Pesquisas Físicas (1997) e doutorado em Física pelo Centro Brasileiro de Pesquisas Físicas (2001). Atualmente é Professor Titular junto ao Departamento de Física da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em teoria geral de partículas e campos, bem como, em modelos teóricos de sistemas de Física da Matéria Condensada, em especial, sistemas magnéticos, (inclusive nanoestruturados e/ou com frustração geométrica). Atualmente, nosso interesse de pesquisa inclui: gelos de spin artificiais, configurações topológicas (skyrmions, sólitons e vórtices) em magnetos nanoestruturados. Já com relação aos isolantes topológicos, temos interesse em estudá-los em óptica (como micro-osciladores com controle luminoso), multiestruturas com interfaces, por exemploo, magneto-isolante topológico e pontos quânticos crescidos com isolantes topológicos.</p>
                                     </div>
                                 </blockquote>
                             </div>
@@ -937,7 +1027,7 @@
 
                             <!--CAFIS10-->
                             <div class="speaker-entry">
-                                <span class="speaker-kicker">MESA REDONDA</span>
+                                <span class="speaker-kicker">Homenagem aos 10 anos de CAFís</span>
                                 <!--
                                 id AQUI (no h1, não na div) — o link da planilha
                                 (#cafis10) precisa apontar exatamente para o
@@ -982,16 +1072,47 @@
                                 </blockquote>
                             </div>
 
-                            <!--MARIANA-->
-                            <div class="speaker-entry" id="mariana-historia">
+                            <!--LOBATO-->
+                            <div class="speaker-entry" id="lobato-historia">
                                 <span class="speaker-kicker">MESA REDONDA</span>
                                 <h1>Uma breve história do Departamento de Física</h1>
                                 <blockquote class="right">
-                                    <h2>Mariana da Costa Novo Pimenta Brandão</h2>
+                                    <h2>Marcelo Lobato Martins</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/marcelolobato.jpg" alt="Foto de Marcelo Lobato Martins" class="speaker-photo-right">
+                                        <p>Graduado em Física pela Universidade Federal de Minas Gerais (1983), mestre em Física pela Universidade Federal de Minas Gerais (1986) e doutor em Física pelo Centro Brasileiro de Pesquisas Físicas (1994). Atualmente, sou professor Titular da Universidade Federal de Viçosa e realizo pesquisas nas áreas de Sistemas Complexos e Física Biológica. Especificamente, buscamos caracterizar experimentalmente e construir modelos teóricos baseados em agentes e de múltiplas escalas para a formação de padrões em sistemas biológicos, matéria ativa, fenômenoa sociais e econômicos. Em física biológica, nosso trabalho está concentrado na carcinogênese e progressão do câncer, invasão biológica e em biofísica celular, como a dinâmica de migração, agregação e atividade de membrana de células em culture. Nas áreas de sociofísica e econpfísica , temos investigado a dinâmica de formação de opiniões, a propagação de rumores e a dinâmica da distribuição de riqueza em sistemas sociais modelados como redes complexas adaptativas.</p>
+                                    </div>
+                                </blockquote>
+                            </div>
+
+                            <!--MESA FINAL-->
+                            <div class="speaker-entry" id="mesa-final">
+                                <span class="speaker-kicker">MESA REDONDA</span>
+                                <h1>Física como ciência-mãe: as diversas faculdades da filosofia natural</h1>
+                                <blockquote class="left">
+                                    <h2>Afranio Rodrigues Pereira</h2>                                
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/afranio.gif" alt="Foto de Afranio Rodrigues Pereira" class="speaker-photo-left">
+                                        <p>Possui graduação em Física pela Universidade Federal de Viçosa (1988) e doutorado em Física pela Universidade Federal de Minas Gerais (1995). Pós Doutorados na: Universidade Federal de Minas Gerais (1996); Bologna University, Bolonha, Itália (2006); e Visiting Scientist (Pesquisador visitante) no Max Planck Institute for the Physics of Complex Systems, em Dresden, Alemanha (2010 e 2014). Atualmente é professor Titular do Departamento de Física da Universidade Federal de Viçosa (UFV). Foi um dos idealizadores e criadores do Programa de Pós-Graduação (a nível de Mestrado e Doutorado) do Departamento de Física da UFV. Participou também como membro da câmara CEX (Ciências Exatas e Materiais) da FAPEMIG (Fundação de Amparo a Pesquisa do Estado de Minas Gerais) no período de 2012 a 2015 (quatro anos). Tem experiência na área de Física, com ênfase em Teorias em Física da matéria condensada, em geral com o uso de técnicas de teorias de campos e simulações computacionais, atuando principalmente nos seguintes temas: a) Sistemas de spins ''clássicos'' em baixas dimensões; b) Excitações topológicas em física da matéria condensada tais como vórtices, skyrmions, solitons; c) Magnetismo ''quântico'' em baixas dimensões: spin chains, spin ladders e sistemas de camadas; d) Nanomagnetismo; e) Transições de fase; f) Frustrações Geométricas em sistemas magnéticos naturais e artificiais (liquidos e gelos de spin); g) Monopolos Magnéticos e strings em gelos de spin bidimensionais;h) Novos materiais como grapheno e isolantes topológicos.</p>
+                                    </div>
+
+                                    <h2>Filipe Henrique de Castro Menezes (UaiFísica)</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/filipe.gif" alt="Foto de Filipe Henrique de Castro Menezes (UaiFísica)" class="speaker-photo-right">
+                                        <p>Bacharel, mestre e doutor em física pela Universidade Federal de Minas Gerais. Faz parte do grupo GFT (Grupo de Física Teórica Fundamental), trabalhando nas áreas de relatividade geral e gravitação quântica de laços. Fundador do canal no YouTube "UaiFísica".</p>
+                                    </div>
+
+                                    <h2>Mariana da Costa Novo Pimenta Brandão</h2>                                
                                     <div class="container">
                                         <img src="imagens/palestrantes/mariana.jpg" alt="Foto de Mariana da Costa Novo Pimenta Brandão" class="speaker-photo-right">
                                         <p>Possui graduação em Física pela Universidade Federal de Juiz de Fora (Brasil), mestrado em física pela Universidade Federal de Juiz de Fora (Brasil) e doutorado em Ciências Física pela Pontifícia Universidade Católica do Rio de Janeiro. Possui pós-doutorado na Universidade de São Paulo no projeto de Caracterização Ótica de Tecidos da Tireoide e Paratireoide e pós-doutorado na Universidade Federal de Juiz de Fora no projeto Novas Metodologias para Caracterizar Produtos Lácteos e Detectar Fraudes ou Adulterações. Atualmente é Professora Adjunto A da Universidade Federal de Viçosa. Tem experiência na área de Física, com ênfase em Prop. Óticas e Espectrosc. da Mat. Condens; Outras Inter. da Mat. com Rad. e Part., atuando principalmente nos seguintes temas: espectroscopia, luminescência, microscopia, biofísica, física aplicada a biologia, medicina e farmácia, física aplicada a ciências de alimentos.</p>
                                     </div>
+
+                                    <h2>Orlando Pinheiro da Fonseca Rodrigues</h2>
+                                    <div class="container">
+                                        <img src="imagens/palestrantes/orlando.jpg" alt="Foto de Orlando Pinheiro da Fonseca Rodrigues" class="speaker-photo-left">
+                                        <p>Professor Titular do Departamento de Física da Universidade Federal de Viçosa. Graduado (Bacharel) em Fisica pela Universidade Federal de Minas Gerais (1985); Mestre em Física/Astrofísica pela Universidade Federal de Minas Gerais (1987); Doutor em Astrofísica pelo Observatório Nacional (1995). Tem experiência na área de Física, com ênfase em Ensino de Física, História da Física e Astronomia. Coordenador do Núcleo de Ensino Integrado de Ciẽncias e Matemática (1994-1996); Chefe do Departamento de Física de 1996 a 2000; Coordenador do Cursos de Especialização (Lato-Senso) em Ensino de Física (2000-2004); Coordenador Técnico da Comissão Permanente de Vestibular e Exames (2001 a 2009); Diretor de Vestibular e Exames (2009 a 2011); Coordenador do Curso de Licenciatura em Física (2011-2013); Coordenador de Área (Física) do Programa Institucional de Bolsas de Iniciação à Docência (PIBID/CAPES/UFV) 2011-2018; Coordenador do Programa de Licenciaturas Internacionais UFV-Universidade de Coimbra 2013/2015 (Física, Matemática e Química); Membro do Mestrado Nacional Profissionalizante em Ensino de Física (2013-); Chefe do Departamento de Física (2013-2019).</p>
+                                    </div>                                    
                                 </blockquote>
                             </div>
                         </div>
@@ -1025,7 +1146,7 @@
                                             <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
                                             <circle cx="12" cy="10" r="2.5"></circle>
                                         </svg>
-                                        CCE, auditório
+                                        CCE, sala 205
                                     </li>
                                     <li class="minicurso-info-item">
                                         <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1057,7 +1178,7 @@
                                             <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
                                             <circle cx="12" cy="10" r="2.5"></circle>
                                         </svg>
-                                        CCE, 4º andar
+                                        CCE, sala 213
                                     </li>
                                     <li class="minicurso-info-item">
                                         <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1091,7 +1212,7 @@
                                             <path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"></path>
                                             <circle cx="12" cy="10" r="2.5"></circle>
                                         </svg>
-                                        CCE, sala 205
+                                        PLI, sala 107
                                     </li>
                                     <li class="minicurso-info-item">
                                         <svg class="minicurso-info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
